@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="JavaFXApp.jnlp">
+  <information>
+    <title>Secure Sign In V3.2</title>
+    <vendor>Cryogen Software</vendor>
+    <description>Secure Sign In V3.2</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="JavaFXApp.jar" size="1992585" download="eager" />
+  </resources>
+  <jfx:javafx-desc  width="600" height="400" main-class="cryogen.Main"  name="Secure Sign In V3.2" />
+  <update check="background"/>
+</jnlp>

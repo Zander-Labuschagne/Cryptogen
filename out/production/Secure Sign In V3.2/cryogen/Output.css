@@ -1,0 +1,73 @@
+.root
+{
+    -fx-font-size: 8pt;
+    -fx-font-family: "DejaVu Sans Mono";
+    -fx-opacity: 0.7;
+}
+
+.vbox
+{
+    -fx-background-color: #313538;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 20, 0.6, 0, 0);
+    -fx-background-insets: 12;
+    -fx-background-radius: 6;
+}
+
+.txtPassword
+{
+    -fx-background-color: #272727;
+    -fx-text-fill: #66919a;
+    -fx-border-color: #000;
+    -fx-effect: dropshadow(gaussian, rgba(0,93,255,0.4), 5, 0.65, 0, 0);
+}
+
+.btnRevealPassword
+{
+    -fx-background-color: #272727;
+    -fx-text-fill: #66919a;
+    -fx-border-color: #000;
+}
+
+.btnRevealPassword:hover
+{
+    -fx-effect: dropshadow(gaussian, rgba(0,93,255,0.4), 5, 0.65, 0, 0);
+}
+
+.btnRevealPassword:focused
+{
+    -fx-effect: dropshadow(gaussian, rgba(0,93,255,0.4), 5, 0.65, 0, 0);
+}
+
+.btnCopyPassword
+{
+    -fx-background-color: #272727;
+    -fx-text-fill: #66919a;
+    -fx-border-color: #000;
+}
+
+.btnCopyPassword:hover
+{
+    -fx-effect: dropshadow(gaussian, rgba(0,93,255,0.4), 5, 0.65, 0, 0);
+}
+
+.btnCopyPassword:focused
+{
+    -fx-effect: dropshadow(gaussian, rgba(0,93,255,0.4), 5, 0.65, 0, 0);
+}
+
+.btnOK
+{
+    -fx-background-color: #272727;
+    -fx-text-fill: #66919a;
+    -fx-border-color: #000;
+}
+
+.btnOK:hover
+{
+    -fx-effect: dropshadow(gaussian, rgba(0,93,255,0.4), 5, 0.65, 0, 0);
+}
+
+.btnOK:focused
+{
+    -fx-effect: dropshadow(gaussian, rgba(0,93,255,0.4), 5, 0.65, 0, 0);
+}
