@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox id="vbox" fx:id="vbox" prefHeight="272.0" prefWidth="442.0" styleClass="vbox" stylesheets="@SecureSignIn.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cryogen.SecureSignIn">
+    <children>
+        <AnchorPane id="anchorPane" fx:id="anchorPane" maxHeight="-1.0" maxWidth="-1.0" prefHeight="281.0" prefWidth="444.0" styleClass="anchorPane" stylesheets="@SecureSignIn.css" VBox.vgrow="ALWAYS">
+            <children>
+                <ImageView id="imgLogo" fx:id="imgLogo" blendMode="LIGHTEN" fitHeight="92.0" fitWidth="207.0" layoutX="124.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true" styleClass="imgLogo">
+                    <image>
+                        <Image url="@/cryogen/c.png" />
+                    </image>
+                </ImageView>
+                <Label id="lblPassword" fx:id="lblPassword" layoutX="25.0" layoutY="109.0" styleClass="lblPassword" stylesheets="@SecureSignIn.css" text="Password:" />
+                <Label id="lblKey" fx:id="lblKey" layoutX="25.0" layoutY="142.0" styleClass="lblKey" stylesheets="@SecureSignIn.css" text="Key:" />
+                <Button id="btnEncrypt" fx:id="btnEncrypt" layoutX="24.0" layoutY="205.0" mnemonicParsing="false" onAction="#btnEncrypt_Clicked" prefHeight="25.0" prefWidth="394.0" styleClass="btnEncrypt" stylesheets="@SecureSignIn.css" text="Encrypt Password" />
+                <PasswordField id="pswPassword" fx:id="pswPassword" layoutX="117.0" layoutY="104.0" prefHeight="25.0" prefWidth="300.0" styleClass="pswPassword" stylesheets="@SecureSignIn.css" />
+                <PasswordField id="pswKey" fx:id="pswKey" layoutX="117.0" layoutY="137.0" prefHeight="25.0" prefWidth="300.0" styleClass="pswKey" stylesheets="@SecureSignIn.css" />
+            <CheckBox id="cbxCompact" fx:id="cbxCompact" layoutX="292.0" layoutY="179.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="126.0" text="Compact Password" textFill="#66919a" />
+            </children>
+        </AnchorPane>
+    </children>
+</VBox>

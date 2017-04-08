@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox id="vbox" fx:id="vbox" prefHeight="184.0" prefWidth="504.0" styleClass="vbox" stylesheets="@Output.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cryogen.Output">
+    <children>
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="161.0" prefWidth="469.0" VBox.vgrow="ALWAYS">
+            <children>
+                <TextField id="txtPassword" fx:id="txtPassword" layoutX="23.0" layoutY="59.0" prefHeight="32.0" prefWidth="450.0" styleClass="txtPassword" stylesheets="@Output.css" />
+                <Button id="btnRevealPassword" fx:id="btnRevealPassword" layoutX="24.0" layoutY="139.0" mnemonicParsing="false" onAction="#btnRevealPassword_Clicked" prefHeight="27.0" prefWidth="152.0" styleClass="btnRevealPassword" stylesheets="@Output.css" text="Reveal Password" />
+                <Button id="btnCopyPassword" fx:id="btnCopyPassword" defaultButton="true" layoutX="184.0" layoutY="139.0" mnemonicParsing="false" onAction="#btnCopyPassword_Clicked" prefHeight="27.0" prefWidth="145.0" styleClass="btnCopyPassword" stylesheets="@Output.css" text="Copy Password" />
+                <Button id="btnOK" layoutX="338.0" layoutY="139.0" mnemonicParsing="false" onAction="#btnOK_Clicked" prefHeight="27.0" prefWidth="135.0" styleClass="btnOK" stylesheets="@Output.css" text="OK" />
+            </children>
+        </AnchorPane>
+    </children>
+</VBox>
