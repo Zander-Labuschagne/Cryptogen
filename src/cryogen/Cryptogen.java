@@ -1,33 +1,34 @@
 package cryogen;
 
-/**
- * @author Zander Labuschagne
- * E-Mail: ZANDER.LABUSCHAGNE@PROTONMAIL.CH
- */
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * @author Zander Labuschagne
+ * E-Mail: ZANDER.LABUSCHAGNE@PROTONMAIL.CH
+ * Java class handler for the Cryptogen application main GUI
+ */
 public class Cryptogen implements Initializable
 {
     //Instance Variables
-    private char[] messageText;
+    private char[] messageText; //Text to be encrypted or decrypted in Message Text textbox
+    private char[] key; //Key to be used with cipher where necessary
+    private File file; //File to be encrypted or decrypted
     //GUI Instance Variables
     @FXML private TitledPane pneAlgorithms;
+    @FXML private RadioButton radVigenere;
+    @FXML private RadioButton radVernam;
+    @FXML private RadioButton radColumnarTrans;
+    @FXML private RadioButton rad; //TODO: update name accordingly when decide upon a name for own algorithm
     private Stage currentStage;
 
     //Default Constructor
@@ -103,6 +104,7 @@ public class Cryptogen implements Initializable
         }
     }
 
+    //TODO: Remove this method after Vigenère's Cipher has been implemented in Cryptography class
     /**
      * Method to encrypt the password
      * Based on Vigenere's Cipher Algorithm, modified by Zander
