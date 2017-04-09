@@ -13,26 +13,25 @@ public class Main extends Application
 {
 
     @Override
-    public void start(Stage ssiWindow) throws Exception
+    public void start(Stage cgWindow) throws Exception
     {
-        ssiWindow.initStyle(StageStyle.DECORATED);
-        ssiWindow.getIcons().add(new Image(getClass().getResourceAsStream("/cryogen/icon.png")));
-        ssiWindow.setTitle("Secure Sign In V3.2");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("SecureSignIn.fxml"));
-        ssiWindow.setHeight(272);
-        ssiWindow.setWidth(442);
-        ssiWindow.setResizable(false);
+        cgWindow.initStyle(StageStyle.DECORATED);
+        cgWindow.getIcons().add(new Image(getClass().getResourceAsStream("/cryogen/icon.png")));
+        cgWindow.setTitle("Cryptogen Beta");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Cryptogen.fxml"));
+        cgWindow.setHeight(605);
+        cgWindow.setWidth(720);
+        cgWindow.setResizable(false);
 
-        ssiWindow.setScene(createScene((Pane)loader.load()));
-        SecureSignIn ssi = loader.<SecureSignIn>getController();
-        ssi.initialize(ssiWindow);
-        ssiWindow.show();
+        cgWindow.setScene(createScene(loader.load()));
+        Cryptogen cg = loader.getController();
+        cg.initialize(cgWindow);
+        cgWindow.show();
     }
 
-    public Scene createScene(Pane layout)
+    private Scene createScene(Pane layout)
     {
-        Scene scene = new Scene(layout, Color.TRANSPARENT);
-        return scene;
+        return new Scene(layout, Color.TRANSPARENT);
     }
 
     public static void main(String[] args) {

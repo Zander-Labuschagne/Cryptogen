@@ -5,20 +5,13 @@ package cryogen;
  * E-Mail: ZANDER.LABUSCHAGNE@PROTONMAIL.CH
  */
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Point2D;
-import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -29,25 +22,18 @@ import java.util.LinkedList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class SecureSignIn implements Initializable
+public class Cryptogen implements Initializable
 {
     //Instance Variables
-    private char[] plainPassword;
-    private char[] key;
-    private char[] cipherPassword;
+    private char[] messageText;
+    //GUI Instance Variables
+    @FXML private TitledPane pneAlgorithms;
     private Stage currentStage;
 
-    //GUI Instance Variables
-    @FXML private PasswordField pswPassword;
-    @FXML private PasswordField pswKey;
-    @FXML private CheckBox cbxCompact;
-
     //Default Constructor
-    public SecureSignIn()
+    public Cryptogen()
     {
-        plainPassword = null;
-        key = null;
-        cipherPassword = null;
+
     }
 
     @Override
@@ -59,7 +45,7 @@ public class SecureSignIn implements Initializable
     public void initialize(Stage currentStage)
     {
         this.currentStage = currentStage;
-        pswPassword.requestFocus();
+        pneAlgorithms.requestFocus();
     }
 
     public Stage getCurrentStage()
@@ -73,7 +59,7 @@ public class SecureSignIn implements Initializable
     {
         try
         {
-            plainPassword = pswPassword.getText().toCharArray();
+            /*plainPassword = pswPassword.getText().toCharArray();
             if (new String(plainPassword).equals(""))
             {
                 pswPassword.requestFocus();
@@ -105,7 +91,7 @@ public class SecureSignIn implements Initializable
             passWindow.setScene(new Scene((Pane)loader.load(), Color.TRANSPARENT));
             Output pass = loader.<Output>getController();
             pass.initialize(cipherPassword);
-            passWindow.showAndWait();
+            passWindow.showAndWait();*/
         }
         catch (Exception ex)
         {
@@ -119,8 +105,7 @@ public class SecureSignIn implements Initializable
 
     /**
      * Method to encrypt the password
-     * Based on Viginere's Cipher Algorithm, modified by Zander
-     *
+     * Based on Vigenere's Cipher Algorithm, modified by Zander
      * @param userPassword the password to be encrypted
      * @param key          the key used to encrypt the password
      * @return the encrypted password
@@ -190,7 +175,7 @@ public class SecureSignIn implements Initializable
                 confirm.setContentText("Would you like to shorten the password to the 32 limit?");
                 confirm.getButtonTypes().setAll(ButtonType.NO, ButtonType.YES);
                 Optional<ButtonType> result = confirm.showAndWait();
-                if(result.get() == ButtonType.YES)
+                if(result.isPresent() ? result.get() == ButtonType.YES : null) //Warning as ek nie toets met isPresent() nie want result.get() is optional of nullable
                     ext = 1;
             }
 
