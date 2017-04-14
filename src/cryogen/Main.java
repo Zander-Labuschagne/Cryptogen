@@ -9,6 +9,13 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+/**
+ * @author Zander Labuschagne
+ * E-Mail: ZANDER.LABUSCHAGNE@PROTONMAIL.CH
+ * Main class to be executed first.
+ * Copyright (C) 2017  Zander Labuschagne, Elnette Moller
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation
+ */
 public class Main extends Application
 {
 
