@@ -11,10 +11,10 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox id="vbox" prefHeight="600.0" prefWidth="720.0" styleClass="vbox" stylesheets="@Cryptogen.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cryogen.Cryptogen">
+<VBox id="vbox" prefHeight="580.0" prefWidth="730.0" styleClass="vbox" stylesheets="@Cryptogen.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cryogen.Cryptogen">
         <AnchorPane id="anchorPane" prefHeight="281.0" prefWidth="444.0" VBox.vgrow="ALWAYS">
                 <Button id="btnEncrypt" layoutX="15.0" layoutY="541.0" mnemonicParsing="false" onAction="#btnEncrypt_Clicked" prefHeight="25.0" prefWidth="190.0" styleClass="btnEncrypt" stylesheets="@Cryptogen.css" text="Encrypt Message" />
-            <MenuBar id="mnu" layoutY="2.0" prefHeight="24.0" prefWidth="720.0">
+            <MenuBar id="mnu" layoutY="2.0" prefHeight="24.0" prefWidth="730.0">
                 <Menu mnemonicParsing="false" text="File">
                     <MenuItem mnemonicParsing="false" text="Close" />
                 </Menu>
@@ -46,7 +46,7 @@
                         <TextArea id="txtKey" prefHeight="288.0" prefWidth="389.0" style="-fx-border-color: #000;" styleClass="txtKey" stylesheets="@Cryptogen.css" wrapText="true" />
                   </AnchorPane>
             </TitledPane>
-            <TitledPane id="pneKey" collapsible="false" layoutX="419.0" layoutY="216.0" prefHeight="314.0" prefWidth="295.0" styleClass="pneFile" stylesheets="@Cryptogen.css" text="Drag &amp; Drop File:">
+            <TitledPane id="pneKey" collapsible="false" layoutX="419.0" layoutY="216.0" prefHeight="314.0" prefWidth="295.0" styleClass="pneFile" stylesheets="@Cryptogen.css" text="Drag &amp; Drop Files:">
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="149.0" prefWidth="393.0">
                         <StackPane layoutX="2.0" layoutY="4.0" prefHeight="280.0" prefWidth="284.0" />
                   </AnchorPane>

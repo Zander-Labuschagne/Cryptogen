@@ -1,3 +1,11 @@
+/**
+ * @author Zander Labuschagne
+ * E-Mail: ZANDER.LABUSCHAGNE@PROTONMAIL.CH
+ * @author Elnette Moller
+ * E-Mail: elnette.moller@gmail.com
+*/
+
+
 .root
 {
     -fx-font-size: 8pt;
@@ -8,9 +16,9 @@
 .vbox
 {
     -fx-background-color: #313538;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 20, 0.6, 0, 0);
+    /*-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 20, 0.6, 0, 0);
     -fx-background-insets: 12;
-    -fx-background-radius: 6;
+    -fx-background-radius: 6;*/
 }
 
 .txtPassword
@@ -69,5 +77,57 @@
 
 .btnOK:focused
 {
+    -fx-effect: dropshadow(gaussian, rgba(0,93,255,0.4), 5, 0.65, 0, 0);
+}
+
+.lblEncPassword
+{
+    -fx-text-fill: #66919a;
+}
+
+.txtMessage
+{
+    -fx-background-color: #272727;
+    -fx-text-fill: #66919a;
+    -fx-border-color: #000;
+    -fx-effect: dropshadow(gaussian, rgba(0,93,255,0.4), 5, 0.65, 0, 0);
+}
+
+.pneEncMessage > .title
+{
+    -fx-background-color: #272727;
+    -fx-text-fill: #66919a;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
+    -fx-padding: 0.166667em 0.833333em 0.25em 0.833333em; /* 2 10 3 10 */
+    -fx-border-color: #272727;
+    -fx-effect: dropshadow(gaussian, rgba(0,93,255,0.4), 5, 0.65, 0, 0);
+}
+
+.pneEncMessage > .title > .arrow-button
+{
+    -fx-background-color: #272727;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 0.0em 0.25em 0.0em 0.0em; /* 0 3 0 0 */
+    -fx-effect: dropshadow(gaussian, rgba(0,93,255,0.4), 5, 0.65, 0, 0);
+}
+
+.pneEncMessage > .title > .arrow-button .arrow
+{
+    -fx-background-color: #272727;
+    -fx-background-insets: 1 0 -1 0, 0;
+    -fx-padding: 0.25em 0.3125em 0.25em 0.3125em; /* 3 3.75 3 3.75 */
+    -fx-shape: "M 0 0 h 7 l -3.5 4 z";
+    -fx-effect: dropshadow(gaussian, rgba(0,93,255,0.4), 5, 0.65, 0, 0);
+}
+
+.pneEncMessage > *.content
+{
+    -fx-background-color: #313538;
+    -fx-text-fill: #66919a;
+    -fx-background-insets: 0, 0 1 1 1;
+    -fx-padding: 0.167em;
+    -fx-border-color: #272727;
     -fx-effect: dropshadow(gaussian, rgba(0,93,255,0.4), 5, 0.65, 0, 0);
 }

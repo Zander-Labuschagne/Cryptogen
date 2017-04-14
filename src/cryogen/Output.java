@@ -2,6 +2,8 @@ package cryogen;
 
 /**
  * @author Zander Labuschagne
+ * @author Elnette Moller
+ * E-mail: elnette.moller@gmail.com
  */
 
 import javafx.event.ActionEvent;
@@ -25,12 +27,12 @@ import java.util.ResourceBundle;
 public class Output implements Initializable
 {
     //GUI Instance Variables
-    @FXML private TextField txtPassword;
-    @FXML private Button btnCopyPassword;
+    @FXML private TextField txtMessage;
+    @FXML private Button btnCopyMessage;
     @FXML private Button btnRevealPassword;
 
     //Instance Variables
-    private char[] password;
+    private char[] message;
     private int handler;
     private String s;
     ///private Font show = Font.createFont(Font.TRUETYPE_FONT, new File(String.valueOf(this.getClass().getResource("/font/DejaVuSansMono.ttf")))).deriveFont(12f);
@@ -49,17 +51,17 @@ public class Output implements Initializable
 
     }
 
-    public void initialize(char[] password)
+    public void initialize(char[] message)
     {
-        txtPassword.setFont(hide);
+        txtMessage.setFont(hide);
         s = "";
-        for(int i = 0; i < password.length; i++)
+        for(int i = 0; i < message.length; i++)
             s += '\u25cf';
-        txtPassword.setText(s);
-        this.password = password;
+        txtMessage.setText(s);
+        this.message = message;
         handler = 0;
-        txtPassword.setEditable(false);
-        btnCopyPassword.requestFocus();
+        txtMessage.setEditable(false);
+        txtMessage.requestFocus();
     }
 
     @FXML
@@ -72,7 +74,7 @@ public class Output implements Initializable
     @FXML
     protected void btnCopyPassword_Clicked(ActionEvent event)
     {
-        StringSelection stringSelection = new StringSelection(new String(password));
+        StringSelection stringSelection = new StringSelection(new String(message));
         Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
         clpbrd.setContents(stringSelection, null);
         ((Node) (event.getSource())).getScene().getWindow().hide();//Hide This Window
@@ -83,15 +85,15 @@ public class Output implements Initializable
     {
         if(handler == 0)
         {
-            txtPassword.setFont(show);
-            txtPassword.setText(new String(password));
+            txtMessage.setFont(show);
+            txtMessage.setText(new String(message));
             btnRevealPassword.setText("Hide Password");
             handler = 1;
         }
         else
         {
-            txtPassword.setFont(hide);
-            txtPassword.setText(s);
+            txtMessage.setFont(hide);
+            txtMessage.setText(s);
             btnRevealPassword.setText("Reveal Password");
             handler = 0;
         }
