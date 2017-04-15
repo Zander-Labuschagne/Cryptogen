@@ -29,7 +29,7 @@ public class Output implements Initializable
     //GUI Instance Variables
     @FXML private TextField txtMessage;
     @FXML private Button btnCopyMessage;
-    @FXML private Button btnRevealPassword;
+    //@FXML private Button btnRevealPassword;
 
     //Instance Variables
     private char[] message;
@@ -72,7 +72,7 @@ public class Output implements Initializable
     }
 
     @FXML
-    protected void btnCopyPassword_Clicked(ActionEvent event)
+    protected void btnCopyMessage_Clicked(ActionEvent event)
     {
         StringSelection stringSelection = new StringSelection(new String(message));
         Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -80,7 +80,7 @@ public class Output implements Initializable
         ((Node) (event.getSource())).getScene().getWindow().hide();//Hide This Window
     }
 
-    @FXML
+    /*@FXML
     protected void btnRevealPassword_Clicked(ActionEvent event)
     {
         if(handler == 0)
@@ -97,5 +97,5 @@ public class Output implements Initializable
             btnRevealPassword.setText("Reveal Password");
             handler = 0;
         }
-    }
+    }*/
 }

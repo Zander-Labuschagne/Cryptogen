@@ -21,36 +21,19 @@
     -fx-background-radius: 6;*/
 }
 
-.btnRevealPassword
+.btnCopyMessage
 {
     -fx-background-color: #272727;
     -fx-text-fill: #66919a;
     -fx-border-color: #000;
 }
 
-.btnRevealPassword:hover
+.btnCopyMessage:hover
 {
     -fx-effect: dropshadow(gaussian, rgba(0,93,255,0.4), 5, 0.65, 0, 0);
 }
 
-.btnRevealPassword:focused
-{
-    -fx-effect: dropshadow(gaussian, rgba(0,93,255,0.4), 5, 0.65, 0, 0);
-}
-
-.btnCopyPassword
-{
-    -fx-background-color: #272727;
-    -fx-text-fill: #66919a;
-    -fx-border-color: #000;
-}
-
-.btnCopyPassword:hover
-{
-    -fx-effect: dropshadow(gaussian, rgba(0,93,255,0.4), 5, 0.65, 0, 0);
-}
-
-.btnCopyPassword:focused
+.btnCopyMessage:focused
 {
     -fx-effect: dropshadow(gaussian, rgba(0,93,255,0.4), 5, 0.65, 0, 0);
 }
@@ -72,17 +55,12 @@
     -fx-effect: dropshadow(gaussian, rgba(0,93,255,0.4), 5, 0.65, 0, 0);
 }
 
-.lblEncPassword
-{
-    -fx-text-fill: #66919a;
-}
-
 .txtMessage
 {
     -fx-background-color: #272727;
     -fx-text-fill: #66919a;
     -fx-border-color: #000;
-    -fx-effect: dropshadow(gaussian, rgba(0,93,255,0.4), 5, 0.65, 0, 0);
+   /* -fx-effect: dropshadow(gaussian, rgba(0,93,255,0.4), 5, 0.65, 0, 0);*/
 }
 
 .pneEncMessage > .title

@@ -10,10 +10,10 @@
     <children>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="368.0" prefWidth="469.0" VBox.vgrow="ALWAYS">
             <children>
-                <Button id="btnCopyPassword" fx:id="btnCopyPassword" defaultButton="true" layoutX="20.0" layoutY="371" mnemonicParsing="false" onAction="#btnCopyPassword_Clicked" prefHeight="27.0" prefWidth="145.0" styleClass="btnCopyPassword" stylesheets="@Output.css" text="Copy Password" />
-                <Button id="btnOK" layoutX="280.0" layoutY="371" mnemonicParsing="false" onAction="#btnOK_Clicked" prefHeight="27.0" prefWidth="135.0" styleClass="btnOK" stylesheets="@Output.css" text="OK" />
-                <TitledPane id="pneMessage" collapsible="false" fx:id="pneMessage" layoutX="20.0" layoutY="20" prefHeight="341.0" prefWidth="395.0" styleClass="pneEncMessage" stylesheets="@Output.css" text="Encryped/ Decrypted  Message:" />
-                <TextField id="txtMessage" fx:id="txtMessage" prefHeight="306" prefWidth="385" layoutX="25" layoutY="50" styleClass="txtMessage" stylesheets="@Output.css"/>
+                <Button id="btnCopyMessage" fx:id="btnCopyMessage" defaultButton="true" layoutX="14.0" layoutY="371" mnemonicParsing="false" onAction="#btnCopyMessage_Clicked" prefHeight="27.0" prefWidth="145.0" styleClass="btnCopyMessage" stylesheets="@Output.css" text="Copy Message" />
+                <Button id="btnOK" layoutX="286.0" layoutY="371" mnemonicParsing="false" onAction="#btnOK_Clicked" prefHeight="27.0" prefWidth="135.0" styleClass="btnOK" stylesheets="@Output.css" text="OK" />
+                <TitledPane id="pneMessage" collapsible="false" fx:id="pneMessage" layoutX="14.0" layoutY="20" prefHeight="341.0" prefWidth="407.0" styleClass="pneEncMessage" stylesheets="@Output.css" text="Encrypted/ Decrypted  Message:" />
+                <TextField id="txtMessage" fx:id="txtMessage" prefHeight="306" prefWidth="395" layoutX="20" layoutY="50" styleClass="txtMessage" stylesheets="@Output.css"/>
             </children>
         </AnchorPane>
     </children>

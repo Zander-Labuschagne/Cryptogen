@@ -43,12 +43,12 @@
             </TitledPane>
             <TitledPane id="pneKey" collapsible="false" layoutX="14.0" layoutY="216.0" prefHeight="314.0" prefWidth="395.0" styleClass="pneAlgorithms" stylesheets="@Cryptogen.css" text="Message Text:">
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="149.0" prefWidth="393.0">
-                        <TextArea id="txtKey" prefHeight="288.0" prefWidth="389.0" style="-fx-border-color: #000;" styleClass="txtKey" stylesheets="@Cryptogen.css" wrapText="true" />
+                        <TextArea id="txtKey" prefHeight="288.0" prefWidth="390.0" style="-fx-border-color: #000;" styleClass="txtKey" stylesheets="@Cryptogen.css" wrapText="true" />
                   </AnchorPane>
             </TitledPane>
             <TitledPane id="pneKey" collapsible="false" layoutX="419.0" layoutY="216.0" prefHeight="314.0" prefWidth="295.0" styleClass="pneFile" stylesheets="@Cryptogen.css" text="Drag &amp; Drop Files:">
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="149.0" prefWidth="393.0">
-                        <StackPane layoutX="2.0" layoutY="4.0" prefHeight="280.0" prefWidth="284.0" />
+                        <StackPane layoutX="2.0" layoutY="4.0" prefHeight="278.0" prefWidth="282.0" />
                   </AnchorPane>
             </TitledPane>
         </AnchorPane>
