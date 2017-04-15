@@ -182,6 +182,11 @@
     -fx-mark-color: rgba(0,93,255,0.4);
 }
 
+.lblComingSoon
+{
+    -fx-text-fill: #66919a;
+}
+
 .menu-bar
 {
     -fx-background-color: #272727;

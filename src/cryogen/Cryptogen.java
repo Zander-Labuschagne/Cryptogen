@@ -15,6 +15,8 @@ import java.util.ResourceBundle;
 /**
  * @author Zander Labuschagne
  * E-Mail: ZANDER.LABUSCHAGNE@PROTONMAIL.CH
+ * @author Elnette Moller
+ * E-Mail: elnette.moller@gmail.com
  * Java class handler for the Cryptogen application main GUI
  * Copyright (C) 2017  Zander Labuschagne, Elnette Moller
  * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation
@@ -110,25 +112,25 @@ public class Cryptogen implements Initializable
     /**
      * Method to encrypt the password
      * Based on Vigenere's Cipher Algorithm, modified by Zander
-     * @param userPassword the password to be encrypted
+     * @param newMessage the password to be encrypted
      * @param key          the key used to encrypt the password
      * @return the encrypted password
      */
-    public static char[] encrypt(char[] userPassword, char[] key, int limit)
+    public static char[] encrypt(char[] newMessage, char[] key, int limit)
     {
         try
         {
-            char[] systemPassword = new char[userPassword.length + 1];
-            char[] finalPassword = new char[userPassword.length * 2 + 1];
+            char[] systemMessage = new char[newMessage.length + 1];
+            char[] finalMessage = new char[newMessage.length * 2 + 1];
             int keyIndex = 0;
             int i = 0;
             int ii = 0;
             int temp;
             int specCharCount = 0;
             int pos = 0;
-            char[] specChars = new char[userPassword.length + 1];
+            char[] specChars = new char[newMessage.length + 1];
 
-            for (char t : userPassword)
+            for (char t : newMessage)
             {
                 if (t >= 65 && t <= 90)//Encrypting Uppercase Characters
                 {
@@ -138,7 +140,7 @@ public class Cryptogen implements Initializable
                     if (temp <= 0)
                         temp += 26;
 
-                    systemPassword[i++] = (char) (65 + (temp % 26));
+                    systemMessage[i++] = (char) (65 + (temp % 26));
                     if (++keyIndex == key.length)
                         keyIndex = 0;
                 }
@@ -150,7 +152,7 @@ public class Cryptogen implements Initializable
                     if (temp < 0)
                         temp += 26;
 
-                    systemPassword[i++] = (char) (97 + (temp % 26));
+                    systemMessage[i++] = (char) (97 + (temp % 26));
                     if (++keyIndex == key.length)
                         keyIndex = 0;
                 }
@@ -163,12 +165,12 @@ public class Cryptogen implements Initializable
                 pos++;
             }
             i = 0;
-            finalPassword[i++] = (char) (specCharCount == 0 ? 65 : (--specCharCount + 65));//Encrypting Amount of Special Characters in Password
+            finalMessage[i++] = (char) (specCharCount == 0 ? 65 : (--specCharCount + 65));//Encrypting Amount of Special Characters in Password
             for (char t = specChars[0]; t != 0; i++, t = specChars[i - 1])//Encrypting Special Characters & Positions of Special Characters
-                finalPassword[i] = t;
+                finalMessage[i] = t;
             ii = i;
-            for (char t = systemPassword[0]; t != 0; i++, t = systemPassword[i - ii])//Encrypting Password
-                finalPassword[i] = t;
+            for (char t = systemMessage[0]; t != 0; i++, t = systemMessage[i - ii])//Encrypting Password
+                finalMessage[i] = t;
 
             int ext = -1;
             if(i > 32)
@@ -184,73 +186,73 @@ public class Cryptogen implements Initializable
             }
 
             int length = 0;
-            for(int x = 0; finalPassword[x] != '\0'; x++)
+            for(int x = 0; finalMessage[x] != '\0'; x++)
                 length++;
-            char[] cipherPassword = new char[length];
-            for(int xi = 0; xi < cipherPassword.length && xi < length; xi++)
-                cipherPassword[xi] = finalPassword[xi];
+            char[] cipherMessage = new char[length];
+            for(int xi = 0; xi < cipherMessage.length && xi < length; xi++)
+                cipherMessage[xi] = finalMessage[xi];
 
             //Shuffle Password
             LinkedList<Character> evens = new LinkedList<>();
             LinkedList<Character>odds = new LinkedList<>();
-            for(int iii = 0; iii < cipherPassword.length; iii++)
-                if((int)cipherPassword[iii] % 2 == 0)
-                    evens.addLast(cipherPassword[iii]);
+            for(int iii = 0; iii < cipherMessage.length; iii++)
+                if((int)cipherMessage[iii] % 2 == 0)
+                    evens.addLast(cipherMessage[iii]);
                 else
-                    odds.addFirst(cipherPassword[iii]);
+                    odds.addFirst(cipherMessage[iii]);
             int iv = 0;
             while(!evens.isEmpty() || !odds.isEmpty())
             {
                 if (!odds.isEmpty())
                 {
-                    cipherPassword[iv++] = odds.getFirst();
+                    cipherMessage[iv++] = odds.getFirst();
                     odds.removeFirst();
                 }
                 if(!evens.isEmpty())
                 {
-                    cipherPassword[iv++] = evens.getFirst();
+                    cipherMessage[iv++] = evens.getFirst();
                     evens.removeFirst();
                 }
             }
 
             //encrypt special chars further
-            for(int v = 0; v < cipherPassword.length; v++)
-                if((int)cipherPassword[v] <= 47)
-                    cipherPassword[v] += 10;
-                else if((int)cipherPassword[v] > 47 && (int)cipherPassword[v] < 64)
-                    cipherPassword[v] -= 5;
-                else if((int)cipherPassword[v] > 90 && (int)cipherPassword[v] <= 96)
-                    if(cipherPassword.length % 2 == 0)
-                        cipherPassword[v] += 2;
+            for(int v = 0; v < cipherMessage.length; v++)
+                if((int)cipherMessage[v] <= 47)
+                    cipherMessage[v] += 10;
+                else if((int)cipherMessage[v] > 47 && (int)cipherMessage[v] < 64)
+                    cipherMessage[v] -= 5;
+                else if((int)cipherMessage[v] > 90 && (int)cipherMessage[v] <= 96)
+                    if(cipherMessage.length % 2 == 0)
+                        cipherMessage[v] += 2;
                     else
-                        cipherPassword[v] -= 2;
+                        cipherMessage[v] -= 2;
 
             //Replacing unloved characters
-            for(int vi = 0; vi < cipherPassword.length; vi++)
-                if((int)cipherPassword[vi] == 34)
-                    cipherPassword[vi] = 123;
-                else if((int)cipherPassword[vi] == 38)
-                    cipherPassword[vi] = 124;
-                else if((int)cipherPassword[vi] == 60)
-                    cipherPassword[vi] = 125;
-                else if((int)cipherPassword[vi] == 62)
-                    cipherPassword[vi] = 126;
+            for(int vi = 0; vi < cipherMessage.length; vi++)
+                if((int)cipherMessage[vi] == 34)
+                    cipherMessage[vi] = 123;
+                else if((int)cipherMessage[vi] == 38)
+                    cipherMessage[vi] = 124;
+                else if((int)cipherMessage[vi] == 60)
+                    cipherMessage[vi] = 125;
+                else if((int)cipherMessage[vi] == 62)
+                    cipherMessage[vi] = 126;
 
             //Limitations
             if(ext == 1 || limit < 32)
             {
-                char[] cipherPasswordLimited = new char[limit < cipherPassword.length ? limit : cipherPassword.length];
-                for (int vii = 0; vii < cipherPassword.length && vii < limit; vii++)
-                    cipherPasswordLimited[vii] = cipherPassword[vii];
-                return cipherPasswordLimited;
+                char[] cipherMessageLimited = new char[limit < cipherMessage.length ? limit : cipherMessage.length];
+                for (int vii = 0; vii < cipherMessage.length && vii < limit; vii++)
+                    cipherMessageLimited[vii] = cipherMessage[vii];
+                return cipherMessageLimited;
             }
 
-            return cipherPassword;
+            return cipherMessage;
         }
         catch (Exception ex)
         {
             Alert error = new Alert(Alert.AlertType.ERROR);
-            error.setTitle("Failed to Encrypt Password");
+            error.setTitle("Failed to Encrypt Message");
             error.setHeaderText(null);
             error.setContentText(ex.getMessage());
             error.showAndWait();
