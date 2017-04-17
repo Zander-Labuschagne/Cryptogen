@@ -7,8 +7,8 @@ import java.io.File;
  * E-Mail: ZANDER.LABUSCHAGNE@PROTONMAIL.CH
  * This class contains methods for the encryption and decryption of messages and files
  * Additional cryptosystems will be added
- * Copyright (C) 2017  Zander Labuschagne, Elnette Moller
- * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation
+ * Copyright (C) 2017  Zander Labuschagne and Elnette Moller
+ * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation
  */
 public class Cryptography
 {

@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.control.Label?>
 <VBox id="vbox" prefHeight="580.0" prefWidth="730.0" styleClass="vbox" stylesheets="@Cryptogen.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cryogen.Cryptogen">
         <AnchorPane id="anchorPane" prefHeight="281.0" prefWidth="444.0" VBox.vgrow="ALWAYS">
                 <Button id="btnEncrypt" layoutX="15.0" layoutY="541.0" mnemonicParsing="false" onAction="#btnEncrypt_Clicked" prefHeight="25.0" prefWidth="190.0" styleClass="btnEncrypt" stylesheets="@Cryptogen.css" text="Encrypt Message" />
@@ -31,7 +30,7 @@
                         <RadioButton id="radVigenere" layoutX="37.0" layoutY="16.0" mnemonicParsing="false" text="Vigenère Cipher" />
                         <RadioButton id="radVernam" layoutX="37.0" layoutY="44.0" mnemonicParsing="false" text="Vernam Cipher / One-Time Pad" />
                         <RadioButton id="radColumnarTrans" layoutX="37.0" layoutY="72.0" mnemonicParsing="false" text="Columnar Transposition" />
-                        <Label id="lblComingSoon" layoutX="37.0" layoutY="100.0" styleClass="lblComingSoon" stylesheets="Cryptogen.css" text="More algorithms coming Soon..." />
+            <RadioButton id="radColumnarTrans" layoutX="37.0" layoutY="99.0" mnemonicParsing="false" text="Comming Soon..." />
                   </AnchorPane>
             </TitledPane>
             <Button id="btnEncrypt" layoutX="420.0" layoutY="541.0" mnemonicParsing="false" onAction="#btnEncrypt_Clicked" prefHeight="25.0" prefWidth="140.0" styleClass="btnEncrypt" stylesheets="@Cryptogen.css" text="Encrypt File" />
