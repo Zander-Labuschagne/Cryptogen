@@ -50,24 +50,38 @@ public class Cryptography
 
         /**
          *
-         * @param plainFile
+         * @param plainData
          * @param key
          * @return
          */
-        public static File encrypt(File plainFile, char[] key)
+        public static byte[] encrypt(byte[] plainData, char[] key)
         {
-            return null;
+            byte[] cipherData = new byte[plainData.length];
+
+            for(int iii = 0; iii < plainData.length; iii++)
+            {
+                cipherData[iii] = (byte)((int)plainData[iii] + (int)key[iii % key.length]);
+            }
+
+            return cipherData;
         }
 
         /**
          *
-         * @param cipherFile
+         * @param cipherData
          * @param key
          * @return
          */
-        public static File decrypt(File cipherFile, char[] key)
+        public static byte[] decrypt(byte[] cipherData, char[] key)
         {
-            return null;
+            byte[] plainData = new byte[cipherData.length];
+
+            for(int iv = 0; iv < cipherData.length; iv++)
+            {
+                plainData[iv] = (byte)((int)cipherData[iv] - (int)key[iv % key.length]);
+            }
+
+            return plainData;
         }
     }
 

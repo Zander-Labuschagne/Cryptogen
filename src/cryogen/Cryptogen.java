@@ -1,8 +1,10 @@
 package cryogen;
 
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -12,17 +14,18 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import javax.swing.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.nio.file.FileSystemNotFoundException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,25 +41,27 @@ import java.util.logging.Logger;
 public class Cryptogen implements Initializable
 {
     //Instance Variables
-    private char[] messageText; //Text to be encrypted or decrypted in Message Text textbox
-    private char[] key; //Key to be used with cipher where necessary
-    private File file; //File to be encrypted or decrypted
+    private List<File> files; //List of files to be encrypted or decrypted
+    private boolean exiting;
     //GUI Instance Variables
     @FXML private TitledPane pneAlgorithmsPane;
+    @FXML private StackPane stackPane;
+    @FXML private TitledPane pneFilePane;
     @FXML private RadioButton radVigenere;
     @FXML private RadioButton radVernam;
     @FXML private RadioButton radColumnarTrans;
-    @FXML private RadioButton rad; //TODO: update name accordingly when decide upon a name for own algorithm
-    @FXML private StackPane stackPane;
-    @FXML private TitledPane pneFilePane;
-    @FXML private Button btnEncryptMessage;
-
+    @FXML private RadioButton radElephant;
+    @FXML private TextArea txtMessage;
+    @FXML private TextArea txtKey;
+    private final ToggleGroup algorithms;
     private Stage currentStage;
 
     //Default Constructor
     public Cryptogen()
     {
-
+        files = null;
+        exiting = false;
+        algorithms = new ToggleGroup();
     }
 
     @Override
@@ -68,6 +73,12 @@ public class Cryptogen implements Initializable
     public void initialize(Stage currentStage)
     {
         this.currentStage = currentStage;
+        getCurrentStage().setOnCloseRequest(confirmCloseEventHandler);//Set default close event
+        radVigenere.setToggleGroup(algorithms);
+        radVigenere.setSelected(true);
+        radVernam.setToggleGroup(algorithms);
+        radColumnarTrans.setToggleGroup(algorithms);
+        radElephant.setToggleGroup(algorithms);
         pneAlgorithmsPane.requestFocus();
     }
 
@@ -137,19 +148,60 @@ public class Cryptogen implements Initializable
      * @throws IOException
      */
     @FXML
-    protected void btnEncryptFile_Clicked(ActionEvent event) throws IOException
-    {
+    protected void btnEncryptFiles_Clicked(ActionEvent event) throws IOException//TODO:Add dialog with progress bar
+    {//TODO:Create Exception classes
         try
         {
+            if(txtKey.getText() == "")
+            {
+                throw new InputMismatchException("Please Enter a Key");//TODO:Highlight text area
+            }
+            if(files.isEmpty())
+            {
+                throw new FileSystemNotFoundException("Please drag some files onto the highlighted area for encryption.");//TODO:Highlight Drag and Drop area
+            }
+            if(radVigenere.isSelected())
+            {
+                char[] key = txtKey.getText().toCharArray();
+                for (int ii = 0; ii < files.size(); ii++)//Encrypt Each File
+                {
+                    //File plainFile = new File(String.valueOf(new FileInputStream(files.get(ii).getAbsolutePath())));
+                    Path path = Paths.get(files.get(ii).getAbsolutePath());
+                    byte[] plainFileData = Files.readAllBytes(path);
+                    byte[] cipherFileData = Cryptography.VigenereCipher.encrypt(plainFileData, key);
 
+                    FileOutputStream fos = new FileOutputStream(files.get(ii).getAbsoluteFile() + ".cg");
+                    fos.write(cipherFileData);
+                    fos.close();
+                    System.out.println(ii + ": " + files.get(ii).getAbsolutePath());
+                }
+            }
+            else if(radVernam.isSelected())
+            {
+
+            }
+            else if(radColumnarTrans.isSelected())
+            {
+
+            }
+            else if (radElephant.isSelected())
+            {
+
+            }
+            else
+                throw new InputMismatchException("Please Choose an Algorithm for Encryption/Decryption");
+        }
+        catch (InputMismatchException ex)
+        {
+            handleException(ex, "Error", "Choose Algorithm", ex.getMessage());
+        }
+        catch (FileSystemNotFoundException ex)
+        {
+            handleException(ex, "Error", "Drag and Drop Files", ex.getMessage());
         }
         catch (Exception ex)
         {
-            Alert error = new Alert(Alert.AlertType.ERROR);
-            error.setTitle("Error");
-            error.setHeaderText(null);
-            error.setContentText(ex.getMessage());
-            error.showAndWait();
+            handleException(ex);
         }
     }
 
@@ -181,19 +233,42 @@ public class Cryptogen implements Initializable
      * @throws IOException
      */
     @FXML
-    protected void btnDecryptFile_Clicked(ActionEvent event) throws IOException
+    protected void btnDecryptFiles_Clicked(ActionEvent event) throws IOException//TODO: Add dialog with progress bar
     {
         try
         {
+            if(radVigenere.isSelected())
+            {
+                char[] key = txtKey.getText().toCharArray();
+                for(int v = 0; v < files.size(); v++)//Decrypt Each File
+                {
+                    Path path = Paths.get(files.get(v).getAbsolutePath());
+                    byte[] cipherFileData = Files.readAllBytes(path);
+                    byte[] plainFileData = Cryptography.VigenereCipher.decrypt(cipherFileData, key);
 
+                    FileOutputStream fos = new FileOutputStream(files.get(v).getAbsolutePath().substring(0, files.get(v).getAbsolutePath().length() - 3));
+                    fos.write(plainFileData);
+                    fos.close();
+                }
+            }
+            else if(radVernam.isSelected())
+            {
+
+            }
+            else if(radColumnarTrans.isSelected())
+            {
+
+            }
+            else if (radElephant.isSelected())
+            {
+
+            }
+            else
+                throw new InputMismatchException("Please Choose an Algorithm for Encryption/Decryption");
         }
         catch (Exception ex)
         {
-            Alert error = new Alert(Alert.AlertType.ERROR);
-            error.setTitle("Error");
-            error.setHeaderText(null);
-            error.setContentText(ex.getMessage());
-            error.showAndWait();
+            handleException(ex);
         }
     }
 
@@ -244,7 +319,7 @@ public class Cryptogen implements Initializable
      * @throws IOException
      */
     @FXML
-    protected void onDragDropped(final DragEvent event) throws IOException//TODO: Adapt for multiple files
+    protected void onDragDropped(final DragEvent event) throws IOException
     {
         final Dragboard db = event.getDragboard();
         boolean success = false;
@@ -252,7 +327,7 @@ public class Cryptogen implements Initializable
         {
             success = true;
             // Only get the first file from the list
-            final File file = db.getFiles().get(0);
+            files = db.getFiles();
             Platform.runLater(new Runnable()
             {
                 @Override
@@ -260,27 +335,22 @@ public class Cryptogen implements Initializable
                 {
                     try
                     {
-                        System.out.println("Absolute File Path: " + file.getAbsolutePath());
+                        for(int i = 0; i < files.size(); i++)
+                            System.out.println(files.get(i).getAbsolutePath());
 
                         if(!stackPane.getChildren().isEmpty())
                         {
                             stackPane.getChildren().remove(0);
                         }
-                        File plainFile = new File(String.valueOf(new FileInputStream(file.getAbsolutePath())));
                         pneFilePane.getStyleClass().remove("pneFilePaneDrag");
                         pneFilePane.getStyleClass().remove("pneDefault");
                         pneFilePane.getStyleClass().add("pneFilePaneDropped");
                         System.out.println("Drop Successful!");
                     }
-                    catch (FileNotFoundException ex)
+                    catch (Exception ex)
                     {
                         //Logger.getLogger(Cryptogen.class.getName()).log(Level.SEVERE, null, ex);
                         System.out.println(ex.toString());
-                        //JOptionPane.showConfirmDialog(null, ex);
-                    }
-                    catch (IOException ex)
-                    {
-                        System.out.println(ex);
                     }
                 }
             });
@@ -442,10 +512,81 @@ public class Cryptogen implements Initializable
         }
     }
 
+    /**
+     * Event handler for File -> Clear Files
+     * Used to clear loaded files
+     * @param event
+     */
     @FXML protected void mnuFile_ClearFiles_Clicked(ActionEvent event)
     {
+        files = null;
         pneFilePane.getStyleClass().remove("pneFilePaneDrag");
         pneFilePane.getStyleClass().remove("pneFilePaneDropped");
         pneFilePane.getStyleClass().add("pneFilePane");
+    }
+
+    /**
+     * Event handler method for File -> Exit
+     * @param event
+     */
+    @FXML protected void mnuFile_Exit_Clicked(ActionEvent event)
+    {
+        Alert closeConfirmation = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to exit?");
+        Button exitButton = (Button) closeConfirmation.getDialogPane().lookupButton(ButtonType.OK);
+        exitButton.setText("Exit");
+        closeConfirmation.setHeaderText("Confirm Exit");
+        closeConfirmation.initModality(Modality.APPLICATION_MODAL);
+        closeConfirmation.initOwner(getCurrentStage());
+        exiting = true;
+        Optional<ButtonType> closeResponse = closeConfirmation.showAndWait();
+        if (ButtonType.OK.equals(closeResponse.get()))
+            System.exit(0);
+        else
+            exiting = false;
+    }
+
+    /**
+     * Method to prompt before exit
+     * Exits application with 0 error code if user prompt is confirmed else application continues
+     */
+    private EventHandler<WindowEvent> confirmCloseEventHandler = event ->
+    {
+        Alert closeConfirmation = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to exit?");
+        Button exitButton = (Button) closeConfirmation.getDialogPane().lookupButton(ButtonType.OK);
+        exitButton.setText("Exit");
+        closeConfirmation.setHeaderText("Confirm Exit");
+        closeConfirmation.initModality(Modality.APPLICATION_MODAL);
+        closeConfirmation.initOwner(getCurrentStage());
+        exiting = true;
+        Optional<ButtonType> closeResponse = closeConfirmation.showAndWait();
+        if (!ButtonType.OK.equals(closeResponse.get()))
+        {
+            exiting = false;
+            event.consume();
+        }
+    };
+
+    protected void handleException(Exception ex)
+    {
+        handleException(ex, "Error");
+    }
+
+    protected void handleException(Exception ex, String title)
+    {
+        handleException(ex, title, null);
+    }
+
+    protected void handleException(Exception ex, String title, String header)
+    {
+        handleException(ex, title, header, ex.getMessage());//TODO:Check ex.toString() vs ex.getMessahe()
+    }
+
+    protected void handleException(Exception ex, String title, String header, String content)
+    {
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        error.setTitle(title);
+        error.setHeaderText(header);
+        error.setContentText(content);
+        error.showAndWait();
     }
 }
