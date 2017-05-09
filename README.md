@@ -2,9 +2,7 @@
 Source code for an application used for the encryption and decryption of messages and files.
 Additional cryptosystems will be added in the future.
 
-This project is still in progress.
-
-This project is maintained with IntelliJ IDEA.
+This project is still in progress and is being maintained with IntelliJ IDEA.
 
 E-Mail: ZANDER.LABUSCHAGNE@PROTONMAIL.CH
 
