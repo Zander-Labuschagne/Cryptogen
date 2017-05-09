@@ -23,7 +23,7 @@ public class Main extends Application
     public void start(Stage cgWindow) throws Exception
     {
         cgWindow.initStyle(StageStyle.DECORATED);
-        cgWindow.getIcons().add(new Image(getClass().getResourceAsStream("/cryogen/icon.png")));
+        cgWindow.getIcons().add(new Image(getClass().getResourceAsStream("/icons/cryogen/icon.png")));
         cgWindow.setTitle("Cryptogen Beta");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Cryptogen.fxml"));
         cgWindow.setHeight(605);

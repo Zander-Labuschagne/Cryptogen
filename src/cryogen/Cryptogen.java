@@ -1,16 +1,30 @@
 package cryogen;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+import javax.swing.*;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Zander Labuschagne
@@ -28,11 +42,15 @@ public class Cryptogen implements Initializable
     private char[] key; //Key to be used with cipher where necessary
     private File file; //File to be encrypted or decrypted
     //GUI Instance Variables
-    @FXML private TitledPane pneAlgorithms;
+    @FXML private TitledPane pneAlgorithmsPane;
     @FXML private RadioButton radVigenere;
     @FXML private RadioButton radVernam;
     @FXML private RadioButton radColumnarTrans;
     @FXML private RadioButton rad; //TODO: update name accordingly when decide upon a name for own algorithm
+    @FXML private StackPane stackPane;
+    @FXML private TitledPane pneFilePane;
+    @FXML private Button btnEncryptMessage;
+
     private Stage currentStage;
 
     //Default Constructor
@@ -50,7 +68,7 @@ public class Cryptogen implements Initializable
     public void initialize(Stage currentStage)
     {
         this.currentStage = currentStage;
-        pneAlgorithms.requestFocus();
+        pneAlgorithmsPane.requestFocus();
     }
 
     public Stage getCurrentStage()
@@ -59,8 +77,13 @@ public class Cryptogen implements Initializable
     }
 
 
+    /**
+     *
+     * @param event
+     * @throws IOException
+     */
     @FXML
-    protected void btnEncrypt_Clicked(ActionEvent event) throws IOException
+    protected void btnEncryptMessage_Clicked(ActionEvent event) throws IOException
     {
         try
         {
@@ -106,6 +129,164 @@ public class Cryptogen implements Initializable
             error.setContentText(ex.getMessage());
             error.showAndWait();
         }
+    }
+
+    /**
+     *
+     * @param event
+     * @throws IOException
+     */
+    @FXML
+    protected void btnEncryptFile_Clicked(ActionEvent event) throws IOException
+    {
+        try
+        {
+
+        }
+        catch (Exception ex)
+        {
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Error");
+            error.setHeaderText(null);
+            error.setContentText(ex.getMessage());
+            error.showAndWait();
+        }
+    }
+
+    /**
+     *
+     * @param event
+     * @throws IOException
+     */
+    @FXML
+    protected void btnDecryptMessage_Clicked(ActionEvent event) throws IOException
+    {
+        try
+        {
+
+        }
+        catch (Exception ex)
+        {
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Error");
+            error.setHeaderText(null);
+            error.setContentText(ex.getMessage());
+            error.showAndWait();
+        }
+    }
+
+    /**
+     *
+     * @param event
+     * @throws IOException
+     */
+    @FXML
+    protected void btnDecryptFile_Clicked(ActionEvent event) throws IOException
+    {
+        try
+        {
+
+        }
+        catch (Exception ex)
+        {
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Error");
+            error.setHeaderText(null);
+            error.setContentText(ex.getMessage());
+            error.showAndWait();
+        }
+    }
+
+    /**
+     * Event necessary to execute before DragDropped may be executed, allows DragDropped to receive files by Copy or Move
+     * @param event
+     */
+    @FXML
+    protected void onDragOver(DragEvent event)
+    {
+        //data is dragged over the target
+        //accept it only if it is not dragged from the same node
+        //and if it has a string data
+        if(event.getGestureSource() != stackPane && event.getDragboard().hasString())
+        {
+            //allow for both copying and moving, whatever user chooses
+            event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+        }
+        event.consume();
+    }
+
+    /**
+     * Do something when an Object is dragged over the StackPane
+     * @param event
+     * @throws IOException
+     */
+    @FXML
+    protected void onDragEntered(DragEvent event)
+    {
+        pneFilePane.getStyleClass().remove("pneDefault");
+        pneFilePane.getStyleClass().add("pneFilePaneDrag");
+    }
+
+    /**
+     * Do something when an object exits the StackPane
+     * @param event
+     */
+    @FXML
+    protected void onDragExited(DragEvent event)
+    {
+        pneFilePane.getStyleClass().remove("pneFilePaneDrag");
+        pneFilePane.getStyleClass().add("pneDefault");
+    }
+
+    /**
+     * Do something when an object is dropped onto the StackPane
+     * @param event
+     * @throws IOException
+     */
+    @FXML
+    protected void onDragDropped(final DragEvent event) throws IOException//TODO: Adapt for multiple files
+    {
+        final Dragboard db = event.getDragboard();
+        boolean success = false;
+        if (db.hasFiles())
+        {
+            success = true;
+            // Only get the first file from the list
+            final File file = db.getFiles().get(0);
+            Platform.runLater(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    try
+                    {
+                        System.out.println("Absolute File Path: " + file.getAbsolutePath());
+
+                        if(!stackPane.getChildren().isEmpty())
+                        {
+                            stackPane.getChildren().remove(0);
+                        }
+                        File plainFile = new File(String.valueOf(new FileInputStream(file.getAbsolutePath())));
+                        pneFilePane.getStyleClass().remove("pneFilePaneDrag");
+                        pneFilePane.getStyleClass().remove("pneDefault");
+                        pneFilePane.getStyleClass().add("pneFilePaneDropped");
+                        System.out.println("Drop Successful!");
+                    }
+                    catch (FileNotFoundException ex)
+                    {
+                        //Logger.getLogger(Cryptogen.class.getName()).log(Level.SEVERE, null, ex);
+                        System.out.println(ex.toString());
+                        //JOptionPane.showConfirmDialog(null, ex);
+                    }
+                    catch (IOException ex)
+                    {
+                        System.out.println(ex);
+                    }
+                }
+            });
+        }
+        event.setDropCompleted(success);
+        event.consume();
     }
 
     //TODO: Remove this method after Vigenère's Cipher has been implemented in Cryptography class
@@ -259,5 +440,12 @@ public class Cryptogen implements Initializable
 
             return null;
         }
+    }
+
+    @FXML protected void mnuFile_ClearFiles_Clicked(ActionEvent event)
+    {
+        pneFilePane.getStyleClass().remove("pneFilePaneDrag");
+        pneFilePane.getStyleClass().remove("pneFilePaneDropped");
+        pneFilePane.getStyleClass().add("pneFilePane");
     }
 }

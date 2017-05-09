@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="JavaFXApp">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/out/artifacts/SecureSignInV3.2/JavaFXApp.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
