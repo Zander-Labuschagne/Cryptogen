@@ -4,7 +4,7 @@ Additional cryptosystems will be added in the future.
 
 This project has just started and is in progress, I have used my Secure Sign In application as a template.
 
-This project can be opened with IntelliJ IDEA
+This project is maintained with IntelliJ IDEA
 
 E-Mail: ZANDER.LABUSCHAGNE@PROTONMAIL.CH
 
