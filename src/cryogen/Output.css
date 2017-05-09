@@ -31,6 +31,7 @@
 .btnCopyMessage:hover
 {
     -fx-effect: dropshadow(gaussian, rgba(0,93,255,0.4), 5, 0.65, 0, 0);
+
 }
 
 .btnCopyMessage:focused
@@ -62,7 +63,7 @@
     -fx-border-color: #000;
 }
 
-.pneEncMessage > .title
+.pneAlgorithmsPane > .title
 {
     -fx-background-color: #272727;
     -fx-text-fill: #66919a;
@@ -72,7 +73,7 @@
     -fx-border-color: #272727;
 }
 
-.pneEncMessage > *.content
+.pneAlgorithmsPane > *.content
 {
     -fx-background-color: #313538;
     -fx-text-fill: #66919a;
@@ -80,3 +81,4 @@
     -fx-padding: 0.167em;
     -fx-border-color: #272727;
 }
+

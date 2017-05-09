@@ -20,7 +20,7 @@ public class Cryptography
     /**
      * This class contains the necessary  algorithms for the Vigenère cipher
      */
-    public static class Vigenere
+    public static class VigenereCipher
     {
         /***********------------Text Cryptography------------***********/
 
@@ -78,7 +78,7 @@ public class Cryptography
     /**
      * This class contains the necessary algorithms for the Vernam cipher to encrypt messages and files
      */
-    public static class Vernam
+    public static class VernamCipher
     {
 
         /***********------------Text Cryptography------------***********/
@@ -113,7 +113,7 @@ public class Cryptography
     /**
      * This class contains the necessary algorithms for the Columnar Transposition cipher to encrypt messages and files
      */
-    public static class ColumnarTrans
+    public static class ColumnarTranspositionCipher
     {
 
         /***********------------Text Cryptography------------***********/
@@ -142,8 +142,41 @@ public class Cryptography
     }
 
 
+    /**********************------------------------Elephant Cipher------------------------**********************/
+
+
+    /**
+     * This class contains the necessary algorithms for the Elephant cipher to encrypt messages and files
+     * Cipher derived by Zander Labuschagne & Elnette Moller
+     */
+    public static class ElephantCipher
+    {
+
+        /***********------------Text Cryptography------------***********/
+
+        public static char[] encrypt(char[] plainText, char[] key)
+        {
+            return null;
+        }
+
+        public static char[] decrypt(char[] cipherText, char[] key)
+        {
+            return null;
+        }
+
+        /***********------------File Cryptography------------***********/
+
+        public static File encrypt(File plainFile, char[] key)
+        {
+            return null;
+        }
+
+        public static File decrypt(File cipherFile, char[] key)
+        {
+            return null;
+        }
+    }
+
+
     /******************--------------------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%--------------------******************/
-
-
-
 }
