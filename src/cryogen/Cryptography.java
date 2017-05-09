@@ -39,7 +39,7 @@ public class Cryptography
          *
          * @param cipherText
          * @param key
-         * @return
+         * @return    -fx-border-color: rgb(15, 15, 15);
          */
         public static char[] decrypt(char[] cipherText, char[] key)
         {
@@ -59,9 +59,7 @@ public class Cryptography
             byte[] cipherData = new byte[plainData.length];
 
             for(int iii = 0; iii < plainData.length; iii++)
-            {
                 cipherData[iii] = (byte)((int)plainData[iii] + (int)key[iii % key.length]);
-            }
 
             return cipherData;
         }

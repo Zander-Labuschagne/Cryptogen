@@ -39,12 +39,12 @@
             <Button id="btnDecryptFiles" layoutX="547.0" layoutY="541.0" mnemonicParsing="false" onAction="#btnDecryptFiles_Clicked" prefHeight="25.0" prefWidth="165.0" styleClass="btnDecryptFiles" stylesheets="@MidnaDark.css" text="Decrypt File(s)" />
             <TitledPane id="pneKeyPane" collapsible="false" layoutX="419.0" layoutY="41.0" prefHeight="161.0" prefWidth="295.0" styleClass="pneDefault" stylesheets="@MidnaDark.css" text="Encryption/Decryption Key:">
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="149.0" prefWidth="393.0">
-                        <TextArea id="txtKey" fx:id="txtKey" prefHeight="135.0" prefWidth="290.0" style="-fx-border-color: #000;" styleClass="txtDefault" stylesheets="@MidnaDark.css" wrapText="true" />
+                        <TextArea id="txtKey" fx:id="txtKey" prefHeight="138.0" prefWidth="291.0" style="-fx-border-color: #000;" styleClass="txtDefault" stylesheets="@MidnaDark.css" wrapText="true" />
                   </AnchorPane>
             </TitledPane>
             <TitledPane id="pneMessagePane" collapsible="false" layoutX="14.0" layoutY="216.0" prefHeight="314.0" prefWidth="395.0" styleClass="pneDefault" stylesheets="@MidnaDark.css" text="Message Text:">
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="149.0" prefWidth="393.0">
-                        <TextArea id="txtMessage" fx:id="txtMessage" prefHeight="288.0" prefWidth="390.0" style="-fx-border-color: #000;" styleClass="txtDefault" stylesheets="@MidnaDark.css" wrapText="true" />
+                        <TextArea id="txtMessage" fx:id="txtMessage" prefHeight="290.0" prefWidth="391.0" style="-fx-border-color: #000;" styleClass="txtDefault" stylesheets="@MidnaDark.css" wrapText="true" />
                   </AnchorPane>
             </TitledPane>
             <TitledPane id="pneFilePane" fx:id="pneFilePane" collapsible="false" layoutX="419.0" layoutY="216.0" prefHeight="314.0" prefWidth="295.0" styleClass="pneFilePane" stylesheets="@MidnaDark.css" text="Drag &amp; Drop Files:">

@@ -198,7 +198,6 @@
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.TitledPaneSkin";
     -fx-text-fill: rgb(183, 186, 195);
-    -fx-border-color: rgb(38, 40, 49);
 }
 
 .pneDefault:hover
@@ -213,7 +212,8 @@
     -fx-background-insets: 0, 1, 2;
     -fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
     -fx-padding: 0.166667em 0.833333em 0.25em 0.833333em; /* 2 10 3 10 */
-    -fx-border-color: rgb(38, 40, 49);
+    -fx-border-color: rgb(15, 15, 15);
+
 }
 
 .pneDefault > .title > .arrow-button
@@ -238,7 +238,7 @@
     -fx-text-fill: rgb(183, 186, 195);
     -fx-background-insets: 0, 0 1 1 1;
     -fx-padding: 0.167em;
-    -fx-border-color: rgb(38, 40, 49);
+    -fx-border-color: rgb(15, 15, 15);
 }
 
 .radDefault
@@ -314,7 +314,6 @@
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.TitledPaneSkin";
     -fx-text-fill: rgb(183, 186, 195);
-    -fx-border-color: rgb(38, 40, 49);
 }
 
 .pneFilePane:hover
@@ -329,7 +328,8 @@
     -fx-background-insets: 0, 1, 2;
     -fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
     -fx-padding: 0.166667em 0.833333em 0.25em 0.833333em; /* 2 10 3 10 */
-    -fx-border-color: rgb(38, 40, 49);
+    -fx-border-color: rgb(15, 15, 15);
+
 }
 
 .pneFilePane > .title > .arrow-button
@@ -354,7 +354,8 @@
     -fx-text-fill: rgb(183, 186, 195);
     -fx-background-insets: 0, 0 1 1 1;
     -fx-padding: 0.167em;
-    -fx-border-color: rgb(38, 40, 49);
+    -fx-border-color: rgb(15, 15, 15);
+
 }
 
 
@@ -363,7 +364,6 @@
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.TitledPaneSkin";
     -fx-text-fill: rgb(183, 186, 195);
-    -fx-border-color: rgb(38, 40, 49);
 }
 
 .pneFilePaneDropped:hover
@@ -378,7 +378,7 @@
     -fx-background-insets: 0, 1, 2;
     -fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
     -fx-padding: 0.166667em 0.833333em 0.25em 0.833333em; /* 2 10 3 10 */
-    -fx-border-color: rgb(38, 40, 49);
+    -fx-border-color: rgb(15, 15, 15);
 }
 
 .pneFilePaneDropped > .title > .arrow-button
@@ -403,13 +403,15 @@
     -fx-text-fill: rgb(183, 186, 195);
     -fx-background-insets: 0, 0 1 1 1;
     -fx-padding: 0.167em;
-    -fx-border-color: rgb(38, 40, 49);
+    /*-fx-border-color: rgb(15, 15, 15);*/
     -fx-background-image: url("/icons/files.png");
     -fx-background-size: 180 160;
     /*-fx-background-image: url("/down8.png");
     -fx-background-size: 180 160;*/
     -fx-background-repeat: stretch;
     -fx-background-position: center center;
+    -fx-border-color: rgb(15, 15, 15);
+
 }
 
 
@@ -432,7 +434,7 @@
     -fx-background-insets: 0, 1, 2;
     -fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
     -fx-padding: 0.166667em 0.833333em 0.25em 0.833333em; /* 2 10 3 10 */
-    -fx-border-color: rgb(38, 40, 49);
+    -fx-border-color: rgb(15, 15, 15);
 }
 
 .pneFilePaneDrag > .title > .arrow-button
@@ -457,9 +459,11 @@
     -fx-text-fill: rgb(183, 186, 195);
     -fx-background-insets: 0, 0 1 1 1;
     -fx-padding: 0.167em;
-    -fx-border-color: rgb(38, 40, 49);
+    /*-fx-border-color: rgb(15, 15, 15);*/
     -fx-background-image: url("/icons/down8.png");
     -fx-background-size: 180 160;
     -fx-background-repeat: stretch;
     -fx-background-position: center center;
+    -fx-border-color: rgb(15, 15, 15);
+
 }
