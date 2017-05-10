@@ -56,7 +56,9 @@ public class Cryptogen implements Initializable
     private final ToggleGroup algorithms;
     private Stage currentStage;
 
-    //Default Constructor
+    /**
+     *
+     */
     public Cryptogen()
     {
         files = null;
@@ -64,12 +66,21 @@ public class Cryptogen implements Initializable
         algorithms = new ToggleGroup();
     }
 
+    /**
+     *
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
 
     }
 
+    /**
+     *
+     * @param currentStage
+     */
     public void initialize(Stage currentStage)
     {
         this.currentStage = currentStage;
@@ -148,48 +159,78 @@ public class Cryptogen implements Initializable
      * @throws IOException
      */
     @FXML
-    protected void btnEncryptFiles_Clicked(ActionEvent event) throws IOException//TODO:Add dialog with progress bar
-    {//TODO:Create Exception classes
+    protected void btnEncryptFiles_Clicked(ActionEvent event) throws IOException//TODO: Add dialog with progress bar
+    {//TODO: Create Exception classes
         try
         {
-            if(txtKey.getText() == "")
+            String message = "";
+            String header = "";
+            String method = "";
+            if(files.size() > 1)
+                message = "Files are encrypted using the ";
+            else if(files.size() == 1)
+                message = "File is encrypted using the ";
+            if(files.size() > 1)
+                header = "Files Encrypted";
+            else if(files.size() == 1)
+                header = "File Encrypted";
+            String message2 = " \nRemember your key!";
+
+            char[] key = txtKey.getText().toCharArray();
+            byte[] cipherFileData = null;
+            for (int ii = 0; ii < files.size(); ii++)//Encrypt Each File
             {
-                throw new InputMismatchException("Please Enter a Key");//TODO:Highlight text area
-            }
-            if(files.isEmpty())
-            {
-                throw new FileSystemNotFoundException("Please drag some files onto the highlighted area for encryption.");//TODO:Highlight Drag and Drop area
-            }
-            if(radVigenere.isSelected())
-            {
-                char[] key = txtKey.getText().toCharArray();
-                for (int ii = 0; ii < files.size(); ii++)//Encrypt Each File
+                //File plainFile = new File(String.valueOf(new FileInputStream(files.get(ii).getAbsolutePath())));
+                Path path = Paths.get(files.get(ii).getAbsolutePath());
+                byte[] plainFileData = Files.readAllBytes(path);
+                if (txtKey.getText() == "")
                 {
-                    //File plainFile = new File(String.valueOf(new FileInputStream(files.get(ii).getAbsolutePath())));
-                    Path path = Paths.get(files.get(ii).getAbsolutePath());
-                    byte[] plainFileData = Files.readAllBytes(path);
-                    byte[] cipherFileData = Cryptography.VigenereCipher.encrypt(plainFileData, key);
-
-                    FileOutputStream fos = new FileOutputStream(files.get(ii).getAbsoluteFile() + ".cg");
-                    fos.write(cipherFileData);
-                    fos.close();
-                    System.out.println(ii + ": " + files.get(ii).getAbsolutePath());
+                    throw new InputMismatchException("Please Enter a Key");//TODO: Highlight text area
                 }
-            }
-            else if(radVernam.isSelected())
-            {
+                if (files.isEmpty())
+                {
+                    throw new FileSystemNotFoundException("Please drag some files onto the highlighted area for encryption.");//TODO: Highlight Drag and Drop area
+                }
+                if (radVigenere.isSelected())
+                {
+                    cipherFileData = Cryptography.VigenereCipher.encrypt(plainFileData, key);
+                    method = "Vigenère cipher.";
+                }
+                else if (radVernam.isSelected())
+                {
+                    cipherFileData = Cryptography.VernamCipher.encrypt(plainFileData, key);
+                    method = "Vernam cipher.";
+                }
+                else if (radColumnarTrans.isSelected())
+                {
+                    cipherFileData = Cryptography.ColumnarTranspositionCipher.encrypt(plainFileData, key);
+                    method = "columnar transposition.";
+                }
+                else if (radElephant.isSelected())
+                {
+                    cipherFileData = Cryptography.ElephantCipher.encrypt(plainFileData, key);
+                    method = "Elephant Encryption.";
+                }
+                else
+                    throw new InputMismatchException("Please Choose an Algorithm for Encryption/Decryption");
 
+                FileOutputStream fos = new FileOutputStream(files.get(ii).getAbsoluteFile() + ".cg");
+                fos.write(cipherFileData);
+                fos.close();
+                System.out.println(ii + ": " + files.get(ii).getAbsolutePath());
             }
-            else if(radColumnarTrans.isSelected())
-            {
 
-            }
-            else if (radElephant.isSelected())
+            Alert encryptionInformation = new Alert(Alert.AlertType.INFORMATION, message + method + message2);
+            Button okButton = (Button) encryptionInformation.getDialogPane().lookupButton(ButtonType.OK);
+            okButton.setText("OK");
+            encryptionInformation.setHeaderText(header);
+            encryptionInformation.initModality(Modality.APPLICATION_MODAL);
+            encryptionInformation.initOwner(getCurrentStage());
+            Optional<ButtonType> closeResponse = encryptionInformation.showAndWait();
+            if (!ButtonType.OK.equals(closeResponse.get()))
             {
-
+                event.consume();
             }
-            else
-                throw new InputMismatchException("Please Choose an Algorithm for Encryption/Decryption");
         }
         catch (InputMismatchException ex)
         {
@@ -237,34 +278,63 @@ public class Cryptogen implements Initializable
     {
         try
         {
-            if(radVigenere.isSelected())
+            String message = "";
+            String header = "";
+            String method = "";
+            if (files.size() > 1)
+                message = "Files are decrypted using the ";
+            else if (files.size() == 1)
+                message = "File is decrypted using the ";
+            if (files.size() > 1)
+                header = "Files Decrypted";
+            else if (files.size() == 1)
+                header = "File Decrypted";
+
+            char[] key = txtKey.getText().toCharArray();
+            byte[] plainFileData = null;
+            for (int v = 0; v < files.size(); v++)//Decrypt Each File
             {
-                char[] key = txtKey.getText().toCharArray();
-                for(int v = 0; v < files.size(); v++)//Decrypt Each File
+                Path path = Paths.get(files.get(v).getAbsolutePath());
+                byte[] cipherFileData = Files.readAllBytes(path);
+                if (radVigenere.isSelected())
                 {
-                    Path path = Paths.get(files.get(v).getAbsolutePath());
-                    byte[] cipherFileData = Files.readAllBytes(path);
-                    byte[] plainFileData = Cryptography.VigenereCipher.decrypt(cipherFileData, key);
-
-                    FileOutputStream fos = new FileOutputStream(files.get(v).getAbsolutePath().substring(0, files.get(v).getAbsolutePath().length() - 3));
-                    fos.write(plainFileData);
-                    fos.close();
+                    plainFileData = Cryptography.VigenereCipher.decrypt(cipherFileData, key);
+                    method = "Vigenère cipher.";
                 }
-            }
-            else if(radVernam.isSelected())
-            {
+                else if (radVernam.isSelected())
+                {
+                    plainFileData = Cryptography.VernamCipher.decrypt(cipherFileData, key);
+                    method = "Vernam cipher.";
+                }
+                else if (radColumnarTrans.isSelected())
+                {
+                    plainFileData = Cryptography.ColumnarTranspositionCipher.decrypt(cipherFileData, key);
+                    method = "columnar transposition.";
+                }
+                else if (radElephant.isSelected())
+                {
+                    plainFileData = Cryptography.ElephantCipher.decrypt(cipherFileData, key);
+                    method = "Elephant Encryption.";
+                }
+                else
+                    throw new InputMismatchException("Please Choose an Algorithm for Encryption/Decryption");
 
+                FileOutputStream fos = new FileOutputStream(files.get(v).getAbsolutePath().substring(0, files.get(v).getAbsolutePath().length() - 3));
+                fos.write(plainFileData);
+                fos.close();
             }
-            else if(radColumnarTrans.isSelected())
-            {
 
-            }
-            else if (radElephant.isSelected())
+            Alert decryptionInformation = new Alert(Alert.AlertType.INFORMATION, message + method);
+            Button okButton = (Button) decryptionInformation.getDialogPane().lookupButton(ButtonType.OK);
+            okButton.setText("OK");
+            decryptionInformation.setHeaderText(header);
+            decryptionInformation.initModality(Modality.APPLICATION_MODAL);
+            decryptionInformation.initOwner(getCurrentStage());
+            Optional<ButtonType> closeResponse = decryptionInformation.showAndWait();
+            if (!ButtonType.OK.equals(closeResponse.get()))
             {
-
+                event.consume();
             }
-            else
-                throw new InputMismatchException("Please Choose an Algorithm for Encryption/Decryption");
         }
         catch (Exception ex)
         {
@@ -581,7 +651,7 @@ public class Cryptogen implements Initializable
         handleException(ex, title, header, ex.getMessage());//TODO:Check ex.toString() vs ex.getMessahe()
     }
 
-    protected void handleException(Exception ex, String title, String header, String content)
+    protected void handleException(Exception ex, String title, String header, String content)//TODO:Theme the Dialog
     {
         Alert error = new Alert(Alert.AlertType.ERROR);
         error.setTitle(title);

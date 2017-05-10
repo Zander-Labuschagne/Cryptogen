@@ -1,7 +1,5 @@
 package cryogen;
 
-import java.io.File;
-
 /**
  * @author Zander Labuschagne
  * E-Mail: ZANDER.LABUSCHAGNE@PROTONMAIL.CH
@@ -95,11 +93,23 @@ public class Cryptography
 
         /***********------------Text Cryptography------------***********/
 
+        /**
+         *
+         * @param plainText
+         * @param key
+         * @return
+         */
         public static char[] encrypt(char[] plainText, char[] key)
         {
             return null;
         }
 
+        /**
+         *
+         * @param cipherText
+         * @param key
+         * @return
+         */
         public static char[] decrypt(char[] cipherText, char[] key)
         {
             return null;
@@ -107,14 +117,34 @@ public class Cryptography
 
         /***********------------File Cryptography------------***********/
 
-        public static File encrypt(File plainFile, char[] key)
+        /**
+         *
+         * @param plainData
+         * @param key
+         * @return
+         */
+        public static byte[] encrypt(byte[] plainData, char[] key)
         {
-            return null;
+            byte[] cipherData = null;
+            for(int vii = 0; vii < plainData.length; vii++)
+                cipherData[vii] = (byte)((int)plainData[vii] ^ (int)key[vii % key.length]);
+
+            return cipherData;
         }
 
-        public static File decrypt(File cipherFile, char[] key)
+        /**
+         *
+         * @param cipherData
+         * @param key
+         * @return
+         */
+        public static byte[] decrypt(byte[] cipherData, char[] key)
         {
-            return null;
+            byte[] plainData = null;
+            for(int viii = 0; viii < cipherData.length; viii++)
+                plainData[viii] = (byte)((int)plainData[viii] ^ (int)key[viii % key.length]);
+
+            return plainData;
         }
     }
 
@@ -130,11 +160,21 @@ public class Cryptography
 
         /***********------------Text Cryptography------------***********/
 
+        /**
+         *
+         * @param plainText
+         * @return
+         */
         public static char[] encrypt(char[] plainText)
         {
             return null;
         }
 
+        /**
+         *
+         * @param cipherText
+         * @return
+         */
         public static char[] decrypt(char[] cipherText)
         {
             return null;
@@ -142,12 +182,24 @@ public class Cryptography
 
         /***********------------File Cryptography------------***********/
 
-        public static File encrypt(File plainFile, char[] key)
+        /**
+         *
+         * @param plainData
+         * @param key
+         * @return
+         */
+        public static byte[] encrypt(byte[] plainData, char[] key)
         {
             return null;
         }
 
-        public static File decrypt(File cipherFile, char[] key)
+        /**
+         *
+         * @param cipherData
+         * @param key
+         * @return
+         */
+        public static byte[] decrypt(byte[] cipherData, char[] key)
         {
             return null;
         }
@@ -166,11 +218,23 @@ public class Cryptography
 
         /***********------------Text Cryptography------------***********/
 
+        /**
+         *
+         * @param plainText
+         * @param key
+         * @return
+         */
         public static char[] encrypt(char[] plainText, char[] key)
         {
             return null;
         }
 
+        /**
+         *
+         * @param cipherText
+         * @param key
+         * @return
+         */
         public static char[] decrypt(char[] cipherText, char[] key)
         {
             return null;
@@ -178,17 +242,29 @@ public class Cryptography
 
         /***********------------File Cryptography------------***********/
 
-        public static File encrypt(File plainFile, char[] key)
+        /**
+         *
+         * @param plainData
+         * @param key
+         * @return
+         */
+        public static byte[] encrypt(byte[] plainData, char[] key)
         {
             return null;
         }
 
-        public static File decrypt(File cipherFile, char[] key)
+        /**
+         *
+         * @param cipherData
+         * @param key
+         * @return
+         */
+        public static byte[] decrypt(byte[] cipherData, char[] key)
         {
             return null;
         }
     }
 
-
+    //Add more algorithms here
     /******************--------------------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%--------------------******************/
 }

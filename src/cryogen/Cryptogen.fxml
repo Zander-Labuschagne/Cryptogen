@@ -23,6 +23,7 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <MenuItem mnemonicParsing="false" text="About" />
+                    <MenuItem mnemonicParsing="false" text="User Manual" />
                 </Menu>
             </MenuBar>
             <TitledPane id="pneAlgorithmsPane" fx:id="pneAlgorithmsPane" collapsible="false" layoutX="14.0" layoutY="41.0" prefHeight="161.0" prefWidth="395.0" styleClass="pneDefault" stylesheets="@MidnaDark.css" text="Algorithms">
