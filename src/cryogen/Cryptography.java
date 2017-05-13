@@ -3,6 +3,8 @@ package cryogen;
 /**
  * @author Zander Labuschagne
  * E-Mail: ZANDER.LABUSCHAGNE@PROTONMAIL.CH
+ * @author Elnette Moller
+ * E-Mail: elnette.moller@gmail.com
  * This class contains methods for the encryption and decryption of messages and files
  * Additional cryptosystems will be added
  * Copyright (C) 2017  Zander Labuschagne and Elnette Moller
@@ -30,7 +32,29 @@ public class Cryptography
          */
         public static char[] encrypt(char[] plainText, char[] key)
         {
-            return null;
+            int a = plainText.length;
+            int b = key.length;
+            int c = 0;
+            int[] asck = new int[b];
+            char[] cypher = new char[a];
+
+            for(int j=0; j<b; j++)
+                asck[j] = (int) key[j];
+
+            for(int i=0; i<a; i++)
+            {
+                if(c == b)
+                    c = 0;
+
+                int r = ((int)plainText[i]) + asck[c];
+
+                if(r > 126)
+                    r = 127 - r + 32;
+
+                cypher[i] = (char)r;
+            }
+
+            return cypher;
         }
 
         /**
@@ -41,7 +65,29 @@ public class Cryptography
          */
         public static char[] decrypt(char[] cipherText, char[] key)
         {
-            return null;
+            int a = cipherText.length;
+            int b = key.length;
+            int c = 0;
+            int[] asck = new int[b];
+            char[]  message = new char[a];
+
+            for(int j=0; j<b; j++)
+                asck[j] = (int) key[j];
+
+            for(int i=0; i<a; i++)
+            {
+                if(c == b)
+                    c = 0;
+
+                int r = ((int)cipherText[i]) - asck[c];
+
+                if(r < 32)
+                    r = 127 - (32 - r);
+
+                message[i] = (char)r;
+            }
+
+            return message;
         }
 
         /***********------------File Cryptography------------***********/

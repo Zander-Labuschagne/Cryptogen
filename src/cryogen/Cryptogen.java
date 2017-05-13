@@ -115,20 +115,22 @@ public class Cryptogen implements Initializable
     {
         try
         {
-            /*plainPassword = pswPassword.getText().toCharArray();
-            if (new String(plainPassword).equals(""))
+            char[] cypherMessage = null;
+
+            char[] newMessage = txtMessage.getText().toCharArray();
+            if (new String(newMessage).equals(""))
             {
-                pswPassword.requestFocus();
+                txtMessage.requestFocus();
                 throw new Exception("Please Enter a Password");
             }
-            key = pswKey.getText().toCharArray();
+            char[] key = txtKey.getText().toCharArray();
             if (new String(key).equals(""))
             {
-                pswKey.requestFocus();
+                txtKey.requestFocus();
                 throw new Exception("Please Enter a Key");
             }
 
-            int limit;
+            /*int limit;
             if(cbxCompact.isSelected())
                 limit = 12;
             else
@@ -148,6 +150,22 @@ public class Cryptogen implements Initializable
             Output pass = loader.<Output>getController();
             pass.initialize(cipherPassword);
             passWindow.showAndWait();*/
+
+            if (radVigenere.isSelected())
+            {
+                cypherMessage = Cryptography.VigenereCipher.encrypt(newMessage, key);
+                method = "Vigenère cipher.";
+            }
+            else if(radVernam.isSelected())
+            {
+                cypherMessage = Cryptography.VernamCipher.encrypt(newMessage, key);
+                method = "Vernam cipher.";
+            }
+            else if(radElephant.isSelected())
+            {
+                cypherMessage = Cryptography.ElephantCipher.encrypt(newMessage, key);
+                method = "Elephant cipher.";
+            }
         }
         catch (Exception ex)
         {
@@ -334,7 +352,57 @@ public class Cryptogen implements Initializable
     {
         try
         {
+            char[] plainMesage = null;
 
+            char[] newMessage = txtMessage.getText().toCharArray();
+            if (new String(newMessage).equals(""))
+            {
+                txtMessage.requestFocus();
+                throw new Exception("Please Enter a Password");
+            }
+            char[] key = txtKey.getText().toCharArray();
+            if (new String(key).equals(""))
+            {
+                txtKey.requestFocus();
+                throw new Exception("Please Enter a Key");
+            }
+
+            /*int limit;
+            if(cbxCompact.isSelected())
+                limit = 12;
+            else
+                limit = 32;
+
+            cipherPassword = encrypt(plainPassword, key, limit);
+            if(cipherPassword == null)
+                throw new Exception("Error Occurred During Encryption");
+
+            Stage passWindow = new Stage(StageStyle.TRANSPARENT);
+            passWindow.getIcons().add(new Image(getClass().getResourceAsStream("/cryogen/icon.png")));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Output.fxml"));
+            passWindow.setHeight(186);
+            passWindow.setWidth(495);
+            passWindow.setResizable(false);
+            passWindow.setScene(new Scene((Pane)loader.load(), Color.TRANSPARENT));
+            Output pass = loader.<Output>getController();
+            pass.initialize(cipherPassword);
+            passWindow.showAndWait();*/
+
+            if (radVigenere.isSelected())
+            {
+                plainMesage = Cryptography.VigenereCipher.decrypt(newMessage, key);
+                method = "Vigenère cipher.";
+            }
+            else if(radVernam.isSelected())
+            {
+                plainMesage = Cryptography.VernamCipher.decrypt(newMessage, key);
+                method = "Vernam cipher.";
+            }
+            else if(radElephant.isSelected())
+            {
+                plainMesage = Cryptography.ElephantCipher.decrypt(newMessage, key);
+                method = "Elephant cipher.";
+            }
         }
         catch (Exception ex)
         {
