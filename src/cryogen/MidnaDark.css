@@ -582,18 +582,6 @@
     -fx-border-color: rgb(183, 186, 195);
     -fx-border-width: 0.3;
 }
-.dlgDefault > .button-bar > .container > .details-button.more
-{
-    -fx-graphic: url("dialog-more-details.png");
-}
-.dlgDefault > .button-bar > .container > .details-button.less
-{
-    -fx-graphic: url("dialog-fewer-details.png");
-}
-.dlgDefault > .button-bar > .container > .details-button:hover
-{
-    -fx-underline: true;
-}
 
 .alert.confirmation.dlgDefault,
 .text-input-dialog.dlgDefault,
@@ -743,4 +731,29 @@
 .spinner:disabled
 {
     -fx-opacity: 0.4;
+}
+
+.anchorPaneDefault
+{
+    -fx-background-color: rgb(38, 40, 49);
+    -fx-text-fill: rgb(183, 186, 195);
+    -fx-border-color: rgb(15, 15, 15);
+}
+.progress-barDefault
+{
+    -fx-progress-color: rgba(0, 93, 255, 0.4);
+    -fx-effect: dropshadow(gaussian, rgba(0, 93, 255, 0.4), 5, 0.65, 0, 0);
+    -fx-background-color: rgba(0,93,255,0.1);
+    -fx-text-fill: rgb(183, 186, 195);
+}
+.progress-barDefault > .track
+{
+    -fx-text-box-border: rgb(15, 15, 15);
+    -fx-control-inner-background: rgba(0,93,255,0.1);
+}
+.progress-barDefault > .bar
+{
+    -fx-background-color: rgba(0, 93, 255, 0.4);
+    -fx-progress-color: rgba(0, 93, 255, 0.4);
+    -fx-effect: dropshadow(gaussian, rgba(0, 93, 255, 0.4), 5, 0.65, 0, 0);
 }

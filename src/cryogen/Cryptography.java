@@ -1,11 +1,11 @@
 package cryogen;
 
-import javafx.application.Application;
 import javafx.concurrent.Task;
-import javafx.geometry.Pos;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -28,20 +28,43 @@ import java.nio.file.Paths;
  */
 public class Cryptography
 {
+    /**
+     *
+     * @param ex
+     */
     public static void handleException(Exception ex)
     {
         handleException(ex, "Error");
     }
 
+    /**
+     *
+     * @param ex
+     * @param title
+     */
     public static void handleException(Exception ex, String title)
     {
         handleException(ex, title, ex.getMessage());
     }
 
+    /**
+     *
+     * @param ex
+     * @param title
+     * @param header
+     */
     public static void handleException(Exception ex, String title, String header)
     {
         handleException(ex, title, header, ex.toString());
     }
+
+    /**
+     *
+     * @param ex
+     * @param title
+     * @param header
+     * @param content
+     */
     public static void handleException(Exception ex, String title, String header, String content)
     {
         ex.printStackTrace();
@@ -54,49 +77,6 @@ public class Cryptography
         dialogPane.getStylesheets().add(Cryptography.class.getResource("MidnaDark.css").toExternalForm());
         dialogPane.getStyleClass().add("dlgDefault");
         error.showAndWait();
-    }
-
-
-    public static class Progress
-    {
-        private final Stage dialogStage;
-        private final ProgressBar pb = new ProgressBar();
-        private final ProgressIndicator pin = new ProgressIndicator();
-
-        public Progress()
-        {
-            dialogStage = new Stage();
-            dialogStage.initStyle(StageStyle.UTILITY);
-            dialogStage.setResizable(false);
-            dialogStage.initModality(Modality.APPLICATION_MODAL);
-
-            // PROGRESS BAR
-            final Label label = new Label();
-            label.setText("alerto");
-
-            pb.setProgress(-1F);
-            pin.setProgress(-1F);
-
-            final HBox hb = new HBox();
-            hb.setSpacing(5);
-            hb.setAlignment(Pos.CENTER);
-            hb.getChildren().addAll(pb, pin);
-
-            Scene scene = new Scene(hb);
-            dialogStage.setScene(scene);
-        }
-
-        public void activateProgressBar(final Task<?> task)
-        {
-            pb.progressProperty().bind(task.progressProperty());
-            pin.progressProperty().bind(task.progressProperty());
-            dialogStage.show();
-        }
-
-        public Stage getDialogStage()
-        {
-            return dialogStage;
-        }
     }
 
 
@@ -149,6 +129,7 @@ public class Cryptography
                 byte[] cipherData = new byte[plainData.length];
 
                 Progress progress = new Progress();
+
                 // In real life this task would do something useful and return
                 // some meaningful result:
                 Task<byte[]> task = new Task<byte[]>()
