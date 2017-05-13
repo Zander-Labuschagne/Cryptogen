@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
@@ -296,7 +297,7 @@ public class Cryptogen implements Initializable
         try
         {
             if(files == null)
-                throw new NoFilesAttachedException("Please drag some files onto the highlighted area\n or copy some files followed by Edit -> Paste Files.");//TODO: Highlight Drag and Drop area
+                throw new NoFilesAttachedException("Please drag some files onto the highlighted area\n or copy some files followed by Edit -> Paste Files.");
             if(files.size() > 1)
                 message = "Files are encrypted using the ";
             else if(files.size() == 1)
@@ -313,11 +314,15 @@ public class Cryptogen implements Initializable
             encryptFiles(files);
 
             Alert encryptionInformation = new Alert(Alert.AlertType.INFORMATION, message + method + message2);
+            encryptionInformation.setGraphic(new ImageView(this.getClass().getResource("/icons/success32.png").toString()));
             Button okButton = (Button) encryptionInformation.getDialogPane().lookupButton(ButtonType.OK);
             okButton.setText("OK");
             encryptionInformation.setHeaderText(header);
             encryptionInformation.initModality(Modality.APPLICATION_MODAL);
             encryptionInformation.initOwner(getCurrentStage());
+            DialogPane dialogPane = encryptionInformation.getDialogPane();
+            dialogPane.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+            dialogPane.getStyleClass().add("dlgDefault");
             Optional<ButtonType> closeResponse = encryptionInformation.showAndWait();
             if (!ButtonType.OK.equals(closeResponse.get()))
             {
@@ -421,7 +426,7 @@ public class Cryptogen implements Initializable
         try
         {
             if(files == null)
-                throw new NoFilesAttachedException("Please drag some files onto the highlighted area\n or copy some files followed by Edit -> Paste Files.");//TODO: Highlight Drag and Drop area
+                throw new NoFilesAttachedException("Please drag some files onto the highlighted area\n or copy some files followed by Edit -> Paste Files.");
             if(files.size() > 1)
                 message = "Files are decrypted using the ";
             else if (files.size() == 1)
@@ -437,6 +442,7 @@ public class Cryptogen implements Initializable
             decryptFiles(files);
 
             Alert decryptionInformation = new Alert(Alert.AlertType.INFORMATION, message + method);
+            decryptionInformation.setGraphic(new ImageView(this.getClass().getResource("/icons/success32.png").toString()));
             decryptionInformation.initModality(Modality.APPLICATION_MODAL);
             decryptionInformation.initOwner(getCurrentStage());
             Button okButton = (Button) decryptionInformation.getDialogPane().lookupButton(ButtonType.OK);
@@ -444,6 +450,9 @@ public class Cryptogen implements Initializable
             decryptionInformation.setHeaderText(header);
             decryptionInformation.initModality(Modality.APPLICATION_MODAL);
             decryptionInformation.initOwner(getCurrentStage());
+            DialogPane dialogPane = decryptionInformation.getDialogPane();
+            dialogPane.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+            dialogPane.getStyleClass().add("dlgDefault");
             Optional<ButtonType> closeResponse = decryptionInformation.showAndWait();
             if (!ButtonType.OK.equals(closeResponse.get()))
             {
@@ -598,6 +607,9 @@ public class Cryptogen implements Initializable
         closeConfirmation.initModality(Modality.APPLICATION_MODAL);
         closeConfirmation.initOwner(getCurrentStage());
         exiting = true;
+        DialogPane dialogPane = closeConfirmation.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+        dialogPane.getStyleClass().add("dlgDefault");
         Optional<ButtonType> closeResponse = closeConfirmation.showAndWait();
         if (ButtonType.OK.equals(closeResponse.get()))
             System.exit(0);
@@ -673,6 +685,9 @@ public class Cryptogen implements Initializable
             if (contents == null)
             {
                 Alert warning = new Alert(Alert.AlertType.WARNING, "Please copy something to paste.");
+                DialogPane dialogPane = warning.getDialogPane();
+                dialogPane.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+                dialogPane.getStyleClass().add("dlgDefault");
                 warning.initModality(Modality.APPLICATION_MODAL);
                 warning.initOwner(getCurrentStage());
                 warning.setTitle("Warning");
@@ -705,6 +720,9 @@ public class Cryptogen implements Initializable
         closeConfirmation.initModality(Modality.APPLICATION_MODAL);
         closeConfirmation.initOwner(getCurrentStage());
         exiting = true;
+        DialogPane dialogPane = closeConfirmation.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+        dialogPane.getStyleClass().add("dlgDefault");
         Optional<ButtonType> closeResponse = closeConfirmation.showAndWait();
         if (!ButtonType.OK.equals(closeResponse.get()))
         {
@@ -728,7 +746,7 @@ public class Cryptogen implements Initializable
         handleException(ex, title, header, ex.toString());
     }
 
-    protected void handleException(Exception ex, String title, String header, String content)//TODO:Theme the Dialog
+    protected void handleException(Exception ex, String title, String header, String content)
     {
         ex.printStackTrace();
         Alert error = new Alert(Alert.AlertType.ERROR, content);
@@ -736,6 +754,9 @@ public class Cryptogen implements Initializable
         error.initOwner(getCurrentStage());
         error.setTitle(title);
         error.setHeaderText(header);
+        DialogPane dialogPane = error.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+        dialogPane.getStyleClass().add("dlgDefault");
         error.showAndWait();
     }
 }
