@@ -7,7 +7,10 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
@@ -19,6 +22,12 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.TextField;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
 import java.io.*;
 import java.net.URL;
 import java.nio.file.FileSystemNotFoundException;
@@ -26,6 +35,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,6 +53,9 @@ public class Cryptogen implements Initializable
     //Instance Variables
     private List<File> files; //List of files to be encrypted or decrypted
     private boolean exiting;
+    private String message;
+    private String header;
+    private String method;
     //GUI Instance Variables
     @FXML private TitledPane pneAlgorithmsPane;
     @FXML private StackPane stackPane;
@@ -64,6 +77,9 @@ public class Cryptogen implements Initializable
         files = null;
         exiting = false;
         algorithms = new ToggleGroup();
+        message = "";
+        header = "";
+        method = "";
     }
 
     /**
@@ -151,19 +167,128 @@ public class Cryptogen implements Initializable
 
     /**
      *
+     * @param files
+     */
+    private void encryptFiles(List<File> files)
+    {
+        try
+        {
+            char[] key = txtKey.getText().toCharArray();
+            byte[] cipherFileData = null;
+            for (int ii = 0; ii < files.size(); ii++)//Encrypt Each File
+            {
+                if (files.get(ii).isDirectory())
+                    encryptFiles(Arrays.asList(files.get(ii).listFiles()));
+                else if (files.get(ii).isFile())
+                {
+                    Path path = Paths.get(files.get(ii).getAbsolutePath());
+                    byte[] plainFileData = Files.readAllBytes(path);
+                    if (radVigenere.isSelected())
+                    {
+                        cipherFileData = Cryptography.VigenereCipher.encrypt(plainFileData, key);
+                        method = "Vigenère cipher.";
+                    }
+                    else if (radVernam.isSelected())
+                    {
+                        cipherFileData = Cryptography.VernamCipher.encrypt(plainFileData, key);
+                        method = "Vernam cipher.";
+                    }
+                    else if (radColumnarTrans.isSelected())
+                    {
+                        cipherFileData = Cryptography.ColumnarTranspositionCipher.encrypt(plainFileData, key);
+                        method = "columnar transposition.";
+                    }
+                    else if (radElephant.isSelected())
+                    {
+                        cipherFileData = Cryptography.ElephantCipher.encrypt(plainFileData, key);
+                        method = "Elephant Encryption.";
+                    }
+
+                    FileOutputStream fos = new FileOutputStream(files.get(ii).getAbsoluteFile() + ".cg");
+                    fos.write(cipherFileData);
+                    fos.close();
+                }
+            }
+        }
+        catch (IOException ex)
+        {
+            handleException(ex);
+        }
+        catch (Exception ex)
+        {
+            handleException(ex);
+        }
+    }
+
+    /**
+     *
+     * @param files
+     */
+    private void decryptFiles(List<File> files)
+    {
+        try
+        {
+            char[] key = txtKey.getText().toCharArray();
+            byte[] plainFileData;
+            for (int v = 0; v < files.size(); v++)//Decrypt Each File
+            {
+                if (files.get(v).isDirectory())
+                    decryptFiles(Arrays.asList(files.get(v).listFiles()));
+                else if (files.get(v).isFile() && files.get(v).getAbsoluteFile().getPath().substring(files.get(v).getAbsoluteFile().getPath().length() - 3, files.get(v).getAbsoluteFile().getPath().length()).equals(".cg"))
+                {
+                    Path path = Paths.get(files.get(v).getAbsolutePath());
+                    byte[] cipherFileData = Files.readAllBytes(path);
+                    if (radVigenere.isSelected())
+                    {
+                        plainFileData = Cryptography.VigenereCipher.decrypt(cipherFileData, key);
+                        method = "Vigenère cipher.";
+                    }
+                    else if (radVernam.isSelected())
+                    {
+                        plainFileData = Cryptography.VernamCipher.decrypt(cipherFileData, key);
+                        method = "Vernam cipher.";
+                    }
+                    else if (radColumnarTrans.isSelected())
+                    {
+                        plainFileData = Cryptography.ColumnarTranspositionCipher.decrypt(cipherFileData, key);
+                        method = "columnar transposition.";
+                    }
+                    else if (radElephant.isSelected())
+                    {
+                        plainFileData = Cryptography.ElephantCipher.decrypt(cipherFileData, key);
+                        method = "Elephant Encryption.";
+                    }
+                    else
+                        throw new InputMismatchException("Please Choose an Algorithm for Encryption/Decryption");
+
+                    FileOutputStream fos = new FileOutputStream(files.get(v).getAbsolutePath().substring(0, files.get(v).getAbsolutePath().length() - 3));
+                    fos.write(plainFileData);
+                    fos.close();
+                }
+            }
+        }
+        catch (IOException ex)
+        {
+            handleException(ex);
+        }
+        catch (Exception ex)
+        {
+            handleException(ex);
+        }
+    }
+
+    /**
+     *
      * @param event
      * @throws IOException
      */
     @FXML
-    protected void btnEncryptFiles_Clicked(ActionEvent event) throws IOException//TODO: Add dialog with progress bar
+    protected void btnEncryptFiles_Clicked(ActionEvent event)//TODO: Add dialog with progress bar
     {
         try
         {
-            String message = "";
-            String header = "";
-            String method = "";
             if(files == null)
-                throw new NoFilesAttachedException("Please drag some files onto the highlighted area\n for encryption.");//TODO: Highlight Drag and Drop area
+                throw new NoFilesAttachedException("Please drag some files onto the highlighted area\n or copy some files followed by Edit -> Paste Files.");//TODO: Highlight Drag and Drop area
             if(files.size() > 1)
                 message = "Files are encrypted using the ";
             else if(files.size() == 1)
@@ -177,39 +302,7 @@ public class Cryptogen implements Initializable
             if(txtKey.getText().equals(""))
                 throw new EmptyKeyException("Please Enter a Key");//TODO: Highlight text area
 
-            char[] key = txtKey.getText().toCharArray();
-            byte[] cipherFileData = null;
-            for (int ii = 0; ii < files.size(); ii++)//Encrypt Each File
-            {
-                //File plainFile = new File(String.valueOf(new FileInputStream(files.get(ii).getAbsolutePath())));
-                Path path = Paths.get(files.get(ii).getAbsolutePath());
-                byte[] plainFileData = Files.readAllBytes(path);
-                if (radVigenere.isSelected())
-                {
-                    cipherFileData = Cryptography.VigenereCipher.encrypt(plainFileData, key);
-                    method = "Vigenère cipher.";
-                }
-                else if (radVernam.isSelected())
-                {
-                    cipherFileData = Cryptography.VernamCipher.encrypt(plainFileData, key);
-                    method = "Vernam cipher.";
-                }
-                else if (radColumnarTrans.isSelected())
-                {
-                    cipherFileData = Cryptography.ColumnarTranspositionCipher.encrypt(plainFileData, key);
-                    method = "columnar transposition.";
-                }
-                else if (radElephant.isSelected())
-                {
-                    cipherFileData = Cryptography.ElephantCipher.encrypt(plainFileData, key);
-                    method = "Elephant Encryption.";
-                }
-
-                FileOutputStream fos = new FileOutputStream(files.get(ii).getAbsoluteFile() + ".cg");
-                fos.write(cipherFileData);
-                fos.close();
-                System.out.println(ii + ": " + files.get(ii).getAbsolutePath());
-            }
+            encryptFiles(files);
 
             Alert encryptionInformation = new Alert(Alert.AlertType.INFORMATION, message + method + message2);
             Button okButton = (Button) encryptionInformation.getDialogPane().lookupButton(ButtonType.OK);
@@ -265,11 +358,8 @@ public class Cryptogen implements Initializable
     {
         try
         {
-            String message = "";
-            String header = "";
-            String method = "";
             if(files == null)
-                throw new NoFilesAttachedException("Please drag some files onto the highlighted area\n for encryption.");//TODO: Highlight Drag and Drop area
+                throw new NoFilesAttachedException("Please drag some files onto the highlighted area\n or copy some files followed by Edit -> Paste Files.");//TODO: Highlight Drag and Drop area
             if(files.size() > 1)
                 message = "Files are decrypted using the ";
             else if (files.size() == 1)
@@ -282,39 +372,7 @@ public class Cryptogen implements Initializable
             if(txtKey.getText().equals(""))
                 throw new EmptyKeyException("Please Enter a Key");//TODO: Highlight text area
 
-            char[] key = txtKey.getText().toCharArray();
-            byte[] plainFileData = null;
-            for (int v = 0; v < files.size(); v++)//Decrypt Each File
-            {
-                Path path = Paths.get(files.get(v).getAbsolutePath());
-                byte[] cipherFileData = Files.readAllBytes(path);
-                if (radVigenere.isSelected())
-                {
-                    plainFileData = Cryptography.VigenereCipher.decrypt(cipherFileData, key);
-                    method = "Vigenère cipher.";
-                }
-                else if (radVernam.isSelected())
-                {
-                    plainFileData = Cryptography.VernamCipher.decrypt(cipherFileData, key);
-                    method = "Vernam cipher.";
-                }
-                else if (radColumnarTrans.isSelected())
-                {
-                    plainFileData = Cryptography.ColumnarTranspositionCipher.decrypt(cipherFileData, key);
-                    method = "columnar transposition.";
-                }
-                else if (radElephant.isSelected())
-                {
-                    plainFileData = Cryptography.ElephantCipher.decrypt(cipherFileData, key);
-                    method = "Elephant Encryption.";
-                }
-                else
-                    throw new InputMismatchException("Please Choose an Algorithm for Encryption/Decryption");
-
-                FileOutputStream fos = new FileOutputStream(files.get(v).getAbsolutePath().substring(0, files.get(v).getAbsolutePath().length() - 3));
-                fos.write(plainFileData);
-                fos.close();
-            }
+            decryptFiles(files);
 
             Alert decryptionInformation = new Alert(Alert.AlertType.INFORMATION, message + method);
             decryptionInformation.initModality(Modality.APPLICATION_MODAL);
@@ -329,6 +387,14 @@ public class Cryptogen implements Initializable
             {
                 event.consume();
             }
+        }
+        catch (NoFilesAttachedException ex)
+        {
+            handleException(ex, "Error", "Drag and Drop Files", ex.getMessage());
+        }
+        catch(EmptyKeyException ex)
+        {
+            handleException(ex, "Error", "Empty Key Value", ex.getMessage());
         }
         catch (Exception ex)
         {
@@ -399,8 +465,8 @@ public class Cryptogen implements Initializable
                 {
                     try
                     {
-                        for(int i = 0; i < files.size(); i++)
-                            System.out.println(files.get(i).getAbsolutePath());
+                        /*for(int i = 0; i < files.size(); i++)
+                            System.out.println(files.get(i).getAbsolutePath());*/
 
                         if(!stackPane.getChildren().isEmpty())
                         {
@@ -409,11 +475,9 @@ public class Cryptogen implements Initializable
                         pneFilePane.getStyleClass().remove("pneFilePaneDrag");
                         pneFilePane.getStyleClass().remove("pneDefault");
                         pneFilePane.getStyleClass().add("pneFilePaneDropped");
-                        System.out.println("Drop Successful!");
                     }
                     catch (Exception ex)
                     {
-                        //Logger.getLogger(Cryptogen.class.getName()).log(Level.SEVERE, null, ex);
                         System.out.println(ex.toString());
                     }
                 }
@@ -437,6 +501,15 @@ public class Cryptogen implements Initializable
     }
 
     /**
+     *
+     * @param event
+     */
+    @FXML protected void mnuFile_PasteFiles_Clicked(ActionEvent event)
+    {
+        paste(null, DataFlavor.javaFileListFlavor);
+    }
+
+    /**
      * Event handler method for File -> Exit
      * @param event
      */
@@ -454,6 +527,93 @@ public class Cryptogen implements Initializable
             System.exit(0);
         else
             exiting = false;
+    }
+
+    /**
+     *
+     * @param event
+     */
+    @FXML protected void mnuEdit_ClearMessage_Clicked(ActionEvent event)
+    {
+        txtMessage.clear();
+    }
+
+    /**
+     *
+     * @param event
+     */
+    @FXML protected void mnuEdit_ClearKey_Clicked(ActionEvent event)
+    {
+        txtKey.clear();
+    }
+
+    /**
+     *
+     * @param event
+     */
+    @FXML protected void mnuEdit_CopyMessage_Clicked(ActionEvent event)
+    {
+        StringSelection stringSelection = new StringSelection(new String(txtMessage.getText()));
+        Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clpbrd.setContents(stringSelection, null);
+    }
+
+    /**
+     *
+     * @param event
+     */
+    @FXML protected void mnuEdit_CutMessage_Clicked(ActionEvent event)
+    {
+        StringSelection stringSelection = new StringSelection(new String(txtMessage.getText()));
+        Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clpbrd.setContents(stringSelection, null);
+        txtMessage.clear();
+    }
+
+    /**
+     *
+     * @param event
+     */
+    @FXML protected void mnuEdit_PasteMessage_Clicked(ActionEvent event)
+    {
+        paste(txtMessage, DataFlavor.stringFlavor);
+    }
+
+    /**
+     *
+     * @param event
+     */
+    @FXML protected void mnuEdit_PasteKey_Clicked(ActionEvent event)
+    {
+        paste(txtKey, DataFlavor.stringFlavor);
+    }
+
+    private void paste(TextArea tf, DataFlavor df)
+    {
+        try
+        {
+            Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+            Transferable contents = clpbrd.getContents(this);
+            if (contents == null)
+            {
+                Alert warning = new Alert(Alert.AlertType.WARNING, "Please copy something to paste.");
+                warning.initModality(Modality.APPLICATION_MODAL);
+                warning.initOwner(getCurrentStage());
+                warning.setTitle("Warning");
+                warning.setHeaderText("Nothing to paste");
+                warning.showAndWait();
+            }
+            else
+                if(tf != null)
+                    tf.setText((String) contents.getTransferData(df));
+                else
+                    files = (List)contents.getTransferData(df);
+
+        }
+        catch(Exception ex)
+        {
+            handleException(ex);
+        }
     }
 
     /**
