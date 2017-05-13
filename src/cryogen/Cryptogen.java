@@ -165,49 +165,38 @@ public class Cryptogen implements Initializable
         try
         {
             char[] key = txtKey.getText().toCharArray();
-            byte[] cipherFileData = null;
             for (int ii = 0; ii < files.size(); ii++)//Encrypt Each File
             {
                 if (files.get(ii).isDirectory())
                     encryptFiles(Arrays.asList(files.get(ii).listFiles()));
                 else if (files.get(ii).isFile())
                 {
-                    Path path = Paths.get(files.get(ii).getAbsolutePath());
-                    byte[] plainFileData = Files.readAllBytes(path);
                     if (radVigenere.isSelected())
                     {
-                        cipherFileData = Cryptography.VigenereCipher.encrypt(plainFileData, key);
+                        Cryptography.VigenereCipher.encrypt(files.get(ii), key);
                         method = "Vigenère cipher.";
                     }
                     else if (radVernam.isSelected())
                     {
-                        cipherFileData = Cryptography.VernamCipher.encrypt(plainFileData, key);
+                        Cryptography.VernamCipher.encrypt(files.get(ii), key);
                         method = "Vernam cipher.";
                     }
                     else if (radColumnarTrans.isSelected())
                     {
-                        cipherFileData = Cryptography.ColumnarTranspositionCipher.encrypt(plainFileData, key);
+                        Cryptography.ColumnarTranspositionCipher.encrypt(files.get(ii), key);
                         method = "columnar transposition.";
                     }
                     else if (radElephant.isSelected())
                     {
-                        cipherFileData = Cryptography.ElephantCipher.encrypt(plainFileData, key);
+                        Cryptography.ElephantCipher.encrypt(files.get(ii), key);
                         method = "Elephant Encryption.";
                     }
-
-                    FileOutputStream fos = new FileOutputStream(files.get(ii).getAbsoluteFile() + ".cg");
-                    fos.write(cipherFileData);
-                    fos.close();
-                    files.get(ii).delete();
                 }
             }
         }
-        catch (IOException ex)
-        {
-            handleException(ex);
-        }
         catch (Exception ex)
         {
+            ex.printStackTrace();
             handleException(ex);
         }
     }
@@ -221,49 +210,38 @@ public class Cryptogen implements Initializable
         try
         {
             char[] key = txtKey.getText().toCharArray();
-            byte[] plainFileData = null;
             for (int v = 0; v < files.size(); v++)//Decrypt Each File
             {
                 if (files.get(v).isDirectory())
                     decryptFiles(Arrays.asList(files.get(v).listFiles()));
                 else if (files.get(v).isFile() && files.get(v).getAbsoluteFile().getPath().substring(files.get(v).getAbsoluteFile().getPath().length() - 3, files.get(v).getAbsoluteFile().getPath().length()).equals(".cg"))
                 {
-                    Path path = Paths.get(files.get(v).getAbsolutePath());
-                    byte[] cipherFileData = Files.readAllBytes(path);
                     if (radVigenere.isSelected())
                     {
-                        plainFileData = Cryptography.VigenereCipher.decrypt(cipherFileData, key);
+                        Cryptography.VigenereCipher.decrypt(files.get(v), key);
                         method = "Vigenère cipher.";
                     }
                     else if (radVernam.isSelected())
                     {
-                        plainFileData = Cryptography.VernamCipher.decrypt(cipherFileData, key);
+                        Cryptography.VernamCipher.decrypt(files.get(v), key);
                         method = "Vernam cipher.";
                     }
                     else if (radColumnarTrans.isSelected())
                     {
-                        plainFileData = Cryptography.ColumnarTranspositionCipher.decrypt(cipherFileData, key);
+                        Cryptography.ColumnarTranspositionCipher.decrypt(files.get(v), key);
                         method = "columnar transposition.";
                     }
                     else if (radElephant.isSelected())
                     {
-                        plainFileData = Cryptography.ElephantCipher.decrypt(cipherFileData, key);
+                        Cryptography.ElephantCipher.decrypt(files.get(v), key);
                         method = "Elephant Encryption.";
                     }
-
-                    FileOutputStream fos = new FileOutputStream(files.get(v).getAbsolutePath().substring(0, files.get(v).getAbsolutePath().length() - 3));
-                    fos.write(plainFileData);
-                    fos.close();
-                    files.get(v).delete();
                 }
             }
         }
-        catch (IOException ex)
-        {
-            handleException(ex);
-        }
         catch (Exception ex)
         {
+            ex.printStackTrace();
             handleException(ex);
         }
     }
