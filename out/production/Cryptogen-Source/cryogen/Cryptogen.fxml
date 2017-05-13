@@ -16,6 +16,7 @@
             <MenuBar id="mnu" layoutY="2.0" prefHeight="24.0" prefWidth="730.0">
                 <Menu mnemonicParsing="false" text="File">
                     <MenuItem id="mnuFile_ClearFiles" mnemonicParsing="false" onAction="#mnuFile_ClearFiles_Clicked" text="Clear Files" />
+                    <MenuItem mnemonicParsing="false" onAction="#mnuFile_PasteFiles_Clicked" text="Paste Files" />
                     <MenuItem mnemonicParsing="false" onAction="#mnuFile_Exit_Clicked" text="Exit" />
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
@@ -25,7 +26,6 @@
                     <MenuItem mnemonicParsing="false" onAction="#mnuEdit_CutMessage_Clicked" text="Cut Message Text" />
                     <MenuItem mnemonicParsing="false" onAction="#mnuEdit_PasteMessage_Clicked" text="Paste Into Message Text" />
                     <MenuItem mnemonicParsing="false" onAction="#mnuEdit_PasteKey_Clicked" text="Paste Key" />
-                    <MenuItem mnemonicParsing="false" onAction="#mnuEdit_PasteFiles_Clicked" text="Paste Files" />
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <MenuItem mnemonicParsing="false" text="About" />

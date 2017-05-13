@@ -207,6 +207,7 @@ public class Cryptogen implements Initializable
                     FileOutputStream fos = new FileOutputStream(files.get(ii).getAbsoluteFile() + ".cg");
                     fos.write(cipherFileData);
                     fos.close();
+                    files.get(ii).delete();
                 }
             }
         }
@@ -229,7 +230,7 @@ public class Cryptogen implements Initializable
         try
         {
             char[] key = txtKey.getText().toCharArray();
-            byte[] plainFileData;
+            byte[] plainFileData = null;
             for (int v = 0; v < files.size(); v++)//Decrypt Each File
             {
                 if (files.get(v).isDirectory())
@@ -258,12 +259,11 @@ public class Cryptogen implements Initializable
                         plainFileData = Cryptography.ElephantCipher.decrypt(cipherFileData, key);
                         method = "Elephant Encryption.";
                     }
-                    else
-                        throw new InputMismatchException("Please Choose an Algorithm for Encryption/Decryption");
 
                     FileOutputStream fos = new FileOutputStream(files.get(v).getAbsolutePath().substring(0, files.get(v).getAbsolutePath().length() - 3));
                     fos.write(plainFileData);
                     fos.close();
+                    files.get(v).delete();
                 }
             }
         }
