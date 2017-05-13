@@ -57,7 +57,7 @@ public class Cryptography
             byte[] cipherData = new byte[plainData.length];
 
             for(int iii = 0; iii < plainData.length; iii++)
-                cipherData[iii] = (byte)((int)plainData[iii] + (int)key[iii % key.length]);
+                cipherData[iii] = (byte) ((int) plainData[iii] + (int) key[iii % key.length]);
 
             return cipherData;
         }
@@ -73,9 +73,7 @@ public class Cryptography
             byte[] plainData = new byte[cipherData.length];
 
             for(int iv = 0; iv < cipherData.length; iv++)
-            {
                 plainData[iv] = (byte)((int)cipherData[iv] - (int)key[iv % key.length]);
-            }
 
             return plainData;
         }
@@ -127,7 +125,7 @@ public class Cryptography
         {
             byte[] cipherData = null;
             for(int vii = 0; vii < plainData.length; vii++)
-                cipherData[vii] = (byte)((int)plainData[vii] ^ (int)key[vii % key.length]);
+                cipherData[vii] = (byte) ((int) plainData[vii] ^ (int) key[vii % key.length]);
 
             return cipherData;
         }

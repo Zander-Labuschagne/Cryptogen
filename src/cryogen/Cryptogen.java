@@ -145,11 +145,7 @@ public class Cryptogen implements Initializable
         }
         catch (Exception ex)
         {
-            Alert error = new Alert(Alert.AlertType.ERROR);
-            error.setTitle("Error");
-            error.setHeaderText(null);
-            error.setContentText(ex.getMessage());
-            error.showAndWait();
+            handleException(ex);
         }
     }
 
@@ -160,12 +156,14 @@ public class Cryptogen implements Initializable
      */
     @FXML
     protected void btnEncryptFiles_Clicked(ActionEvent event) throws IOException//TODO: Add dialog with progress bar
-    {//TODO: Create Exception classes
+    {
         try
         {
             String message = "";
             String header = "";
             String method = "";
+            if(files == null)
+                throw new NoFilesAttachedException("Please drag some files onto the highlighted area\n for encryption.");//TODO: Highlight Drag and Drop area
             if(files.size() > 1)
                 message = "Files are encrypted using the ";
             else if(files.size() == 1)
@@ -176,6 +174,9 @@ public class Cryptogen implements Initializable
                 header = "File Encrypted";
             String message2 = " \nRemember your key!";
 
+            if(txtKey.getText().equals(""))
+                throw new EmptyKeyException("Please Enter a Key");//TODO: Highlight text area
+
             char[] key = txtKey.getText().toCharArray();
             byte[] cipherFileData = null;
             for (int ii = 0; ii < files.size(); ii++)//Encrypt Each File
@@ -183,14 +184,6 @@ public class Cryptogen implements Initializable
                 //File plainFile = new File(String.valueOf(new FileInputStream(files.get(ii).getAbsolutePath())));
                 Path path = Paths.get(files.get(ii).getAbsolutePath());
                 byte[] plainFileData = Files.readAllBytes(path);
-                if (txtKey.getText() == "")
-                {
-                    throw new InputMismatchException("Please Enter a Key");//TODO: Highlight text area
-                }
-                if (files.isEmpty())
-                {
-                    throw new FileSystemNotFoundException("Please drag some files onto the highlighted area for encryption.");//TODO: Highlight Drag and Drop area
-                }
                 if (radVigenere.isSelected())
                 {
                     cipherFileData = Cryptography.VigenereCipher.encrypt(plainFileData, key);
@@ -211,8 +204,6 @@ public class Cryptogen implements Initializable
                     cipherFileData = Cryptography.ElephantCipher.encrypt(plainFileData, key);
                     method = "Elephant Encryption.";
                 }
-                else
-                    throw new InputMismatchException("Please Choose an Algorithm for Encryption/Decryption");
 
                 FileOutputStream fos = new FileOutputStream(files.get(ii).getAbsoluteFile() + ".cg");
                 fos.write(cipherFileData);
@@ -232,13 +223,13 @@ public class Cryptogen implements Initializable
                 event.consume();
             }
         }
-        catch (InputMismatchException ex)
-        {
-            handleException(ex, "Error", "Choose Algorithm", ex.getMessage());
-        }
-        catch (FileSystemNotFoundException ex)
+        catch (NoFilesAttachedException ex)
         {
             handleException(ex, "Error", "Drag and Drop Files", ex.getMessage());
+        }
+        catch(EmptyKeyException ex)
+        {
+            handleException(ex, "Error", "Empty Key Value", ex.getMessage());
         }
         catch (Exception ex)
         {
@@ -260,11 +251,7 @@ public class Cryptogen implements Initializable
         }
         catch (Exception ex)
         {
-            Alert error = new Alert(Alert.AlertType.ERROR);
-            error.setTitle("Error");
-            error.setHeaderText(null);
-            error.setContentText(ex.getMessage());
-            error.showAndWait();
+            handleException(ex);
         }
     }
 
@@ -281,7 +268,9 @@ public class Cryptogen implements Initializable
             String message = "";
             String header = "";
             String method = "";
-            if (files.size() > 1)
+            if(files == null)
+                throw new NoFilesAttachedException("Please drag some files onto the highlighted area\n for encryption.");//TODO: Highlight Drag and Drop area
+            if(files.size() > 1)
                 message = "Files are decrypted using the ";
             else if (files.size() == 1)
                 message = "File is decrypted using the ";
@@ -289,6 +278,9 @@ public class Cryptogen implements Initializable
                 header = "Files Decrypted";
             else if (files.size() == 1)
                 header = "File Decrypted";
+
+            if(txtKey.getText().equals(""))
+                throw new EmptyKeyException("Please Enter a Key");//TODO: Highlight text area
 
             char[] key = txtKey.getText().toCharArray();
             byte[] plainFileData = null;
@@ -325,6 +317,8 @@ public class Cryptogen implements Initializable
             }
 
             Alert decryptionInformation = new Alert(Alert.AlertType.INFORMATION, message + method);
+            decryptionInformation.initModality(Modality.APPLICATION_MODAL);
+            decryptionInformation.initOwner(getCurrentStage());
             Button okButton = (Button) decryptionInformation.getDialogPane().lookupButton(ButtonType.OK);
             okButton.setText("OK");
             decryptionInformation.setHeaderText(header);
@@ -429,159 +423,6 @@ public class Cryptogen implements Initializable
         event.consume();
     }
 
-    //TODO: Remove this method after Vigenère's Cipher has been implemented in Cryptography class
-    /**
-     * Method to encrypt the password
-     * Based on Vigenere's Cipher Algorithm, modified by Zander
-     * @param newMessage the password to be encrypted
-     * @param key          the key used to encrypt the password
-     * @return the encrypted password
-     */
-    public static char[] encrypt(char[] newMessage, char[] key, int limit)
-    {
-        try
-        {
-            char[] systemMessage = new char[newMessage.length + 1];
-            char[] finalMessage = new char[newMessage.length * 2 + 1];
-            int keyIndex = 0;
-            int i = 0;
-            int ii = 0;
-            int temp;
-            int specCharCount = 0;
-            int pos = 0;
-            char[] specChars = new char[newMessage.length + 1];
-
-            for (char t : newMessage)
-            {
-                if (t >= 65 && t <= 90)//Encrypting Uppercase Characters
-                {
-                    temp = t - 65 + (key[keyIndex] - 65);
-                    if (temp < 0)
-                        temp += 26;
-                    if (temp <= 0)
-                        temp += 26;
-
-                    systemMessage[i++] = (char) (65 + (temp % 26));
-                    if (++keyIndex == key.length)
-                        keyIndex = 0;
-                }
-                else if (t >= 97 && t <= 122)//Encrypting Lower Case Characters
-                {
-                    temp = t - 97 + (key[keyIndex] - 97);
-                    if (temp < 0)
-                        temp += 26;
-                    if (temp < 0)
-                        temp += 26;
-
-                    systemMessage[i++] = (char) (97 + (temp % 26));
-                    if (++keyIndex == key.length)
-                        keyIndex = 0;
-                }
-                else//Encrypting Special Characters
-                {
-                    specChars[ii++] = (char) (pos + 65);
-                    specChars[ii++] = t;
-                    specCharCount++;
-                }
-                pos++;
-            }
-            i = 0;
-            finalMessage[i++] = (char) (specCharCount == 0 ? 65 : (--specCharCount + 65));//Encrypting Amount of Special Characters in Password
-            for (char t = specChars[0]; t != 0; i++, t = specChars[i - 1])//Encrypting Special Characters & Positions of Special Characters
-                finalMessage[i] = t;
-            ii = i;
-            for (char t = systemMessage[0]; t != 0; i++, t = systemMessage[i - ii])//Encrypting Password
-                finalMessage[i] = t;
-
-            int ext = -1;
-            if(i > 32)
-            {
-                Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-                confirm.setTitle("Warning");
-                confirm.setHeaderText( "Password is greater than 32 characters");
-                confirm.setContentText("Would you like to shorten the password to the 32 limit?");
-                confirm.getButtonTypes().setAll(ButtonType.NO, ButtonType.YES);
-                Optional<ButtonType> result = confirm.showAndWait();
-                if(result.isPresent() ? result.get() == ButtonType.YES : null) //Warning as ek nie toets met isPresent() nie want result.get() is optional of nullable
-                    ext = 1;
-            }
-
-            int length = 0;
-            for(int x = 0; finalMessage[x] != '\0'; x++)
-                length++;
-            char[] cipherMessage = new char[length];
-            for(int xi = 0; xi < cipherMessage.length && xi < length; xi++)
-                cipherMessage[xi] = finalMessage[xi];
-
-            //Shuffle Password
-            LinkedList<Character> evens = new LinkedList<>();
-            LinkedList<Character>odds = new LinkedList<>();
-            for(int iii = 0; iii < cipherMessage.length; iii++)
-                if((int)cipherMessage[iii] % 2 == 0)
-                    evens.addLast(cipherMessage[iii]);
-                else
-                    odds.addFirst(cipherMessage[iii]);
-            int iv = 0;
-            while(!evens.isEmpty() || !odds.isEmpty())
-            {
-                if (!odds.isEmpty())
-                {
-                    cipherMessage[iv++] = odds.getFirst();
-                    odds.removeFirst();
-                }
-                if(!evens.isEmpty())
-                {
-                    cipherMessage[iv++] = evens.getFirst();
-                    evens.removeFirst();
-                }
-            }
-
-            //encrypt special chars further
-            for(int v = 0; v < cipherMessage.length; v++)
-                if((int)cipherMessage[v] <= 47)
-                    cipherMessage[v] += 10;
-                else if((int)cipherMessage[v] > 47 && (int)cipherMessage[v] < 64)
-                    cipherMessage[v] -= 5;
-                else if((int)cipherMessage[v] > 90 && (int)cipherMessage[v] <= 96)
-                    if(cipherMessage.length % 2 == 0)
-                        cipherMessage[v] += 2;
-                    else
-                        cipherMessage[v] -= 2;
-
-            //Replacing unloved characters
-            for(int vi = 0; vi < cipherMessage.length; vi++)
-                if((int)cipherMessage[vi] == 34)
-                    cipherMessage[vi] = 123;
-                else if((int)cipherMessage[vi] == 38)
-                    cipherMessage[vi] = 124;
-                else if((int)cipherMessage[vi] == 60)
-                    cipherMessage[vi] = 125;
-                else if((int)cipherMessage[vi] == 62)
-                    cipherMessage[vi] = 126;
-
-            //Limitations
-            if(ext == 1 || limit < 32)
-            {
-                char[] cipherMessageLimited = new char[limit < cipherMessage.length ? limit : cipherMessage.length];
-                for (int vii = 0; vii < cipherMessage.length && vii < limit; vii++)
-                    cipherMessageLimited[vii] = cipherMessage[vii];
-                return cipherMessageLimited;
-            }
-
-            return cipherMessage;
-        }
-        catch (Exception ex)
-        {
-            Alert error = new Alert(Alert.AlertType.ERROR);
-            error.setTitle("Failed to Encrypt Message");
-            error.setHeaderText(null);
-            error.setContentText(ex.getMessage());
-            error.showAndWait();
-
-            return null;
-        }
-    }
-
     /**
      * Event handler for File -> Clear Files
      * Used to clear loaded files
@@ -643,20 +484,22 @@ public class Cryptogen implements Initializable
 
     protected void handleException(Exception ex, String title)
     {
-        handleException(ex, title, null);
+        handleException(ex, title, ex.getMessage());
     }
 
     protected void handleException(Exception ex, String title, String header)
     {
-        handleException(ex, title, header, ex.getMessage());//TODO:Check ex.toString() vs ex.getMessahe()
+        handleException(ex, title, header, ex.toString());
     }
 
     protected void handleException(Exception ex, String title, String header, String content)//TODO:Theme the Dialog
     {
-        Alert error = new Alert(Alert.AlertType.ERROR);
+        ex.printStackTrace();
+        Alert error = new Alert(Alert.AlertType.ERROR, content);
+        error.initModality(Modality.APPLICATION_MODAL);
+        error.initOwner(getCurrentStage());
         error.setTitle(title);
         error.setHeaderText(header);
-        error.setContentText(content);
         error.showAndWait();
     }
 }
