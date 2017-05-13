@@ -1,18 +1,13 @@
 package cryogen;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
@@ -20,24 +15,18 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-
-import javax.swing.*;
 import java.awt.*;
-import java.awt.TextField;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.io.*;
 import java.net.URL;
-import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author Zander Labuschagne
@@ -60,6 +49,7 @@ public class Cryptogen implements Initializable
     @FXML private TitledPane pneAlgorithmsPane;
     @FXML private StackPane stackPane;
     @FXML private TitledPane pneFilePane;
+    @FXML private TitledPane pneKey;
     @FXML private RadioButton radVigenere;
     @FXML private RadioButton radVernam;
     @FXML private RadioButton radColumnarTrans;
@@ -300,7 +290,7 @@ public class Cryptogen implements Initializable
             String message2 = " \nRemember your key!";
 
             if(txtKey.getText().equals(""))
-                throw new EmptyKeyException("Please Enter a Key");//TODO: Highlight text area
+                throw new EmptyKeyException("Please Enter a Key");
 
             encryptFiles(files);
 
@@ -318,10 +308,14 @@ public class Cryptogen implements Initializable
         }
         catch (NoFilesAttachedException ex)
         {
+            pneFilePane.getStyleClass().remove("pneDefault");
+            pneFilePane.getStyleClass().add("pneFilePaneError");
             handleException(ex, "Error", "Drag and Drop Files", ex.getMessage());
         }
         catch(EmptyKeyException ex)
         {
+            pneKey.getStyleClass().remove("pneDefault");
+            pneKey.getStyleClass().add("pneDefaultError");
             handleException(ex, "Error", "Empty Key Value", ex.getMessage());
         }
         catch (Exception ex)
@@ -370,7 +364,7 @@ public class Cryptogen implements Initializable
                 header = "File Decrypted";
 
             if(txtKey.getText().equals(""))
-                throw new EmptyKeyException("Please Enter a Key");//TODO: Highlight text area
+                throw new EmptyKeyException("Please Enter a Key");
 
             decryptFiles(files);
 
@@ -390,16 +384,27 @@ public class Cryptogen implements Initializable
         }
         catch (NoFilesAttachedException ex)
         {
+            pneFilePane.getStyleClass().remove("pneDefault");
+            pneFilePane.getStyleClass().add("pneFilePaneError");
             handleException(ex, "Error", "Drag and Drop Files", ex.getMessage());
         }
         catch(EmptyKeyException ex)
         {
+            txtKey.getStyleClass().remove("txtDefault");
+            txtKey.getStyleClass().add("txtDefaultError");
             handleException(ex, "Error", "Empty Key Value", ex.getMessage());
         }
         catch (Exception ex)
         {
             handleException(ex);
         }
+    }
+
+    @FXML
+    protected void txtKey_OnKeyType()
+    {
+        pneKey.getStyleClass().remove("pneDefaultError");
+        pneKey.getStyleClass().add("pneDefault");
     }
 
     /**
@@ -429,6 +434,7 @@ public class Cryptogen implements Initializable
     protected void onDragEntered(DragEvent event)
     {
         pneFilePane.getStyleClass().remove("pneDefault");
+        pneFilePane.getStyleClass().remove("pneFilePaneError");
         pneFilePane.getStyleClass().add("pneFilePaneDrag");
     }
 
@@ -507,6 +513,8 @@ public class Cryptogen implements Initializable
     @FXML protected void mnuFile_PasteFiles_Clicked(ActionEvent event)
     {
         paste(null, DataFlavor.javaFileListFlavor);
+        pneFilePane.getStyleClass().remove("pneFilePaneError");
+        pneFilePane.getStyleClass().add("pneFilePaneDropped");
     }
 
     /**
