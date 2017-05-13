@@ -288,7 +288,7 @@ public class Cryptogen implements Initializable
 
             encryptFiles(files);
 
-            Alert encryptionInformation = new Alert(Alert.AlertType.INFORMATION, message + method + message2);
+            /*Alert encryptionInformation = new Alert(Alert.AlertType.INFORMATION, message + method + message2);
             encryptionInformation.setGraphic(new ImageView(this.getClass().getResource("/icons/success32.png").toString()));
             Button okButton = (Button) encryptionInformation.getDialogPane().lookupButton(ButtonType.OK);
             okButton.setText("OK");
@@ -302,7 +302,7 @@ public class Cryptogen implements Initializable
             if (!ButtonType.OK.equals(closeResponse.get()))
             {
                 event.consume();
-            }
+            }*/
         }
         catch (NoFilesAttachedException ex)
         {
@@ -423,7 +423,7 @@ public class Cryptogen implements Initializable
 
             decryptFiles(files);
 
-            Alert decryptionInformation = new Alert(Alert.AlertType.INFORMATION, message + method);
+            /*Alert decryptionInformation = new Alert(Alert.AlertType.INFORMATION, message + method);
             decryptionInformation.setGraphic(new ImageView(this.getClass().getResource("/icons/success32.png").toString()));
             decryptionInformation.initModality(Modality.APPLICATION_MODAL);
             decryptionInformation.initOwner(getCurrentStage());
@@ -439,7 +439,7 @@ public class Cryptogen implements Initializable
             if (!ButtonType.OK.equals(closeResponse.get()))
             {
                 event.consume();
-            }
+            }*/
         }
         catch (NoFilesAttachedException ex)
         {
