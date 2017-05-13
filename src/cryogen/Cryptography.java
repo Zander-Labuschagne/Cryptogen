@@ -1,5 +1,23 @@
 package cryogen;
 
+import javafx.application.Application;
+import javafx.concurrent.Task;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 /**
  * @author Zander Labuschagne
  * E-Mail: ZANDER.LABUSCHAGNE@PROTONMAIL.CH
@@ -12,6 +30,76 @@ package cryogen;
  */
 public class Cryptography
 {
+    public static void handleException(Exception ex)
+    {
+        handleException(ex, "Error");
+    }
+
+    public static void handleException(Exception ex, String title)
+    {
+        handleException(ex, title, ex.getMessage());
+    }
+
+    public static void handleException(Exception ex, String title, String header)
+    {
+        handleException(ex, title, header, ex.toString());
+    }
+    public static void handleException(Exception ex, String title, String header, String content)
+    {
+        ex.printStackTrace();
+        Alert error = new Alert(Alert.AlertType.ERROR, content);
+        error.initModality(Modality.APPLICATION_MODAL);
+        error.initOwner(null);
+        error.setTitle(title);
+        error.setHeaderText(header);
+        DialogPane dialogPane = error.getDialogPane();
+        dialogPane.getStylesheets().add(Cryptography.class.getResource("MidnaDark.css").toExternalForm());
+        dialogPane.getStyleClass().add("dlgDefault");
+        error.showAndWait();
+    }
+
+
+    public static class Progress
+    {
+        private final Stage dialogStage;
+        private final ProgressBar pb = new ProgressBar();
+        private final ProgressIndicator pin = new ProgressIndicator();
+
+        public Progress()
+        {
+            dialogStage = new Stage();
+            dialogStage.initStyle(StageStyle.UTILITY);
+            dialogStage.setResizable(false);
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+
+            // PROGRESS BAR
+            final Label label = new Label();
+            label.setText("alerto");
+
+            pb.setProgress(-1F);
+            pin.setProgress(-1F);
+
+            final HBox hb = new HBox();
+            hb.setSpacing(5);
+            hb.setAlignment(Pos.CENTER);
+            hb.getChildren().addAll(pb, pin);
+
+            Scene scene = new Scene(hb);
+            dialogStage.setScene(scene);
+        }
+
+        public void activateProgressBar(final Task<?> task)
+        {
+            pb.progressProperty().bind(task.progressProperty());
+            pin.progressProperty().bind(task.progressProperty());
+            dialogStage.show();
+        }
+
+        public Stage getDialogStage()
+        {
+            return dialogStage;
+        }
+    }
 
 
     /**********************------------------------Vigenère Cipher------------------------**********************/
@@ -63,7 +151,7 @@ public class Cryptography
          *
          * @param cipherText
          * @param key
-         * @return    -fx-border-color: rgb(15, 15, 15);
+         * @return
          */
         public static char[] decrypt(char[] cipherText, char[] key)
         {
@@ -102,14 +190,79 @@ public class Cryptography
          * @param key
          * @return
          */
-        public static byte[] encrypt(byte[] plainData, char[] key)
+        public static void encrypt(File plainFile, char[] key)
         {
-            byte[] cipherData = new byte[plainData.length];
+            try
+            {
+                Path path = Paths.get(plainFile.getAbsolutePath());
+                final byte[] plainData = Files.readAllBytes(path);
+                byte[] cipherData = new byte[plainData.length];
 
-            for(int iii = 0; iii < plainData.length; iii++)
-                cipherData[iii] = (byte) ((int) plainData[iii] + (int) key[iii % key.length]);
+                Progress progress = new Progress();
+                // In real life this task would do something useful and return
+                // some meaningful result:
+                Task<byte[]> task = new Task<byte[]>()
+                {
+                    @Override
+                    public byte[] call() throws InterruptedException
+                    {
+                        for(int iii = 0; iii < plainData.length; iii++)
+                        {
+                            updateProgress(iii, plainData.length);
+                            cipherData[iii] = (byte) ((int) plainData[iii] + (int) key[iii % key.length]);
+                        }
 
-            return cipherData;
+                        return cipherData;
+                    }
+                };
+                // binds progress of progress bars to progress of task:
+                progress.activateProgressBar(task);
+
+                // in real life this method would get the result of the task
+                // and update the UI based on its value:
+                task.setOnSucceeded(event ->
+                {
+                    try
+                    {
+                        progress.getDialogStage().close();
+                        FileOutputStream fos = new FileOutputStream(plainFile.getAbsoluteFile() + ".cg");
+                        fos.write(task.getValue());
+                        fos.close();
+                        plainFile.delete();
+                    }
+                    catch (FileNotFoundException ex)
+                    {
+                        ex.printStackTrace();
+                        Cryptography.handleException(ex);
+                    }
+                    catch(IOException ex)
+                    {
+                        ex.printStackTrace();
+                        Cryptography.handleException(ex);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.printStackTrace();
+                        Cryptography.handleException(ex);
+                    }
+                });
+
+                progress.getDialogStage().show();
+
+                Thread thread = new Thread(task);
+                thread.setDaemon(true);
+                thread.start();
+            }
+            catch (IOException ex)
+            {
+                ex.printStackTrace();
+                Cryptography.handleException(ex);
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+                Cryptography.handleException(ex);
+            }
         }
 
         /**
@@ -118,14 +271,79 @@ public class Cryptography
          * @param key
          * @return
          */
-        public static byte[] decrypt(byte[] cipherData, char[] key)
+        public static void decrypt(File cipherFile, char[] key)
         {
-            byte[] plainData = new byte[cipherData.length];
+            try
+            {
+                Path path = Paths.get(cipherFile.getAbsolutePath());
+                final byte[] cipherData = Files.readAllBytes(path);
+                byte[] plainData = new byte[cipherData.length];
 
-            for(int iv = 0; iv < cipherData.length; iv++)
-                plainData[iv] = (byte) ((int) cipherData[iv] - (int) key[iv % key.length]);
+                Progress progress = new Progress();
+                // In real life this task would do something useful and return
+                // some meaningful result:
+                Task<byte[]> task = new Task<byte[]>()
+                {
+                    @Override
+                    public byte[] call() throws InterruptedException
+                    {
+                        for(int iv = 0; iv < cipherData.length; iv++)
+                        {
+                            updateProgress(iv, cipherData.length);
+                            plainData[iv] = (byte) ((int) cipherData[iv] - (int) key[iv % key.length]);
+                        }
 
-            return plainData;
+                        return plainData;
+                    }
+                };
+                // binds progress of progress bars to progress of task:
+                progress.activateProgressBar(task);
+
+                // in real life this method would get the result of the task
+                // and update the UI based on its value:
+                task.setOnSucceeded(event ->
+                {
+                    try
+                    {
+                        progress.getDialogStage().close();
+                        FileOutputStream fos = new FileOutputStream(cipherFile.getAbsolutePath().substring(0, cipherFile.getAbsolutePath().length() - 3));
+                        fos.write(task.getValue());
+                        fos.close();
+                        cipherFile.delete();
+                    }
+                    catch (FileNotFoundException ex)
+                    {
+                        ex.printStackTrace();
+                        Cryptography.handleException(ex);
+                    }
+                    catch(IOException ex)
+                    {
+                        ex.printStackTrace();
+                        Cryptography.handleException(ex);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.printStackTrace();
+                        Cryptography.handleException(ex);
+                    }
+                });
+
+                progress.getDialogStage().show();
+
+                Thread thread = new Thread(task);
+                thread.setDaemon(true);
+                thread.start();
+            }
+            catch (IOException ex)
+            {
+                ex.printStackTrace();
+                Cryptography.handleException(ex);
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+                Cryptography.handleException(ex);
+            }
         }
     }
 
@@ -209,13 +427,79 @@ public class Cryptography
          * @param key
          * @return
          */
-        public static byte[] encrypt(byte[] plainData, char[] key)
+        public static void encrypt(File plainFile, char[] key)
         {
-            byte[] cipherData = new byte[plainData.length];
-            for(int vii = 0; vii < plainData.length; vii++)
-                cipherData[vii] = (byte) ((int) plainData[vii] ^ (int) key[vii % key.length]);
+            try
+            {
+                Path path = Paths.get(plainFile.getAbsolutePath());
+                final byte[] plainData = Files.readAllBytes(path);
+                byte[] cipherData = new byte[plainData.length];
 
-            return cipherData;
+                Progress progress = new Progress();
+                // In real life this task would do something useful and return
+                // some meaningful result:
+                Task<byte[]> task = new Task<byte[]>()
+                {
+                    @Override
+                    public byte[] call() throws InterruptedException
+                    {
+                        for (int vi = 0; vi < plainData.length; vi++)
+                        {
+                            updateProgress(vi, plainData.length);
+                            cipherData[vi] = (byte) ((int) plainData[vi] ^ (int) key[vi % key.length]);
+                        }
+
+                        return cipherData;
+                    }
+                };
+                // binds progress of progress bars to progress of task:
+                progress.activateProgressBar(task);
+
+                // in real life this method would get the result of the task
+                // and update the UI based on its value:
+                task.setOnSucceeded(event ->
+                {
+                    try
+                    {
+                        progress.getDialogStage().close();
+                        FileOutputStream fos = new FileOutputStream(plainFile.getAbsoluteFile() + ".cg");
+                        fos.write(task.getValue());
+                        fos.close();
+                        plainFile.delete();
+                    }
+                    catch (FileNotFoundException ex)
+                    {
+                        ex.printStackTrace();
+                        Cryptography.handleException(ex);
+                    }
+                    catch (IOException ex)
+                    {
+                        ex.printStackTrace();
+                        Cryptography.handleException(ex);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.printStackTrace();
+                        Cryptography.handleException(ex);
+                    }
+                });
+
+                progress.getDialogStage().show();
+
+                Thread thread = new Thread(task);
+                thread.setDaemon(true);
+                thread.start();
+            }
+            catch (IOException ex)
+            {
+                ex.printStackTrace();
+                Cryptography.handleException(ex);
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+                Cryptography.handleException(ex);
+            }
         }
 
         /**
@@ -224,13 +508,79 @@ public class Cryptography
          * @param key
          * @return
          */
-        public static byte[] decrypt(byte[] cipherData, char[] key)
+        public static void decrypt(File cipherFile, char[] key)
         {
-            byte[] plainData = new byte[cipherData.length];
-            for(int viii = 0; viii < cipherData.length; viii++)
-                plainData[viii] = (byte) ((int) cipherData[viii] ^ (int) key[viii % key.length]);
+            try
+            {
+                Path path = Paths.get(cipherFile.getAbsolutePath());
+                final byte[] cipherData = Files.readAllBytes(path);
+                byte[] plainData = new byte[cipherData.length];
 
-            return plainData;
+                Progress progress = new Progress();
+                // In real life this task would do something useful and return
+                // some meaningful result:
+                Task<byte[]> task = new Task<byte[]>()
+                {
+                    @Override
+                    public byte[] call() throws InterruptedException
+                    {
+                        for(int vii = 0; vii < cipherData.length; vii++)
+                        {
+                            updateProgress(vii, cipherData.length);
+                            plainData[vii] = (byte) ((int) cipherData[vii] ^ (int) key[vii % key.length]);
+                        }
+
+                        return plainData;
+                    }
+                };
+                // binds progress of progress bars to progress of task:
+                progress.activateProgressBar(task);
+
+                // in real life this method would get the result of the task
+                // and update the UI based on its value:
+                task.setOnSucceeded(event ->
+                {
+                    try
+                    {
+                        progress.getDialogStage().close();
+                        FileOutputStream fos = new FileOutputStream(cipherFile.getAbsolutePath().substring(0, cipherFile.getAbsolutePath().length() - 3));
+                        fos.write(task.getValue());
+                        fos.close();
+                        cipherFile.delete();
+                    }
+                    catch (FileNotFoundException ex)
+                    {
+                        ex.printStackTrace();
+                        Cryptography.handleException(ex);
+                    }
+                    catch(IOException ex)
+                    {
+                        ex.printStackTrace();
+                        Cryptography.handleException(ex);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.printStackTrace();
+                        Cryptography.handleException(ex);
+                    }
+                });
+
+                progress.getDialogStage().show();
+
+                Thread thread = new Thread(task);
+                thread.setDaemon(true);
+                thread.start();
+            }
+            catch (IOException ex)
+            {
+                ex.printStackTrace();
+                Cryptography.handleException(ex);
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+                Cryptography.handleException(ex);
+            }
         }
     }
 
@@ -274,9 +624,8 @@ public class Cryptography
          * @param key
          * @return
          */
-        public static byte[] encrypt(byte[] plainData, char[] key)
+        public static void encrypt(File plainFile, char[] key)
         {
-            return null;
         }
 
         /**
@@ -285,9 +634,9 @@ public class Cryptography
          * @param key
          * @return
          */
-        public static byte[] decrypt(byte[] cipherData, char[] key)
+        public static void decrypt(File cipherFile, char[] key)
         {
-            return null;
+
         }
     }
 
@@ -397,9 +746,9 @@ public class Cryptography
          * @param key
          * @return
          */
-        public static byte[] encrypt(byte[] plainData, char[] key)
+        public static void encrypt(File plainFile, char[] key)
         {
-            return null;
+
         }
 
         /**
@@ -408,9 +757,9 @@ public class Cryptography
          * @param key
          * @return
          */
-        public static byte[] decrypt(byte[] cipherData, char[] key)
+        public static void decrypt(File cipherFile, char[] key)
         {
-            return null;
+
         }
     }
 
