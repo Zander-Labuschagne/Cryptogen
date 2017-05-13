@@ -113,6 +113,8 @@ public class Cryptography
                     r = 127 - r + 32;
 
                 cypher[i] = (char)r;
+
+                c++;
             }
 
             return cypher;
@@ -146,6 +148,8 @@ public class Cryptography
                     r = 127 - (32 - r);
 
                 message[i] = (char)r;
+
+                c++;
             }
 
             return message;
@@ -339,7 +343,22 @@ public class Cryptography
          */
         public static char[] encrypt(char[] plainText, char[] key)
         {
-            return null;
+            int a = plainText.length;
+            int b = key.length;
+            int c = 0;
+            char[] cypher = new char[a];
+
+            for(int i=0; i<a; i++)
+            {
+                if(c == b)
+                    c = 0;
+
+                cypher[i] = (char) (plainText[i] ^ key[c]);
+
+                c++;
+            }
+
+            return cypher;
         }
 
         /**
@@ -350,7 +369,22 @@ public class Cryptography
          */
         public static char[] decrypt(char[] cipherText, char[] key)
         {
-            return null;
+            int a = cipherText.length;
+            int b = key.length;
+            int c = 0;
+            char[]  message = new char[a];
+
+            for(int i=0; i<a; i++)
+            {
+                if(c == b)
+                    c = 0;
+
+                message[i] = (char)((int)cipherText[i] ^ key[c]);
+
+                c++;
+            }
+
+            return message;
         }
 
         /***********------------File Cryptography------------***********/
