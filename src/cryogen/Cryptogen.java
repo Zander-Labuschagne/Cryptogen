@@ -267,20 +267,20 @@ public class Cryptogen implements Initializable
      * @throws IOException
      */
     @FXML
-    protected void btnEncryptFiles_Clicked(ActionEvent event)//TODO: Add dialog with progress bar
+    protected void btnEncryptFiles_Clicked(ActionEvent event)
     {
         try
         {
             if(files == null)
                 throw new NoFilesAttachedException("Please drag some files onto the highlighted area\n or copy some files followed by Edit -> Paste Files.");
             if(files.size() > 1)
-                message = "Files are encrypted using the ";
+                message = "Files are being encrypted using the ";
             else if(files.size() == 1)
-                message = "File is encrypted using the ";
+                message = "File is being encrypted using the ";
             if(files.size() > 1)
-                header = "Files Encrypted";
+                header = "Files Encrypting";
             else if(files.size() == 1)
-                header = "File Encrypted";
+                header = "File Encrypting";
             String message2 = " \nRemember your key!";
 
             if(txtKey.getText().equals(""))
@@ -396,20 +396,20 @@ public class Cryptogen implements Initializable
      * @throws IOException
      */
     @FXML
-    protected void btnDecryptFiles_Clicked(ActionEvent event) throws IOException//TODO: Add dialog with progress bar
+    protected void btnDecryptFiles_Clicked(ActionEvent event) throws IOException
     {
         try
         {
             if(files == null)
                 throw new NoFilesAttachedException("Please drag some files onto the highlighted area\n or copy some files followed by Edit -> Paste Files.");
             if(files.size() > 1)
-                message = "Files are decrypted using the ";
+                message = "Files are being decrypted using the ";
             else if (files.size() == 1)
-                message = "File is decrypted using the ";
+                message = "File is being decrypted using the ";
             if (files.size() > 1)
-                header = "Files Decrypted";
+                header = "Files Decrypting";
             else if (files.size() == 1)
-                header = "File Decrypted";
+                header = "File Decrypting";
 
             if(txtKey.getText().equals(""))
                 throw new EmptyKeyException("Please Enter a Key");
