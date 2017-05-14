@@ -1,15 +1,8 @@
 package cryogen;
 
 import javafx.concurrent.Task;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -208,7 +201,9 @@ public class Cryptography
                         progress.getDialogStage().close();
                         FileOutputStream fos = new FileOutputStream(plainFile.getAbsoluteFile() + ".cg");
                         fos.write(task.getValue());
-                        fos.close();
+                    fos.write(cipherData);
+
+                fos.close();
                         plainFile.delete();
                     }
                     catch (FileNotFoundException ex)
