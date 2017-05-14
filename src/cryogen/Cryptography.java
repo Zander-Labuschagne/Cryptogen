@@ -121,7 +121,7 @@ public class Cryptography
                 final byte[] plainData = Files.readAllBytes(path);
                 byte[] cipherData = new byte[plainData.length];
 
-                Progress progress = new Progress();
+                Progress progress = new Progress("Encryption");
 
                 // In real life this task would do something useful and return
                 // some meaningful result:
@@ -205,7 +205,7 @@ public class Cryptography
                 final byte[] cipherData = Files.readAllBytes(path);
                 byte[] plainData = new byte[cipherData.length];
 
-                Progress progress = new Progress();
+                Progress progress = new Progress("Decryption");
                 // In real life this task would do something useful and return
                 // some meaningful result:
                 Task<byte[]> task = new Task<byte[]>()
@@ -323,7 +323,7 @@ public class Cryptography
                 final byte[] plainData = Files.readAllBytes(path);
                 byte[] cipherData = new byte[plainData.length];
 
-                Progress progress = new Progress();
+                Progress progress = new Progress("Encryption");
                 // In real life this task would do something useful and return
                 // some meaningful result:
                 Task<byte[]> task = new Task<byte[]>()
@@ -404,7 +404,7 @@ public class Cryptography
                 final byte[] cipherData = Files.readAllBytes(path);
                 byte[] plainData = new byte[cipherData.length];
 
-                Progress progress = new Progress();
+                Progress progress = new Progress("Decryption");
                 // In real life this task would do something useful and return
                 // some meaningful result:
                 Task<byte[]> task = new Task<byte[]>()
