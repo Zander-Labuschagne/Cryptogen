@@ -26,16 +26,21 @@ public class Progress
     private final Stage dialogStage;
     private final ProgressBar pb = new ProgressBar();
 
+    public Progress()
+    {
+        this("");
+    }
+
     /**
      *
      */
-    public Progress()
+    public Progress(String crypt)
     {
         dialogStage = new Stage();
         dialogStage.initStyle(StageStyle.UTILITY);
         dialogStage.setResizable(false);
         dialogStage.initModality(Modality.APPLICATION_MODAL);
-        dialogStage.setTitle("File Encryption Progress");
+        dialogStage.setTitle("File " + crypt + " Progress");
 
         pb.setProgress(-1F);
 

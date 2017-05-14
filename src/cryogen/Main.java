@@ -18,7 +18,6 @@ import javafx.stage.StageStyle;
  */
 public class Main extends Application
 {
-
     @Override
     public void start(Stage cgWindow) throws Exception
     {
