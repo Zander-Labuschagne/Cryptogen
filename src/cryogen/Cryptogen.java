@@ -113,7 +113,7 @@ public class Cryptogen implements Initializable
     {
         try
         {
-            char[] cypherMessage = null;
+            char[] cipherMessage = null;
 
             char[] newMessage = txtMessage.getText().toCharArray();
             if (new String(newMessage).equals(""))
@@ -151,17 +151,17 @@ public class Cryptogen implements Initializable
 
             if (radVigenere.isSelected())
             {
-                cypherMessage = Cryptography.VigenereCipher.encrypt(newMessage, key);
+                cipherMessage = Cryptography.VigenereCipher.encrypt(newMessage, key);
                 method = "Vigenère cipher.";
             }
             else if(radVernam.isSelected())
             {
-                cypherMessage = Cryptography.VernamCipher.encrypt(newMessage, key);
+                cipherMessage = Cryptography.VernamCipher.encrypt(newMessage, key);
                 method = "Vernam cipher.";
             }
             else if(radElephant.isSelected())
             {
-                cypherMessage = Cryptography.ElephantCipher.encrypt(newMessage, key);
+                cipherMessage = Cryptography.ElephantCipher.encrypt(newMessage, key);
                 method = "Elephant cipher.";
             }
         }
