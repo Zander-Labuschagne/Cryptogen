@@ -97,8 +97,8 @@
 {
     -fx-background-color: rgb(38, 40, 49);
     -fx-text-fill: rgb(183, 186, 195);
-    -fx-border-color: rgb(15, 15, 15);
-    -fx-border-width: 0.75;
+    -fx-border-color: rgb(183, 186, 195);
+    -fx-border-width: 0.3;
     -fx-background-image: url("/icons/lock.png");
     -fx-background-size: 12px 12px;
     -fx-background-repeat: no-repeat;
@@ -119,8 +119,9 @@
 {
     -fx-background-color: rgb(38, 40, 49);
     -fx-text-fill: rgb(183, 186, 195);
-    -fx-border-color: rgb(15, 15, 15);
-    -fx-border-width: 0.75;
+    -fx-border-color: rgb(183, 186, 195);
+    -fx-border-width: 0.3;
+
     -fx-background-image: url("/icons/lock.png");
     -fx-background-size: 12px 12px;
     -fx-background-repeat: no-repeat;
@@ -140,8 +141,8 @@
 {
     -fx-background-color: rgb(38, 40, 49);
     -fx-text-fill: rgb(183, 186, 195);
-    -fx-border-color: rgb(15, 15, 15);
-    -fx-border-width: 0.75;
+    -fx-border-color: rgb(183, 186, 195);
+    -fx-border-width: 0.3;
     -fx-background-image: url("/icons/unlock.png");
     -fx-background-size: 13px 16px;
     -fx-background-repeat: no-repeat;
@@ -161,8 +162,8 @@
 {
     -fx-background-color: rgb(38, 40, 49);
     -fx-text-fill: rgb(183, 186, 195);
-    -fx-border-color: rgb(15, 15, 15);
-    -fx-border-width: 0.75;
+    -fx-border-color: rgb(183, 186, 195);
+    -fx-border-width: 0.3;
     -fx-background-image: url("/icons/unlock.png");
     -fx-background-size: 13px 16px;
     -fx-background-repeat: no-repeat;
@@ -306,8 +307,7 @@
 }
 .menu-item:hover
 {
-    -fx-effect: dropshadow(gaussian, rgba(0, 93, 255, 0.4), 5, 0.65, 0, 0);
-    -fx-background-color: rgba(0,93,255,0.1);
+    -fx-background-color:rgb(49, 52, 63);
     -fx-text-fill: rgb(183, 186, 195);
 }
 
@@ -454,9 +454,8 @@
     -fx-text-fill: rgb(183, 186, 195);
     -fx-background-insets: 0, 0 1 1 1;
     -fx-padding: 0.167em;
-    /*-fx-background-image: url("/icons/down8.png");
-    -fx-background-size: 180 160;*/
-    -fx-background-image: url("/icons/add128.png");
+    -fx-background-image: url("/icons/down8.png");
+    -fx-background-size: 180 160;
     -fx-background-repeat: stretch;
     -fx-background-position: center center;
     -fx-border-color: rgb(15, 15, 15);
@@ -500,266 +499,16 @@
 }
 .pneFilePaneError > *.content
 {
+    -fx-background-color: rgba(255, 0, 0, 0.1);
     -fx-effect: dropshadow(gaussian, rgba(255, 0, 0, 0.1), 5, 0.65, 0, 0);
     -fx-text-fill: rgb(183, 186, 195);
     -fx-background-insets: 0, 0 1 1 1;
     -fx-padding: 0.167em;
-    /*-fx-background-image: url("/icons/down8.png");*/
-    -fx-background-image: url("/icons/plus64_-60.png");
+    -fx-background-size: 180 160;
+    -fx-background-image: url("/icons/down8.png");
+    -fx-background-size: 180 160;
     -fx-background-repeat: stretch;
     -fx-background-position: center center;
     -fx-border-color: rgba(255, 0, 0, 0.6);
-    -fx-background-color: rgba(255, 0, 0, 0.1);
-}
 
-/*******************************************************************************
- *                                                                             *
- * Dialog                                                                      *
- *                                                                             *
- ******************************************************************************/
-.dlgDefault
-{
-    -fx-background-color: rgb(38, 40, 49);
-    -fx-padding: 0;
-    -fx-text-fill: rgb(183, 186, 195);
-}
-.dlgDefault > .expandable-content
-{
-    -fx-padding: 0.666em; /* 8px */
-}
-.dlgDefault > .button-bar > .container
-{
-    -fx-padding: 0.833em; /* 10px */
-}
-.dlgDefault > .button
-{
-    -fx-background-color: rgb(38, 40, 49);
-    -fx-text-fill: rgb(183, 186, 195);
-    -fx-border-color: rgb(183, 186, 195);
-    -fx-border-width: 0.3;
-}
-.dlgDefault > .content.label
-{
-    -fx-alignment: top-left;
-    -fx-padding: 1.333em 0.833em 0 0.833em; /* 16px 10px 0px 10px */
-    -fx-text-fill: rgb(183, 186, 195);
-}
-.dlgDefault > .content
-{
-    -fx-padding: 0.833em; /* 10 */
-    -fx-text-fill: rgb(183, 186, 195);
-}
-.dlgDefault:no-header .graphic-container
-{
-    -fx-padding: 0.833em 0 0 0.833em; /* 10px 0px 0px 10px */
-}
-.dlgDefault:header .header-panel
-{
-    /*-fx-padding: 0.833em 1.166em 0.833em 1.166em; *//* 10px 14px 10px 14px */
-    -fx-padding: 0.833em; /* 10px */
-    -fx-background-color: -fx-box-border, rgb(38, 40, 49);
-    -fx-background-insets: 0, 0 0 1 0;
-    -fx-text-fill: rgb(183, 186, 195);
-}
-.dlgDefault:header .header-panel .label
-{
-    -fx-font-size: 1.167em; /* 14px */
-    -fx-wrap-text: true;
-    -fx-text-fill: rgb(183, 186, 195);
-}
-.dlgDefault:header .header-panel .graphic-container
-{
-    /* This prevents the text in the header running directly into the graphic */
-    -fx-padding: 0 0 0 0.833em; /* 0px 0px 0px 10px */
-}
-.dlgDefault > .button-bar > .container > .details-button
-{
-    -fx-alignment: baseline-left;
-    -fx-focus-traversable: false;
-    -fx-padding: 0.416em; /* 5px */
-    -fx-background-color: rgb(38, 40, 49);
-    -fx-text-fill: rgb(183, 186, 195);
-    -fx-border-color: rgb(183, 186, 195);
-    -fx-border-width: 0.3;
-}
-
-.alert.confirmation.dlgDefault,
-.text-input-dialog.dlgDefault,
-.choice-dialog.dlgDefault
-{
-    -fx-graphic: url("/icons/confirmation32.png");
-}
-
-.alert.information.dlgDefault
-{
-    /*-fx-graphic: url("dialog-information.png");*/
-}
-.alert.error.dlgDefault
-{
-    -fx-graphic: url("/icons/error32.png");
-}
-.alert.warning.dlgDefault
-{
-    -fx-graphic: url("/icons/warning32.png");
-}
-
-/* ====   BUTTON LIKE THINGS   ============================================== */
-
-.button,
-.toggle-button/*,
-.radio-button > .radio,*/
-/*.check-box > .box,*/
-/*.menu-button,
-.choice-box,
-.color-picker.split-button > .color-picker-label,
-.combo-box-base,
-.combo-box-base:editable > .arrow-button*/
-{
-    -fx-background-color: rgb(38, 40, 49);
-    -fx-text-fill: rgb(183, 186, 195);
-    -fx-border-color: rgb(15, 15, 15);
-    -fx-border-width: 0.75;
-    /*-fx-background-insets: 0 0 -1 0, 0, 1, 2;
-    -fx-background-radius: 3px, 3px, 2px, 1px;
-    -fx-padding: 0.333333em 0.666667em 0.333333em 0.666667em; /* 4 8 4 8 */
-    /*-fx-alignment: CENTER;
-    -fx-content-display: LEFT;*/
-}
-.menu-button > .label
-{
-    -fx-alignment: CENTER_LEFT;
-}
-.button:hover,
-.toggle-button:hover,
-.radio-button:hover > .radio,
-.check-box:hover > .box,
-.menu-button:hover,
-.split-menu-button > .label:hover,
-.split-menu-button > .arrow-button:hover,
-.slider .thumb:hover,
-.scroll-bar > .thumb:hover,
-.scroll-bar > .increment-button:hover,
-.scroll-bar > .decrement-button:hover,
-.choice-box:hover,
-.color-picker.split-button > .arrow-button:hover,
-.color-picker.split-button > .color-picker-label:hover,
-.combo-box-base:hover,
-.combo-box-base:editable > .arrow-button:hover,
-.spinner .increment-arrow-button:hover,
-.spinner .decrement-arrow-button:hover,
-.tab-pane > .tab-header-area > .control-buttons-tab > .container > .tab-down-button:hover
-{
-    -fx-effect: dropshadow(gaussian, rgba(0, 93, 255, 0.4), 5, 0.65, 0, 0);
-    -fx-background-color: rgba(0,93,255,0.1);
-}
-.button:armed/*,
-.toggle-button:armed,
-.radio-button:armed > .radio,
-.check-box:armed .box,
-.menu-button:armed,
-.split-menu-button:armed > .label,
-.split-menu-button > .arrow-button:pressed,
-.split-menu-button:showing > .arrow-button,
-.slider .thumb:pressed,
-.scroll-bar > .thumb:pressed,
-.scroll-bar > .increment-button:pressed,
-.scroll-bar > .decrement-button:pressed,
-.choice-box:showing,
-.combo-box-base:showing,
-.combo-box-base:editable:showing > .arrow-button,
-.spinner .increment-arrow-button:pressed,
-.spinner .decrement-arrow-button:pressed,
-.tab-pane > .tab-header-area > .control-buttons-tab > .container > .tab-down-button:pressed*/
-{
-    -fx-color: -fx-pressed-base;
-}
-.button:focused/*,
-.toggle-button:focused,
-.radio-button:focused > .radio,
-.check-box:focused > .box,
-.menu-button:focused,
-.choice-box:focused,
-.color-picker.split-button:focused > .color-picker-label,
-.combo-box-base:focused,
-.slider:focused .thumb*/
-{
-    -fx-effect: dropshadow(gaussian, rgba(0, 93, 255, 0.4), 5, 0.65, 0, 0);
-    -fx-background-insets: -0.2, 1, 2, -1.4, 2.6;
-    -fx-background-radius: 3, 2, 1, 4, 1;
-}
-
-/* ====   DISABLED THINGS   ================================================= */
-
-.label:disabled,
-.button:disabled,
-.toggle-button:disabled,
-.radio-button:disabled,
-.check-box:disabled,
-.hyperlink:disabled,
-.menu-button:disabled,
-.split-menu-button:disabled,
-.slider:disabled,
-.scroll-bar:disabled,
-.scroll-pane:disabled,
-.progress-bar:disabled,
-.progress-indicator:disabled,
-.text-input:disabled,
-.choice-box:disabled,
-.combo-box-base:disabled,
-.date-cell:disabled > *, /* This is set on children so border is not affected. */
-.list-view:disabled,
-.tree-view:disabled,
-.table-view:disabled,
-.tree-table-view:disabled,
-.tab-pane:disabled,
-.titled-pane:disabled > .title,
-.accordion:disabled > .titled-pane > .title,
-.tab-pane > .tab-header-area > .headers-region > .tab:disabled,
-.menu:disabled,
-.menu-item:disabled > .label,
-.menu-item:disabled,
-.list-cell:filled:selected:focused:disabled,
-.list-cell:filled:selected:disabled,
-.tree-cell:filled:selected:focused:disabled,
-.tree-cell:filled:selected:disabled,
-.tree-cell > .tree-disclosure-node:disabled,
-.tree-table-row-cell > .tree-disclosure-node:disabled,
-.table-row-cell:selected:disabled,
-.tree-table-row-cell:selected:disabled,
-.table-cell:selected:disabled,
-.tree-table-cell:selected:disabled,
-.spinner:disabled
-{
-    -fx-opacity: 0.4;
-}
-
-.anchorPaneDefault
-{
-    -fx-background-color: rgb(38, 40, 49);
-    -fx-text-fill: rgb(183, 186, 195);
-    -fx-border-color: rgb(15, 15, 15);
-}
-.progress-barDefault
-{
-    -fx-progress-color: rgba(0, 93, 255, 0.4);
-    -fx-effect: dropshadow(gaussian, rgba(0, 93, 255, 0.4), 5, 0.65, 0, 0);
-    -fx-background-color: rgba(0,93,255,0.1);
-    -fx-text-fill: rgb(183, 186, 195);
-}
-.progress-barDefault > .track
-{
-    -fx-text-box-border: rgb(15, 15, 15);
-    -fx-control-inner-background: rgba(0,93,255,0.1);
-}
-.progress-barDefault > .bar
-{
-    -fx-background-color: rgba(0, 93, 255, 0.4);
-    -fx-progress-color: rgba(0, 93, 255, 0.4);
-    -fx-effect: dropshadow(gaussian, rgba(0, 93, 255, 0.4), 5, 0.65, 0, 0);
-}
-
-.lblDefault
-{
-    -fx-text-fill: rgb(183, 186, 195);
-    -fx-background-color: rgba(0,93,255,0.1);
 }
