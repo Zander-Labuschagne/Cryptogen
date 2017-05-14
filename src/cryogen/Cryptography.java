@@ -201,9 +201,9 @@ public class Cryptography
                         progress.getDialogStage().close();
                         FileOutputStream fos = new FileOutputStream(plainFile.getAbsoluteFile() + ".cg");
                         fos.write(task.getValue());
-                    fos.write(cipherData);
+                        fos.write(cipherData);
 
-                fos.close();
+                        fos.close();
                         plainFile.delete();
                     }
                     catch (FileNotFoundException ex)

@@ -320,13 +320,6 @@ public class Cryptogen implements Initializable
         {
             handleException(ex);
         }
-        finally
-        {
-            files = null;
-            pneFilePane.getStyleClass().remove("pneFilePaneDrag");
-            pneFilePane.getStyleClass().remove("pneFilePaneDropped");
-            pneFilePane.getStyleClass().add("pneFilePane");
-        }
     }
 
     /**
@@ -456,13 +449,6 @@ public class Cryptogen implements Initializable
         catch (Exception ex)
         {
             handleException(ex);
-        }
-        finally
-        {
-            files = null;
-            pneFilePane.getStyleClass().remove("pneFilePaneDrag");
-            pneFilePane.getStyleClass().remove("pneFilePaneDropped");
-            pneFilePane.getStyleClass().add("pneFilePane");
         }
     }
 
