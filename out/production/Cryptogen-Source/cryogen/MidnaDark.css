@@ -76,7 +76,7 @@
 .txtDefault .scroll-bar:vertical:hover .track,
 .txtDefault .scroll-bar:vertical:pressed .track
 {
-   /* -fx-background-color: derive(#434343,20%);*/
+    /* -fx-background-color: derive(#434343,20%);*/
     -fx-opacity: 0.2;
     -fx-background-radius: 0em;
 }
@@ -608,12 +608,12 @@
 .button,
 .toggle-button/*,
 .radio-button > .radio,*/
-/*.check-box > .box,*/
-/*.menu-button,
-.choice-box,
-.color-picker.split-button > .color-picker-label,
-.combo-box-base,
-.combo-box-base:editable > .arrow-button*/
+    /*.check-box > .box,*/
+    /*.menu-button,
+    .choice-box,
+    .color-picker.split-button > .color-picker-label,
+    .combo-box-base,
+    .combo-box-base:editable > .arrow-button*/
 {
     -fx-background-color: rgb(38, 40, 49);
     -fx-text-fill: rgb(183, 186, 195);
@@ -756,10 +756,4 @@
     -fx-background-color: rgba(0, 93, 255, 0.4);
     -fx-progress-color: rgba(0, 93, 255, 0.4);
     -fx-effect: dropshadow(gaussian, rgba(0, 93, 255, 0.4), 5, 0.65, 0, 0);
-}
-
-.lblDefault
-{
-    -fx-text-fill: rgb(183, 186, 195);
-    -fx-background-color: rgba(0,93,255,0.1);
 }

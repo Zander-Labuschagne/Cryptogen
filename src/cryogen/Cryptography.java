@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -62,7 +63,8 @@ public class Cryptography
      */
     public static void handleException(Exception ex, String title, String header, String content)
     {
-        ex.printStackTrace();
+        if(ex != null)
+            ex.printStackTrace();
         Alert error = new Alert(Alert.AlertType.ERROR, content);
         error.initModality(Modality.APPLICATION_MODAL);
         error.initOwner(null);
@@ -234,6 +236,7 @@ public class Cryptography
                 ex.printStackTrace();
                 Cryptography.handleException(ex);
             }
+
             catch (Exception ex)
             {
                 ex.printStackTrace();

@@ -22,6 +22,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.*;
 import java.util.List;
@@ -316,6 +317,11 @@ public class Cryptogen implements Initializable
             pneKey.getStyleClass().add("pneDefaultError");
             handleException(ex, "Error", "Empty Key Value", ex.getMessage());
         }
+        catch(OutOfMemoryError e)
+        {
+            e.printStackTrace();
+            Cryptography.handleException(null, "Out of Memory", "Out of Memory", "File too large, or restart the system.");
+        }
         catch (Exception ex)
         {
             handleException(ex);
@@ -445,6 +451,11 @@ public class Cryptogen implements Initializable
             txtKey.getStyleClass().remove("txtDefault");
             txtKey.getStyleClass().add("txtDefaultError");
             handleException(ex, "Error", "Empty Key Value", ex.getMessage());
+        }
+        catch(OutOfMemoryError e)
+        {
+            e.printStackTrace();
+            Cryptography.handleException(null, "Out of Memory", "Out of Memory", "File too large, or restart the system.");
         }
         catch (Exception ex)
         {
@@ -723,7 +734,8 @@ public class Cryptogen implements Initializable
 
     protected void handleException(Exception ex, String title, String header, String content)
     {
-        ex.printStackTrace();
+        if(ex != null)
+            ex.printStackTrace();
         Alert error = new Alert(Alert.AlertType.ERROR, content);
         error.initModality(Modality.APPLICATION_MODAL);
         error.initOwner(getCurrentStage());
