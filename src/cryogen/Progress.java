@@ -1,5 +1,6 @@
 package cryogen;
 
+import javafx.beans.property.StringProperty;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -8,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -33,10 +35,11 @@ public class Progress
         dialogStage.initStyle(StageStyle.UTILITY);
         dialogStage.setResizable(false);
         dialogStage.initModality(Modality.APPLICATION_MODAL);
+        dialogStage.setTitle("File Encryption Progress");
 
         pb.setProgress(-1F);
 
-        final HBox hb = new HBox();
+        final VBox hb = new VBox();
         hb.setPrefWidth(332);
         hb.setPrefHeight(90);
         hb.setSpacing(5);
