@@ -114,7 +114,17 @@ public class Cryptography
          */
         public static char[] decrypt(char[] cipherText, char[] key)
         {
-            int a = cipherText.length;
+
+            char[] message = new char[cipherText.length];
+
+            for(int i = 0; i < cipherText.length; i++)
+                if((cipherText[i]) + key[i % key.length] > 126)
+                    message[i] = (char) (31 + (cipherText[i] - 126));
+                else
+                    message[i] = (char)((cipherText[i]) - key[i % key.length]);
+
+            return message;
+            /*int a = cipherText.length;
             int b = key.length;
             int c = 0;
             int[] asck = new int[b];
@@ -135,10 +145,10 @@ public class Cryptography
 
                 message[i] = (char)r;
 
-                c++;
-            }
+                c++;*/
+            //}
 
-            return message;
+            //return message;
         }
 
         /***********------------File Cryptography------------***********/
