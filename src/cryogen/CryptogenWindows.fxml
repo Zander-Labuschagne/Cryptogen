@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?imaort javafx.scene.control.VBox?>
 
-<VBox id="vbox" minHeight="900" minWidth="900" styleClass="vbox" stylesheets="@MidnaDark.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cryogen.Cryptogen">
+<VBox id="vbox" prefHeight="580" prefWidth="730" styleClass="vbox" stylesheets="@MidnaDark.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cryogen.Cryptogen">
         <AnchorPane id="anchorPane" maxHeight="Infinity" maxWidth="Infinity" prefHeight="900.0" prefWidth="900.0" VBox.vgrow="ALWAYS">
             <MenuBar id="mnu" layoutY="2.0" maxHeight="900" maxWidth="900" prefHeight="24.0" prefWidth="900.0">
                 <Menu mnemonicParsing="false" text="File">
@@ -33,7 +33,7 @@
                     <MenuItem mnemonicParsing="false" text="User Manual" />
                 </Menu>
             </MenuBar>
-            <TitledPane id="pneAlgorithmsPane" fx:id="pneAlgorithmsPane" collapsible="false" layoutX="8.0" layoutY="43.0" prefHeight="161.0" prefWidth="395.0" styleClass="pneDefault" stylesheets="@MidnaDark.css" text="Algorithms">
+            <TitledPane id="pneAlgorithmsPane" fx:id="pneAlgorithmsPane" collapsible="false" layoutX="6.0" layoutY="43.0" prefHeight="161.0" prefWidth="395.0" styleClass="pneDefault" stylesheets="@MidnaDark.css" text="Algorithms">
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="149.0" prefWidth="393.0">
                         <RadioButton id="radVigenere" fx:id="radVigenere" layoutX="37.0" layoutY="16.0" mnemonicParsing="false" styleClass="radDefault" stylesheets="@MidnaDark.css" text="Vigenère Cipher" />
                         <RadioButton id="radVernam" fx:id="radVernam" layoutX="37.0" layoutY="44.0" mnemonicParsing="false" styleClass="radDefault" stylesheets="@MidnaDark.css" text="Vernam Cipher / One-Time Pad" />
