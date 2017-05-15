@@ -347,7 +347,7 @@ public class Cryptogen implements Initializable
             if (new String(newMessage).equals(""))
             {
                 txtMessage.requestFocus();
-                throw new Exception("Please Enter a Password");
+                throw new Exception("Please Enter a Message to Encrypt or Decrypt");
             }
             char[] key = txtKey.getText().toCharArray();
             if (new String(key).equals(""))
