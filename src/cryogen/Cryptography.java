@@ -602,11 +602,11 @@ public class Cryptography
          */
         public static char[] decrypt(char[] cipherText, char[] key)
         {
-            char[] plainText = new char[key.length * (cipherText.length / key.length + 1)];
-            char[][] cipherTextCol = new char[key.length][cipherText.length / key.length + 1];
+            char[] plainText = new char[key.length * (cipherText.length / key.length + 2)];
+            char[][] cipherTextCol = new char[key.length + 1][cipherText.length / key.length + 2];
             int xviii = 0;
             int xix = 0;
-            char[][] plainTextCol = new char[cipherText.length / key.length + 1][key.length];
+            char[][] plainTextCol = new char[cipherText.length / key.length + 1][key.length +1];
 
             //Put cipher text in column format
             int xx = 0;
@@ -642,10 +642,11 @@ public class Cryptography
 
 
             int[] blacklist = new int[key.length];
+
             for(int xxii = 0; xxii < key.length; xxii++)
             {
-                int min = 0;
                 char cmin = key[0];
+                int min = 0;
 
                 //Finds smallest character in key other than the ones already used
                 for (int xi = 0; xi < key.length; xi++)
@@ -656,21 +657,35 @@ public class Cryptography
                     }
                 blacklist[xix++] = min;
 
-//TEST
-                System.out.println(cipherTextCol.length);
-                System.out.println(cipherTextCol[0].length);
-                System.out.println(plainTextCol.length);
-                System.out.println(plainTextCol[0].length);
-
 
                 for(int xxiv = 0; xxiv < plainTextCol.length; xxiv++)
                     plainTextCol[xxiv][min] = cipherTextCol[xxiv][xxii];
 
+
             }
-            //Add to plain text from column of plain text
+
             for (int xiii = 0; xiii < plainTextCol.length; xiii++)
+            {
+                for (int xxx = 0; xxx < plainTextCol[xiii].length; xxx++)
+                    System.out.print(plainTextCol[xiii][xxx] + " ");
+                System.out.print("\n");
+            }
+
+
+            //Add to plain text from column of plain text
+            /*for (int xiii = 0; xiii < plainTextCol.length; xiii++)
                 for(int xxx = 0; xxx < plainTextCol[xiii].length; xxx++)
-                    plainText[xviii++] = plainTextCol[xiii][xxx] == '|' ? ' ' : plainTextCol[xiii][xxx];
+                    plainText[xviii++] = plainTextCol[xiii][xxx] == '|' ? ' ' : plainTextCol[xiii][xxx];*/
+
+            int xxx = 0;
+            for(int xiii = 1; xiii <= cipherText.length; xiii++)
+            {
+                plainText[xiii-1] = plainTextCol[xxx][(xiii-1) % key.length] == '|' ? ' ' : plainTextCol[xxx][(xiii-1) % key.length];
+                if(xiii % key.length == 0)
+                {
+                    xxx++;
+                }
+            }
 
             return plainText;
         }
