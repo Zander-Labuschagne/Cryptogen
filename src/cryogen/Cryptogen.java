@@ -166,7 +166,8 @@ public class Cryptogen implements Initializable
                 method = "Elephant cipher.";
             }
 
-            //txtMessage.
+            String finalMessage = Arrays.toString(cipherMessage);
+            txtMessage.setText(finalMessage);
         }
         catch (Exception ex)
         {
@@ -391,6 +392,9 @@ public class Cryptogen implements Initializable
                 plainMesage = Cryptography.ElephantCipher.decrypt(newMessage, key);
                 method = "Elephant cipher.";
             }
+
+            String pMessage = Arrays.toString(plainMesage);
+            txtMessage.setText(pMessage);
         }
         catch (Exception ex)
         {
