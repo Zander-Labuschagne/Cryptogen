@@ -600,9 +600,79 @@ public class Cryptography
          * @param cipherText
          * @return
          */
-        public static char[] decrypt(char[] cipherText)
+        public static char[] decrypt(char[] cipherText, char[] key)
         {
-            return null;
+            char[] plainText = new char[key.length * (cipherText.length / key.length + 1)];
+            char[][] cipherTextCol = new char[key.length][cipherText.length / key.length + 1];
+            int xviii = 0;
+            int xix = 0;
+            char[][] plainTextCol = new char[cipherText.length / key.length + 1][key.length];
+
+            //Put cipher text in column format
+            int xx = 0;
+            int xxvi = 0;
+            int xxvii = 1;
+            int xxviii = 0;
+            int xxix = 0;
+            for(int xxi = 0; xxvi < cipherTextCol.length && xxi < cipherText.length && xxix < cipherText.length; xxi++)
+            {
+                if(xxi == 0)
+                {
+                    cipherTextCol[xxvi][xx++] = cipherText[xxvi];
+                    xxix++;
+                }
+                if((xxi + xxvii - xxviii) % key.length == 0)
+                {
+                    if(xxi + xxvii - xxviii != 0)
+                    {
+                        cipherTextCol[xxvi][xx++] = cipherText[xxi];
+                        xxix++;
+                        xxvii++;
+                    }
+                }
+                if(xx == key.length)
+                {
+                    xx = 0;
+                    xxvi++;
+                    xxi = -1;
+                    xxvii = 1;
+                    xxviii++;
+                }
+            }
+
+
+            int[] blacklist = new int[key.length];
+            for(int xxii = 0; xxii < key.length; xxii++)
+            {
+                int min = 0;
+                char cmin = key[0];
+
+                //Finds smallest character in key other than the ones already used
+                for (int xi = 0; xi < key.length; xi++)
+                    if (cmin > key[xi] && !contains(blacklist, xi))
+                    {
+                        min = xi;
+                        cmin = key[xi];
+                    }
+                blacklist[xix++] = min;
+
+//TEST
+                System.out.println(cipherTextCol.length);
+                System.out.println(cipherTextCol[0].length);
+                System.out.println(plainTextCol.length);
+                System.out.println(plainTextCol[0].length);
+
+
+                for(int xxiv = 0; xxiv < plainTextCol.length; xxiv++)
+                    plainTextCol[xxiv][min] = cipherTextCol[xxiv][xxii];
+
+            }
+            //Add to plain text from column of plain text
+            for (int xiii = 0; xiii < plainTextCol.length; xiii++)
+                for(int xxx = 0; xxx < plainTextCol[xiii].length; xxx++)
+                    plainText[xviii++] = plainTextCol[xiii][xxx] == '|' ? ' ' : plainTextCol[xiii][xxx];
+
+            return plainText;
         }
 
         /***********------------File Cryptography------------***********/
