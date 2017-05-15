@@ -11,6 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 /**
  * @author Zander Labuschagne
@@ -98,7 +99,7 @@ public class Cryptography
             char[] cipherText = new char[plainText.length];
 
             for(int i = 0; i < plainText.length; i++)
-                if((plainText[i]) + key[i % key.length] < 32)
+                if((plainText[i]) + key[i % key.length] > 126)
                     cipherText[i] = (char) (127 - (32 - cipherText[i]));
                 else
                     cipherText[i] = (char)((plainText[i]) + key[i % key.length]);
@@ -114,31 +115,15 @@ public class Cryptography
          */
         public static char[] decrypt(char[] cipherText, char[] key)
         {
-            int a = cipherText.length;
-            int b = key.length;
-            int c = 0;
-            int[] asck = new int[b];
-            char[]  message = new char[a];
+            char[] plainText = new char[cipherText.length];
 
-            for(int j=0; j<b; j++)
-                asck[j] = (int) key[j];
+            for(int viii = 0; viii < cipherText.length; viii++)
+                if((cipherText[viii]) - key[viii % key.length] < 32)
+                    plainText[viii] = (char) (127 - (32 - plainText[viii]));
+                else
+                    plainText[viii] = (char)((cipherText[viii]) - key[viii % key.length]);
 
-            for(int i=0; i<a; i++)
-            {
-                if(c == b)
-                    c = 0;
-
-                int r = ((int)cipherText[i]) - asck[c];
-
-                if(r < 32)
-                    r = 127 - (32 - r);
-
-                message[i] = (char)r;
-
-                c++;
-            }
-
-            return message;
+            return plainText;
         }
 
         /***********------------File Cryptography------------***********/
@@ -556,6 +541,13 @@ public class Cryptography
      */
     public static class ColumnarTranspositionCipher
     {
+        private static boolean contains(int[] arr, int xvii)
+        {
+            for(int xvi = 0; xvi < arr.length; xvi++)
+                if(arr[xvi] == xvii)
+                    return true;
+            return false;
+        }
 
         /***********------------Text Cryptography------------***********/
 
@@ -564,9 +556,43 @@ public class Cryptography
          * @param plainText
          * @return
          */
-        public static char[] encrypt(char[] plainText)
+        public static char[] encrypt(char[] plainText, char[] key)
         {
-            return null;
+            char[] cipherText = new char[key.length * (plainText.length / key.length + 1)];
+            char[][] plainTextCol = new char[plainText.length / key.length + 1][key.length];
+            int xiv = 0;
+            int xii = 0;
+
+            //Put text in column format
+            int x = 0;
+            for(int ix = 0; ix < key.length * (plainText.length / key.length + 1); ix++)
+            {
+                plainTextCol[x][ix % key.length] = ix >= plainText.length ? '|' : plainText[ix];
+                if((ix + 1) % key.length == 0)
+                    x++;
+            }
+
+            int[] blacklist = new int[key.length];
+            for(int xv = 0; xv < key.length; xv++)
+            {
+                int min = 0;
+                char cmin = key[0];
+
+                //Finds smallest character in key other than the ones already used
+                for (int xi = 0; xi < key.length; xi++)
+                    if (cmin > key[xi] && !contains(blacklist, xi))
+                    {
+                        min = xi;
+                        cmin = key[xi];
+                    }
+                blacklist[xii++] = min;
+
+                //Add to cipher text from column of plain text
+                for (int xiii = 0; xiii < plainTextCol.length; xiii++)
+                    cipherText[xiv++] = plainTextCol[xiii][min];
+            }
+
+            return cipherText;
         }
 
         /**

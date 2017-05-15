@@ -160,6 +160,12 @@ public class Cryptogen implements Initializable
                 cipherMessage = Cryptography.VernamCipher.encrypt(newMessage, key);
                 method = "Vernam cipher.";
             }
+            else if(radColumnarTrans.isSelected())
+            {
+                cipherMessage = Cryptography.ColumnarTranspositionCipher.encrypt(newMessage, key);
+                method = "columnar transposition cipher.";
+                txtMessage.setText(String.valueOf(cipherMessage));
+            }
             else if(radElephant.isSelected())
             {
                 cipherMessage = Cryptography.ElephantCipher.encrypt(newMessage, key);
