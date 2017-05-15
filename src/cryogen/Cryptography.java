@@ -95,31 +95,15 @@ public class Cryptography
          */
         public static char[] encrypt(char[] plainText, char[] key)
         {
-            int a = plainText.length;
-            int b = key.length;
-            int c = 0;
-            int[] asck = new int[b];
-            char[] cipher = new char[a];
+            char[] cipherText = new char[plainText.length];
 
-            for(int j=0; j<b; j++)
-                asck[j] = (int) key[j];
+            for(int i = 0; i < plainText.length; i++)
+                if((plainText[i]) + key[i % key.length] < 32)
+                    cipherText[i] = (char) (127 - (32 - cipherText[i]));
+                else
+                    cipherText[i] = (char)((plainText[i]) + key[i % key.length]);
 
-            for(int i=0; i<a; i++)
-            {
-                if(c == b)
-                    c = 0;
-
-                int r = ((int)plainText[i]) + asck[c];
-
-                if(r > 126)
-                    r = 127 - r + 32;
-
-                cipher[i] = (char)r;
-
-                c++;
-            }
-
-            return cipher;
+            return cipherText;
         }
 
         /**
