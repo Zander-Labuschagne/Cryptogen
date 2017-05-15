@@ -165,6 +165,8 @@ public class Cryptogen implements Initializable
                 cipherMessage = Cryptography.ElephantCipher.encrypt(newMessage, key);
                 method = "Elephant cipher.";
             }
+
+            //txtMessage.
         }
         catch (Exception ex)
         {
