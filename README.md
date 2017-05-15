@@ -1,5 +1,5 @@
-# Cryptogen-Source
-Source code for Cryptogen, an application used for the encryption and decryption of messages and files.
+# Cryptogen
+An application used for the encryption and decryption of messages and files.
 Additional cryptosystems will be added in the future.
 
 This project is part of a university assignment and is still in progress and is being maintained with JetBrains IntelliJ IDEA.
