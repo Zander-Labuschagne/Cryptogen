@@ -114,8 +114,7 @@ public class Cryptogen implements Initializable
     {
         try
         {
-            //char[] cipherMessage = null;
-            String cipherMessage ="";
+            char[] cipherMessage = null;
 
             char[] newMessage = txtMessage.getText().toCharArray();
             if (new String(newMessage).equals(""))
@@ -130,45 +129,32 @@ public class Cryptogen implements Initializable
                 throw new Exception("Please Enter a Key");
             }
 
-            /*int limit;
-            if(cbxCompact.isSelected())
-                limit = 12;
-            else
-                limit = 32;
-
-            cipherPassword = encrypt(plainPassword, key, limit);
-            if(cipherPassword == null)
-                throw new Exception("Error Occurred During Encryption");
-
-            Stage passWindow = new Stage(StageStyle.TRANSPARENT);
-            passWindow.getIcons().add(new Image(getClass().getResourceAsStream("/cryogen/icon.png")));
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Output.fxml"));
-            passWindow.setHeight(186);
-            passWindow.setWidth(495);
-            passWindow.setResizable(false);
-            passWindow.setScene(new Scene((Pane)loader.load(), Color.TRANSPARENT));
-            Output pass = loader.<Output>getController();
-            pass.initialize(cipherPassword);
-            passWindow.showAndWait();*/
-
             if (radVigenere.isSelected())
             {
-                //cipherMessage = Cryptography.VigenereCipher.encrypt(newMessage, key);
+                cipherMessage = Cryptography.VigenereCipher.encrypt(newMessage, key);
                 method = "Vigenère cipher.";
             }
             else if(radVernam.isSelected())
             {
-                //cipherMessage = Cryptography.VernamCipher.encrypt(newMessage, key);
+                cipherMessage = Cryptography.VernamCipher.encrypt(newMessage, key);
                 method = "Vernam cipher.";
+            }
+            else if(radColumnarTrans.isSelected())
+            {
+                cipherMessage = Cryptography.ColumnarTranspositionCipher.encrypt(newMessage, key);
+                method = "columnar transposition cipher.";
             }
             else if(radElephant.isSelected())
             {
                 cipherMessage = Cryptography.ElephantCipher.encrypt(newMessage, key);
                 method = "Elephant cipher.";
             }
-
-            //String finalMessage = Arrays.toString(cipherMessage);
-            txtMessage.setText(cipherMessage);
+            txtMessage.setText(String.valueOf(cipherMessage));
+        }
+        catch (VigenereKeyOutOfRangeException ex)
+        {
+            ex.printStackTrace();
+            handleException(ex, "Key Out of Bounds", "Key contains illegal characters", ex.getMessage());
         }
         catch (Exception ex)
         {
@@ -356,28 +342,6 @@ public class Cryptogen implements Initializable
                 txtKey.requestFocus();
                 throw new Exception("Please Enter a Key");
             }
-
-            /*int limit;
-            if(cbxCompact.isSelected())
-                limit = 12;
-            else
-                limit = 32;
-
-            cipherPassword = encrypt(plainPassword, key, limit);
-            if(cipherPassword == null)
-                throw new Exception("Error Occurred During Encryption");
-
-            Stage passWindow = new Stage(StageStyle.TRANSPARENT);
-            passWindow.getIcons().add(new Image(getClass().getResourceAsStream("/cryogen/icon.png")));
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Output.fxml"));
-            passWindow.setHeight(186);
-            passWindow.setWidth(495);
-            passWindow.setResizable(false);
-            passWindow.setScene(new Scene((Pane)loader.load(), Color.TRANSPARENT));
-            Output pass = loader.<Output>getController();
-            pass.initialize(cipherPassword);
-            passWindow.showAndWait();*/
-
             if (radVigenere.isSelected())
             {
                 plainMesage = Cryptography.VigenereCipher.decrypt(newMessage, key);
@@ -388,14 +352,22 @@ public class Cryptogen implements Initializable
                 plainMesage = Cryptography.VernamCipher.decrypt(newMessage, key);
                 method = "Vernam cipher.";
             }
+            else if(radColumnarTrans.isSelected())
+            {
+                plainMesage = Cryptography.ColumnarTranspositionCipher.decrypt(newMessage, key);
+                method = "columnar transposition cipher.";
+            }
             else if(radElephant.isSelected())
             {
                 plainMesage = Cryptography.ElephantCipher.decrypt(newMessage, key);
                 method = "Elephant cipher.";
             }
-
-            String pMessage = Arrays.toString(plainMesage);
-            txtMessage.setText(pMessage);
+            txtMessage.setText(String.valueOf(plainMesage));
+        }
+        catch (VigenereKeyOutOfRangeException ex)
+        {
+            ex.printStackTrace();
+            handleException(ex, "Key Out of Bounds", "Key contains illegal characters", ex.getMessage());
         }
         catch (Exception ex)
         {
