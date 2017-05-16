@@ -381,7 +381,6 @@ public class Cryptography
             int b = key.length;
             int c = 0;
             int d;
-            //int e;
             int[] asck = new int[b];
             char[]  message = new char[a];
 
@@ -796,7 +795,7 @@ public class Cryptography
 
                 step1 = ((int)plainText[i] - 32)^asck[c];
 
-                step2 = ((step1 + b)%95);
+                step2 = ((step1 + b)%95) + 32;
 
                 cipher[step3] = (char)step2;
 
@@ -831,7 +830,7 @@ public class Cryptography
                 if(c == b)
                     c = 0;
 
-                if(step1>a)
+                if(step1==a)
                     step1 = 0;
 
                 step2 = (int)cipherText[step1] - b;
