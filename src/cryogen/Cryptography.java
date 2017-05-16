@@ -11,6 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 /**
  * @author Zander Labuschagne
@@ -624,7 +625,7 @@ public class Cryptography
          * @param key
          * @return
          */
-        public static char[] encrypt(char[] plainText, char[] key)
+        public static String encrypt(char[] plainText, char[] key)
         {
             int a = plainText.length;
             int b = key.length;
@@ -634,30 +635,40 @@ public class Cryptography
             int step2;
             int step3 = b + 1;
             char[] cipher = new char[a];
+            String cipherText;
 
             for(int j=0; j<b; j++)
-                asck[j] = (int)key[j];
+                asck[j] = (int)key[j]-32;
 
             for(int i=0; i<a; i++)
             {
                 if(c == b)
                     c = 0;
 
-                if(step3>a)
+                if(step3==a)
                     step3 = 0;
 
-                step1 = (char)((int)plainText[i] ^ asck[c]);
+                step1 = ((int)plainText[i] - 32)^asck[c];
+
+                step2 = ((step1 + b)%95);
+
+                cipher[step3] = (char)step2;
+
+                /*step1 = (char)((int)plainText[i] ^ asck[c]);
                 step2 = step1 + b;
 
                 if(step2>126)
                     step2 = 127 - step2 + 32;
 
-                cipher[step3] = (char)step2;
+                cipher[step3] = (char)step2;*/
 
                 c++;
                 step3++;
             }
-            return cipher;
+
+            cipherText = Arrays.toString(cipher);
+
+            return cipherText;
         }
 
         /**
