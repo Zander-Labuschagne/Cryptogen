@@ -348,19 +348,21 @@ public class Cryptography
             int a = plainText.length;
             int b = key.length;
             int c = 0;
+            int d;
             int[] asck = new int[b];
             char[] cipher = new char[a];
 
             for(int j=0; j<b; j++)
-                asck[j] = (int)key[j];
+                asck[j] = (int)key[j] - 32;
 
-            for(int i=0; i<a; i++)
+            for(int i = 0; i<a; i++)
             {
-                if(c == b)
+                if(c==b)
                     c = 0;
 
-                cipher[i] = (char) (plainText[i] ^ asck[c]);
+                d = (int)plainText[i] - 32;
 
+                cipher[i] = (char)(((d + asck[c])%95) + 32);
                 c++;
             }
 
