@@ -380,18 +380,25 @@ public class Cryptography
             int a = cipherText.length;
             int b = key.length;
             int c = 0;
+            int d;
+            //int e;
             int[] asck = new int[b];
             char[]  message = new char[a];
 
             for(int j=0; j<b; j++)
-                asck[j] = (int)key[j];
+                asck[j] = (int)key[j] - 32;
 
             for(int i=0; i<a; i++)
             {
                 if(c == b)
                     c = 0;
 
-                message[i] = (char)((int)cipherText[i] ^ asck[c]);
+                d = ((int)cipherText[i] - 32) - asck[c];
+
+                if(d<0)
+                    message[i] = (char)((95 + d) + 32);
+                else
+                    message[i] = (char)(d + 32);
 
                 c++;
             }
@@ -765,7 +772,7 @@ public class Cryptography
          * @param key
          * @return
          */
-        public static String encrypt(char[] plainText, char[] key)
+        public static char[] encrypt(char[] plainText, char[] key)
         {
             int a = plainText.length;
             int b = key.length;
@@ -775,7 +782,6 @@ public class Cryptography
             int step2;
             int step3 = b + 1;
             char[] cipher = new char[a];
-            String cipherText;
 
             for(int j=0; j<b; j++)
                 asck[j] = (int)key[j]-32;
@@ -794,21 +800,10 @@ public class Cryptography
 
                 cipher[step3] = (char)step2;
 
-                /*step1 = (char)((int)plainText[i] ^ asck[c]);
-                step2 = step1 + b;
-
-                if(step2>126)
-                    step2 = 127 - step2 + 32;
-
-                cipher[step3] = (char)step2;*/
-
                 c++;
                 step3++;
             }
-
-            cipherText = Arrays.toString(cipher);
-
-            return cipherText;
+            return cipher;
         }
 
         /**
