@@ -1,0 +1,20 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.2in]{geometry}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{tikz}
+
+\begin{document}
+	%Cover Page
+	\pagenumbering{gobble}
+    \begin{center}
+ 		\begin{tikzpicture}
+            \node[anchor=south west,inner sep=0] (image) at (0,0){\includegraphics[width=19.6cm,height=28.5cm]{cryogen.png}};
+	        \node[align=center,black,font={\huge}] at (9.5,25) {
+			 	\textbf{Cryptogen User Manual}};
+        \end{tikzpicture}
+       \end{center}
+\end{document}
