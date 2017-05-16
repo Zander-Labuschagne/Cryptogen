@@ -98,8 +98,23 @@ public class Cryptography
         {
             char[] cipherText = new char[plainText.length];
 
-            for(int i = 0; i < plainText.length; i++)
-                cipherText[i] = (char)((plainText[i]) + key[i % key.length]);
+            //To encrypt english alphabet as well as special characters
+            /*for(int i = 0; i < plainText.length; i++)
+                 cipherText[i] = (char)((plainText[i]) + key[i % key.length]);*/
+
+            //To encrypt alphabet characters only
+            for (int xxxii = 0; xxxii < key.length; xxxii++)//Convert all legal characters of key to uppercase
+                if (key[xxxii] >= 97 && key[xxxii] <= 122)
+                    key[xxxii] = (char) (key[xxxii] - 32);
+                else if (!(key[xxxii] >= 65 && key[xxxii] <= 90))
+                    throw new VigenereKeyOutOfRangeException("Key must consist of english alphabetical characters only!");
+            for (int i = 0; i < plainText.length; i++)
+                if (plainText[i] >= 65 && plainText[i] <= 90)
+                    cipherText[i] = (char) (((plainText[i]) - 65 + key[i % key.length] - 65) % 26 + 65);
+                else if (plainText[i] >= 97 && plainText[i] <= 122)
+                    cipherText[i] = (char) (((plainText[i]) - 97 + key[i % key.length] + 32 - 97) % 26 + 97);
+                else
+                    cipherText[i] = plainText[i];
 
             return cipherText;
         }
@@ -114,8 +129,29 @@ public class Cryptography
         {
             char[] plainText = new char[cipherText.length];
 
-            for(int viii = 0; viii < cipherText.length; viii++)
-                plainText[viii] = (char)((cipherText[viii]) - key[viii % key.length]);
+            //To decrypt english alphabet as well as special characters
+            /*for(int viii = 0; i < cipherText.length; viii++)
+                plainText[viii] = (char)((cipherText[viii]) + key[viii % key.length]);*/
+
+            //To decrypt alphabet characters only
+            for (int xxxi = 0; xxxi < key.length; xxxi++)//Convert all legal characters of key to uppercase
+                if (key[xxxi] >= 97 && key[xxxi] <= 122)
+                    key[xxxi] = (char) (key[xxxi] - 32);
+                else if (!(key[xxxi] >= 65 && key[xxxi] <= 90))
+                    throw new VigenereKeyOutOfRangeException("Key must consist of english alphabetical characters only!");
+            for (int viii = 0; viii < cipherText.length; viii++)
+                if (cipherText[viii] >= 65 && cipherText[viii] <= 90)
+                    if((((cipherText[viii]) - 65 - key[viii % key.length] + 65) % 26 + 65) < 65)
+                        plainText[viii] = (char) (((cipherText[viii]) - 65 - key[viii % key.length] + 65) % 26 + 65 + 26);
+                    else
+                        plainText[viii] = (char) (((cipherText[viii]) - 65 - key[viii % key.length] + 65) % 26 + 65);
+                else if (cipherText[viii] >= 97 && cipherText[viii] <= 122)
+                    if((((cipherText[viii]) - 97 - (key[viii % key.length] + 32 - 97)) % 26 + 97) < 97)
+                        plainText[viii] = (char) (((cipherText[viii]) - 97 - (key[viii % key.length] + 32 - 97)) % 26 + 97 + 26);
+                    else
+                        plainText[viii] = (char) (((cipherText[viii]) - 97 - (key[viii % key.length] + 32 - 97)) % 26 + 97);
+                else
+                    plainText[viii] = cipherText[viii];
 
             return plainText;
         }
