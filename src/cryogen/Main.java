@@ -27,7 +27,6 @@ public class Main extends Application
         FXMLLoader loader;
         if(System.getProperty("os.name").startsWith("Windows"))
             loader = new FXMLLoader(getClass().getResource("CryptogenWindows.fxml"));
-
         else
             loader = new FXMLLoader(getClass().getResource("Cryptogen.fxml"));
         cgWindow.setHeight(605);

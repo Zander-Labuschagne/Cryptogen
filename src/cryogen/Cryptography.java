@@ -11,6 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 /**
  * @author Zander Labuschagne
@@ -97,11 +98,23 @@ public class Cryptography
         {
             char[] cipherText = new char[plainText.length];
 
-            for(int i = 0; i < plainText.length; i++)
-                if((plainText[i]) + key[i % key.length] < 32)
-                    cipherText[i] = (char) (127 - (32 - cipherText[i]));
+            //To encrypt english alphabet as well as special characters
+            /*for(int i = 0; i < plainText.length; i++)
+                 cipherText[i] = (char)((plainText[i]) + key[i % key.length]);*/
+
+            //To encrypt alphabet characters only
+            for (int xxxii = 0; xxxii < key.length; xxxii++)//Convert all legal characters of key to uppercase
+                if (key[xxxii] >= 97 && key[xxxii] <= 122)
+                    key[xxxii] = (char) (key[xxxii] - 32);
+                else if (!(key[xxxii] >= 65 && key[xxxii] <= 90))
+                    throw new VigenereKeyOutOfRangeException("Key must consist of english alphabetical characters only!");
+            for (int i = 0; i < plainText.length; i++)
+                if (plainText[i] >= 65 && plainText[i] <= 90)
+                    cipherText[i] = (char) (((plainText[i]) - 65 + key[i % key.length] - 65) % 26 + 65);
+                else if (plainText[i] >= 97 && plainText[i] <= 122)
+                    cipherText[i] = (char) (((plainText[i]) - 97 + key[i % key.length] + 32 - 97) % 26 + 97);
                 else
-                    cipherText[i] = (char)((plainText[i]) + key[i % key.length]);
+                    cipherText[i] = plainText[i];
 
             return cipherText;
         }
@@ -114,31 +127,33 @@ public class Cryptography
          */
         public static char[] decrypt(char[] cipherText, char[] key)
         {
-            int a = cipherText.length;
-            int b = key.length;
-            int c = 0;
-            int[] asck = new int[b];
-            char[]  message = new char[a];
+            char[] plainText = new char[cipherText.length];
 
-            for(int j=0; j<b; j++)
-                asck[j] = (int) key[j];
+            //To decrypt english alphabet as well as special characters
+            /*for(int viii = 0; i < cipherText.length; viii++)
+                plainText[viii] = (char)((cipherText[viii]) + key[viii % key.length]);*/
 
-            for(int i=0; i<a; i++)
-            {
-                if(c == b)
-                    c = 0;
+            //To decrypt alphabet characters only
+            for (int xxxi = 0; xxxi < key.length; xxxi++)//Convert all legal characters of key to uppercase
+                if (key[xxxi] >= 97 && key[xxxi] <= 122)
+                    key[xxxi] = (char) (key[xxxi] - 32);
+                else if (!(key[xxxi] >= 65 && key[xxxi] <= 90))
+                    throw new VigenereKeyOutOfRangeException("Key must consist of english alphabetical characters only!");
+            for (int viii = 0; viii < cipherText.length; viii++)
+                if (cipherText[viii] >= 65 && cipherText[viii] <= 90)
+                    if((((cipherText[viii]) - 65 - key[viii % key.length] + 65) % 26 + 65) < 65)
+                        plainText[viii] = (char) (((cipherText[viii]) - 65 - key[viii % key.length] + 65) % 26 + 65 + 26);
+                    else
+                        plainText[viii] = (char) (((cipherText[viii]) - 65 - key[viii % key.length] + 65) % 26 + 65);
+                else if (cipherText[viii] >= 97 && cipherText[viii] <= 122)
+                    if((((cipherText[viii]) - 97 - (key[viii % key.length] + 32 - 97)) % 26 + 97) < 97)
+                        plainText[viii] = (char) (((cipherText[viii]) - 97 - (key[viii % key.length] + 32 - 97)) % 26 + 97 + 26);
+                    else
+                        plainText[viii] = (char) (((cipherText[viii]) - 97 - (key[viii % key.length] + 32 - 97)) % 26 + 97);
+                else
+                    plainText[viii] = cipherText[viii];
 
-                int r = ((int)cipherText[i]) - asck[c];
-
-                if(r < 32)
-                    r = 127 - (32 - r);
-
-                message[i] = (char)r;
-
-                c++;
-            }
-
-            return message;
+            return plainText;
         }
 
         /***********------------File Cryptography------------***********/
@@ -558,6 +573,13 @@ public class Cryptography
      */
     public static class ColumnarTranspositionCipher
     {
+        private static boolean contains(int[] arr, int xvii)
+        {
+            for(int xvi = 0; xvi < arr.length; xvi++)
+                if(arr[xvi] == xvii)
+                    return true;
+            return false;
+        }
 
         /***********------------Text Cryptography------------***********/
 
@@ -566,9 +588,43 @@ public class Cryptography
          * @param plainText
          * @return
          */
-        public static char[] encrypt(char[] plainText)
+        public static char[] encrypt(char[] plainText, char[] key)
         {
-            return null;
+            char[] cipherText = new char[key.length * (plainText.length / key.length + 1)];
+            char[][] plainTextCol = new char[plainText.length / key.length + 1][key.length];
+            int xiv = 0;
+            int xii = 0;
+
+            //Put text in column format
+            int x = 0;
+            for(int ix = 0; ix < key.length * (plainText.length / key.length + 1); ix++)
+            {
+                plainTextCol[x][ix % key.length] = ix >= plainText.length ? '|' : plainText[ix];
+                if((ix + 1) % key.length == 0)
+                    x++;
+            }
+
+            int[] blacklist = new int[key.length];
+            for(int xv = 0; xv < key.length; xv++)
+            {
+                int min = 0;
+                char cmin = key[0];
+
+                //Finds smallest character in key other than the ones already used
+                for (int xi = 0; xi < key.length; xi++)
+                    if (cmin > key[xi] && !contains(blacklist, xi))
+                    {
+                        min = xi;
+                        cmin = key[xi];
+                    }
+                blacklist[xii++] = min;
+
+                //Add to cipher text from column of plain text
+                for (int xiii = 0; xiii < plainTextCol.length; xiii++)
+                    cipherText[xiv++] = plainTextCol[xiii][min];
+            }
+
+            return cipherText;
         }
 
         /**
@@ -576,9 +632,94 @@ public class Cryptography
          * @param cipherText
          * @return
          */
-        public static char[] decrypt(char[] cipherText)
+        public static char[] decrypt(char[] cipherText, char[] key)
         {
-            return null;
+            char[] plainText = new char[key.length * (cipherText.length / key.length + 2)];
+            char[][] cipherTextCol = new char[key.length + 1][cipherText.length / key.length + 2];
+            int xviii = 0;
+            int xix = 0;
+            char[][] plainTextCol = new char[cipherText.length / key.length + 1][key.length +1];
+
+            //Put cipher text in column format
+            int xx = 0;
+            int xxvi = 0;
+            int xxvii = 1;
+            int xxviii = 0;
+            int xxix = 0;
+            for(int xxi = 0; xxvi < cipherTextCol.length && xxi < cipherText.length && xxix < cipherText.length; xxi++)
+            {
+                if(xxi == 0)
+                {
+                    cipherTextCol[xxvi][xx++] = cipherText[xxvi];
+                    xxix++;
+                }
+                if((xxi + xxvii - xxviii) % key.length == 0)
+                {
+                    if(xxi + xxvii - xxviii != 0)
+                    {
+                        cipherTextCol[xxvi][xx++] = cipherText[xxi];
+                        xxix++;
+                        xxvii++;
+                    }
+                }
+                if(xx == key.length)
+                {
+                    xx = 0;
+                    xxvi++;
+                    xxi = -1;
+                    xxvii = 1;
+                    xxviii++;
+                }
+            }
+
+
+            int[] blacklist = new int[key.length];
+
+            for(int xxii = 0; xxii < key.length; xxii++)
+            {
+                char cmin = key[0];
+                int min = 0;
+
+                //Finds smallest character in key other than the ones already used
+                for (int xi = 0; xi < key.length; xi++)
+                    if (cmin > key[xi] && !contains(blacklist, xi))
+                    {
+                        min = xi;
+                        cmin = key[xi];
+                    }
+                blacklist[xix++] = min;
+
+
+                for(int xxiv = 0; xxiv < plainTextCol.length; xxiv++)
+                    plainTextCol[xxiv][min] = cipherTextCol[xxiv][xxii];
+
+
+            }
+
+            for (int xiii = 0; xiii < plainTextCol.length; xiii++)
+            {
+                for (int xxx = 0; xxx < plainTextCol[xiii].length; xxx++)
+                    System.out.print(plainTextCol[xiii][xxx] + " ");
+                System.out.print("\n");
+            }
+
+
+            //Add to plain text from column of plain text
+            /*for (int xiii = 0; xiii < plainTextCol.length; xiii++)
+                for(int xxx = 0; xxx < plainTextCol[xiii].length; xxx++)
+                    plainText[xviii++] = plainTextCol[xiii][xxx] == '|' ? ' ' : plainTextCol[xiii][xxx];*/
+
+            int xxx = 0;
+            for(int xiii = 1; xiii <= cipherText.length; xiii++)
+            {
+                plainText[xiii-1] = plainTextCol[xxx][(xiii-1) % key.length] == '|' ? ' ' : plainTextCol[xxx][(xiii-1) % key.length];
+                if(xiii % key.length == 0)
+                {
+                    xxx++;
+                }
+            }
+
+            return plainText;
         }
 
         /***********------------File Cryptography------------***********/
