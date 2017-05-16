@@ -641,6 +641,11 @@ public class Cryptogen implements Initializable
         paste(txtKey, DataFlavor.stringFlavor);
     }
 
+    /**
+     *
+     * @param tf
+     * @param df
+     */
     private void paste(TextArea tf, DataFlavor df)
     {
         try
@@ -671,6 +676,52 @@ public class Cryptogen implements Initializable
             handleException(ex);
         }
     }
+
+    /**
+     *
+     * @param event
+     */
+    @FXML
+    protected void mnuHelp_UserManual_Clicked(ActionEvent event)
+    {
+        new Thread(new Runnable()
+        {
+            public void run()
+            {
+                try
+                {
+                    File userGuide;
+                    if(Desktop.isDesktopSupported())
+                    {
+                        InputStream resource = this.getClass().getResource("/Cryptogen Manual.pdf").openStream();
+                        File file = File.createTempFile("User Manual", "pdf");
+                        OutputStream out = new FileOutputStream(file);
+
+                        byte[] buffer = new byte[1024];
+                        int len;
+                        while((len = resource.read(buffer)) != -1)
+                            out.write(buffer, 0, len);
+                        userGuide = file;
+                        out.close();
+
+                        Desktop.getDesktop().open(userGuide);
+                        resource.close();
+                    }
+                }
+                catch(IOException ex)
+                {
+                    ex.printStackTrace();
+                    handleException(ex, "User Manual Error", "Could not open user manual", "Something went wrong while trying to open the user manual.\nDo you hav a PDF reader installed?");
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                    handleException(ex);
+                }
+            }
+        }).start();
+    }
+
 
     /**
      * Method to prompt before exit
