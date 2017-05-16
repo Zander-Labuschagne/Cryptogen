@@ -151,6 +151,11 @@ public class Cryptogen implements Initializable
             }
             txtMessage.setText(String.valueOf(cipherMessage));
         }
+        catch (VigenereKeyOutOfRangeException ex)
+        {
+            ex.printStackTrace();
+            handleException(ex, "Key Out of Bounds", "Key contains illegal characters", ex.getMessage());
+        }
         catch (Exception ex)
         {
             handleException(ex);
@@ -358,6 +363,11 @@ public class Cryptogen implements Initializable
                 method = "Elephant cipher.";
             }
             txtMessage.setText(String.valueOf(plainMesage));
+        }
+        catch (VigenereKeyOutOfRangeException ex)
+        {
+            ex.printStackTrace();
+            handleException(ex, "Key Out of Bounds", "Key contains illegal characters", ex.getMessage());
         }
         catch (Exception ex)
         {
