@@ -99,10 +99,7 @@ public class Cryptography
             char[] cipherText = new char[plainText.length];
 
             for(int i = 0; i < plainText.length; i++)
-                if((plainText[i]) + key[i % key.length] > 126)
-                    cipherText[i] = (char) (127 - (32 - cipherText[i]));
-                else
-                    cipherText[i] = (char)((plainText[i]) + key[i % key.length]);
+                cipherText[i] = (char)((plainText[i]) + key[i % key.length]);
 
             return cipherText;
         }
@@ -118,10 +115,7 @@ public class Cryptography
             char[] plainText = new char[cipherText.length];
 
             for(int viii = 0; viii < cipherText.length; viii++)
-                if((cipherText[viii]) - key[viii % key.length] < 32)
-                    plainText[viii] = (char) (127 - (32 - plainText[viii]));
-                else
-                    plainText[viii] = (char)((cipherText[viii]) - key[viii % key.length]);
+                plainText[viii] = (char)((cipherText[viii]) - key[viii % key.length]);
 
             return plainText;
         }
