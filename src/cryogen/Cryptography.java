@@ -348,19 +348,21 @@ public class Cryptography
             int a = plainText.length;
             int b = key.length;
             int c = 0;
+            int d;
             int[] asck = new int[b];
             char[] cipher = new char[a];
 
             for(int j=0; j<b; j++)
-                asck[j] = (int)key[j];
+                asck[j] = (int)key[j] - 32;
 
-            for(int i=0; i<a; i++)
+            for(int i = 0; i<a; i++)
             {
-                if(c == b)
+                if(c==b)
                     c = 0;
 
-                cipher[i] = (char) (plainText[i] ^ asck[c]);
+                d = (int)plainText[i] - 32;
 
+                cipher[i] = (char)(((d + asck[c])%95) + 32);
                 c++;
             }
 
@@ -378,18 +380,24 @@ public class Cryptography
             int a = cipherText.length;
             int b = key.length;
             int c = 0;
+            int d;
             int[] asck = new int[b];
             char[]  message = new char[a];
 
             for(int j=0; j<b; j++)
-                asck[j] = (int)key[j];
+                asck[j] = (int)key[j] - 32;
 
             for(int i=0; i<a; i++)
             {
                 if(c == b)
                     c = 0;
 
-                message[i] = (char)((int)cipherText[i] ^ asck[c]);
+                d = ((int)cipherText[i] - 32) - asck[c];
+
+                if(d<0)
+                    message[i] = (char)((95 + d) + 32);
+                else
+                    message[i] = (char)(d + 32);
 
                 c++;
             }
@@ -775,21 +783,19 @@ public class Cryptography
             char[] cipher = new char[a];
 
             for(int j=0; j<b; j++)
-                asck[j] = (int)key[j];
+                asck[j] = (int)key[j]-32;
 
             for(int i=0; i<a; i++)
             {
                 if(c == b)
                     c = 0;
 
-                if(step3>a)
+                if(step3==a)
                     step3 = 0;
 
-                step1 = (char)((int)plainText[i] ^ asck[c]);
-                step2 = step1 + b;
+                step1 = ((int)plainText[i] - 32)^asck[c];
 
-                if(step2>126)
-                    step2 = 127 - step2 + 32;
+                step2 = ((step1 + b)%95) + 32;
 
                 cipher[step3] = (char)step2;
 
@@ -824,7 +830,7 @@ public class Cryptography
                 if(c == b)
                     c = 0;
 
-                if(step1>a)
+                if(step1==a)
                     step1 = 0;
 
                 step2 = (int)cipherText[step1] - b;
