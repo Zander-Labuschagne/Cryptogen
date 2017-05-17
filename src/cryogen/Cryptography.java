@@ -5,17 +5,13 @@ import javafx.scene.control.*;
 import javafx.stage.Modality;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-//import java.util.Base64;
 
 /**
  * @author Zander Labuschagne
@@ -76,7 +72,7 @@ public class Cryptography
         error.setTitle(title);
         error.setHeaderText(header);
         DialogPane dialogPane = error.getDialogPane();
-        dialogPane.getStylesheets().add(Cryptography.class.getResource("MidnaDark.css").toExternalForm());
+        dialogPane.getStylesheets().add(Cryptography.class.getResource(Cryptogen.laf).toExternalForm());
         dialogPane.getStyleClass().add("dlgDefault");
         error.showAndWait();
     }
@@ -206,7 +202,6 @@ public class Cryptography
                         progress.getDialogStage().close();
                         FileOutputStream fos = new FileOutputStream(plainFile.getAbsoluteFile() + ".cg");
                         fos.write(task.getValue());
-                        fos.write(cipherData);
 
                         fos.close();
                         plainFile.delete();
