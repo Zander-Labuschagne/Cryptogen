@@ -3,6 +3,9 @@ package cryogen;
 import javafx.concurrent.Task;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -12,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+//import java.util.Base64;
 
 /**
  * @author Zander Labuschagne
@@ -334,7 +338,6 @@ public class Cryptography
      */
     public static class VernamCipher
     {
-
         /***********------------Text Cryptography------------***********/
 
         /**
@@ -345,29 +348,12 @@ public class Cryptography
          */
         public static char[] encrypt(char[] plainText, char[] key)
         {
-            int a = plainText.length;
-            int b = key.length;
-            int c = 0;
-            int d;
-            int[] asck = new int[b];
-            char[] cipher = new char[a];
+            byte[] cipher = new byte[String.valueOf(plainText).getBytes().length];
+            for (int xxxii = 0; xxxii < String.valueOf(plainText).getBytes().length; xxxii++)
+                cipher[xxxii] = (byte) (String.valueOf(plainText).getBytes()[xxxii] ^ String.valueOf(key).getBytes()[xxxii % String.valueOf(key).getBytes().length]);
+            BASE64Encoder enc = new BASE64Encoder();
 
-            for(int j=0; j<b; j++)
-                asck[j] = (int)key[j];
-
-            for(int i = 0; i<a; i++)
-            {
-                if(c==b)
-                    c = 0;
-
-                //byte e = (byte)plainText[i];
-                d = (int)plainText[i] ^ asck[c];
-
-                cipher[i] = (char)(d);
-                c++;
-            }
-
-            return cipher;
+            return enc.encode(cipher).replaceAll("\\s", "").toCharArray();
         }
 
         /**
@@ -378,28 +364,21 @@ public class Cryptography
          */
         public static char[] decrypt(char[] cipherText, char[] key)
         {
-            int a = cipherText.length;
-            int b = key.length;
-            int c = 0;
-            int d;
-            int[] asck = new int[b];
-            char[]  message = new char[a];
+            byte[] message = new byte[String.valueOf(cipherText).getBytes().length];
 
-            for(int j=0; j<b; j++)
-                asck[j] = (int)key[j];
-
-            for(int i=0; i<a; i++)
+            try
             {
-                if(c == b)
-                    c = 0;
+                BASE64Decoder dec = new BASE64Decoder();
 
-                d = (int)cipherText[i]^asck[c];
-
-                message[i] = (char)(d);
-                c++;
+                for (int xxxiii = 0; xxxiii < dec.decodeBuffer(String.valueOf(cipherText)).length; xxxiii++)
+                    message[xxxiii] = (byte)(dec.decodeBuffer(String.valueOf(cipherText))[xxxiii] ^ String.valueOf(key).getBytes()[xxxiii % String.valueOf(key).getBytes().length]);
+            }
+            catch (IOException e)
+            {
+                throw new RuntimeException(e);
             }
 
-            return message;
+            return (new String(message)).toCharArray();
         }
 
         /***********------------File Cryptography------------***********/
