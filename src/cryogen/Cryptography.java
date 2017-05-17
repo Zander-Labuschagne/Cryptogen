@@ -5,6 +5,8 @@ import javafx.scene.control.*;
 import javafx.stage.Modality;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
+import sun.misc.Queue;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -12,6 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 /**
  * @author Zander Labuschagne
@@ -800,36 +803,21 @@ public class Cryptography
          */
         public static char[] encrypt(char[] plainText, char[] key)
         {
-            int a = plainText.length;
-            int b = key.length;
-            int c = 0;
-            int[] asck = new int[b];
-            char[] step1;
-            int step2 = 0;
-            int step3 = b + 1;
-            char[] cipher = new char[a];
+            char[] cipher1 = Cryptography.VernamCipher.encrypt(plainText, key);
+            char[] cipher12 = new char[cipher1.length];
 
-            for(int j=0; j<b; j++)
-                asck[j] = (int)key[j]-32;
+            SLL<Character> cipher = new SLL<Character>();
 
-            for(int i=0; i<a; i++)
-            {
-                if(c == b)
-                    c = 0;
+            for(int xxxiv = 0; xxxiv < cipher1.length; xxxiv++)
+                cipher.addToTail (new Character(cipher1[xxxiv]));
 
-                if(step3==a)
-                    step3 = 0;
+            for(int xxxv = 0; xxxv < key.length; xxxv++)
+                cipher.addToTail(cipher.deleteFromHead());
 
-                step1 = Cryptography.VernamCipher.encrypt(plainText, key);
+            for(int xxxvi = 0; !cipher.isEmpty(); xxxvi++)
+                cipher12[xxxvi] = cipher.deleteFromHead();
 
-                //step2 = ((step1 + b)%95) + 32;
-
-                cipher[step3] = (char)step2;
-
-                c++;
-                step3++;
-            }
-            return cipher;
+            return cipher12;
         }
 
         /**
@@ -840,38 +828,21 @@ public class Cryptography
          */
         public static char[] decrypt(char[] cipherText, char[] key)
         {
-            int a = cipherText.length;
-            int b = key.length;
-            int c = 0;
-            int[] asck = new int[b];
-            int step1 = b + 1;
-            int step2;
-            char[] step3;
-            char[] message = new char[a];
+            char[] message;
+            char[] cipher1 = new char[cipherText.length];
+            SLL<Character> cipher = new SLL<>();
 
-            for(int j=0; j<b; j++)
-                asck[j] = (int)key[j]-32;
+            for(int xxxvii = 0; xxxvii < cipherText.length; xxxvii++)
+                cipher.addToTail(cipherText[xxxvii]);
 
-            for(int i=0; i<a; i++)
-            {
-                if(c == b)
-                    c = 0;
+            for(int xxxviii = 0; xxxviii < key.length; xxxviii++)
+                cipher.addToHead(cipher.deleteFromTail());
 
-                if(step1==a)
-                    step1 = 0;
+            for(int xxxix = 0; !cipher.isEmpty(); xxxix++)
+                cipher1[xxxix] = cipher.deleteFromHead();
 
-                step2 = (int)cipherText[step1] - 32 - b;
+            message = Cryptography.VernamCipher.decrypt(cipher1, key);
 
-                if(step2<0)
-                    step2 = 95 + step2;
-
-                step3 = Cryptography.VernamCipher.decrypt(cipherText, key);
-
-                //message[i] = (char)(step3 +32);
-
-                c++;
-                step1++;
-            }
             return message;
         }
 
