@@ -30,7 +30,7 @@
                 <Menu mnemonicParsing="false" text="Look and Feel">
                     <MenuItem mnemonicParsing="false" onAction="#mnuLaF_MidnaDark_Clicked" text="Midna Dark" />
                     <MenuItem mnemonicParsing="false" onAction="#mnuLaF_Midna_Clicked" text="Midna" />
-                    <MenuItem mnemonicParsing="false" onAction="#mnuLaF_BreathDark_Clicked" text="Breath" />
+                    <MenuItem mnemonicParsing="false" onAction="#mnuLaF_BreathDark_Clicked" text="Breath Dark" />
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <MenuItem mnemonicParsing="false" text="About" />
