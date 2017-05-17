@@ -59,7 +59,7 @@ public class Cryptogen implements Initializable
     private Stage currentStage;
 
     /**
-     *
+     * Default Constructor
      */
     public Cryptogen()
     {
@@ -72,7 +72,7 @@ public class Cryptogen implements Initializable
     }
 
     /**
-     *
+     * Initialize method for GUI
      * @param location
      * @param resources
      */
@@ -83,7 +83,7 @@ public class Cryptogen implements Initializable
     }
 
     /**
-     *
+     * Initialize methof ofr GUI
      * @param currentStage
      */
     public void initialize(Stage currentStage)
@@ -105,7 +105,7 @@ public class Cryptogen implements Initializable
 
 
     /**
-     *
+     * Event method where Encrypt Message button is clicked
      * @param event
      * @throws IOException
      */
@@ -163,8 +163,8 @@ public class Cryptogen implements Initializable
     }
 
     /**
-     *
-     * @param files
+     * Handle encryption of multiple files and directories
+     * @param files List of files to be encrypted
      */
     private void encryptFiles(List<File> files)
     {
@@ -208,8 +208,8 @@ public class Cryptogen implements Initializable
     }
 
     /**
-     *
-     * @param files
+     * Handle decryption of multiple directories
+     * @param files List of Files to be decrypted
      */
     private void decryptFiles(List<File> files)
     {
@@ -253,7 +253,7 @@ public class Cryptogen implements Initializable
     }
 
     /**
-     *
+     * Event method handles click event on Encrypt Files button
      * @param event
      * @throws IOException
      */
@@ -319,7 +319,7 @@ public class Cryptogen implements Initializable
     }
 
     /**
-     *
+     * Method handles event where Decrypt Message button is clicked
      * @param event
      * @throws IOException
      */
@@ -376,7 +376,7 @@ public class Cryptogen implements Initializable
     }
 
     /**
-     *
+     * Method handles event where Decrypt Files button is clicked
      * @param event
      * @throws IOException
      */
@@ -442,6 +442,9 @@ public class Cryptogen implements Initializable
         }
     }
 
+    /**
+    * Method handles event where key is typed in Key text area
+    */
     @FXML
     protected void txtKey_OnKeyType()
     {
@@ -450,25 +453,21 @@ public class Cryptogen implements Initializable
     }
 
     /**
-     * Event necessary to execute before DragDropped may be executed, allows DragDropped to receive files by Copy or Move
+     * Event necessary to execute before DragDropped may be executed
+     * Allows DragDropped to receive files by Copy or Move
      * @param event
      */
     @FXML
     protected void onDragOver(DragEvent event)
     {
         //data is dragged over the target
-        //accept it only if it is not dragged from the same node
-        //and if it has a string data
         if(event.getGestureSource() != stackPane && event.getDragboard().hasString())
-        {
-            //allow for both copying and moving, whatever user chooses
             event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-        }
         event.consume();
     }
 
     /**
-     * Do something when an Object is dragged over the StackPane
+     * Method to execute when file is dragged over area
      * @param event
      * @throws IOException
      */
@@ -481,7 +480,7 @@ public class Cryptogen implements Initializable
     }
 
     /**
-     * Do something when an object exits the StackPane
+     * Method to execute when file is no longer above area
      * @param event
      */
     @FXML
@@ -492,7 +491,7 @@ public class Cryptogen implements Initializable
     }
 
     /**
-     * Do something when an object is dropped onto the StackPane
+     * Method to execute when file(s) is/are dropped in area
      * @param event
      * @throws IOException
      */
@@ -549,7 +548,7 @@ public class Cryptogen implements Initializable
     }
 
     /**
-     *
+     * Event handler to attach files
      * @param event
      */
     @FXML protected void mnuFile_PasteFiles_Clicked(ActionEvent event)
@@ -583,7 +582,7 @@ public class Cryptogen implements Initializable
     }
 
     /**
-     *
+     * Event handler for clear message clicked
      * @param event
      */
     @FXML protected void mnuEdit_ClearMessage_Clicked(ActionEvent event)
@@ -592,7 +591,7 @@ public class Cryptogen implements Initializable
     }
 
     /**
-     *
+     * Event handler for clear key clicked
      * @param event
      */
     @FXML protected void mnuEdit_ClearKey_Clicked(ActionEvent event)
@@ -601,7 +600,7 @@ public class Cryptogen implements Initializable
     }
 
     /**
-     *
+     * Event handler to copy message text
      * @param event
      */
     @FXML protected void mnuEdit_CopyMessage_Clicked(ActionEvent event)
@@ -612,7 +611,7 @@ public class Cryptogen implements Initializable
     }
 
     /**
-     *
+     * Event handler to cut message text
      * @param event
      */
     @FXML protected void mnuEdit_CutMessage_Clicked(ActionEvent event)
@@ -624,7 +623,7 @@ public class Cryptogen implements Initializable
     }
 
     /**
-     *
+     * Event handler to paste inside message text area
      * @param event
      */
     @FXML protected void mnuEdit_PasteMessage_Clicked(ActionEvent event)
@@ -633,7 +632,7 @@ public class Cryptogen implements Initializable
     }
 
     /**
-     *
+     *Event handler to paste inside key text area
      * @param event
      */
     @FXML protected void mnuEdit_PasteKey_Clicked(ActionEvent event)
@@ -641,6 +640,11 @@ public class Cryptogen implements Initializable
         paste(txtKey, DataFlavor.stringFlavor);
     }
 
+    /**
+     * Method used to paste data
+     * @param tf text area to paste into
+     * @param df kind of data to paste, text or file
+     */
     private void paste(TextArea tf, DataFlavor df)
     {
         try
@@ -673,6 +677,52 @@ public class Cryptogen implements Initializable
     }
 
     /**
+     * Event handler to view user manual
+     * @param event
+     */
+    @FXML
+    protected void mnuHelp_UserManual_Clicked(ActionEvent event)
+    {
+        new Thread(new Runnable()
+        {
+            public void run()
+            {
+                try
+                {
+                    File userGuide;
+                    if(Desktop.isDesktopSupported())
+                    {
+                        InputStream resource = this.getClass().getResource("/Cryptogen Manual.pdf").openStream();
+                        File file = File.createTempFile("User Manual", "pdf");
+                        OutputStream out = new FileOutputStream(file);
+
+                        byte[] buffer = new byte[1024];
+                        int len;
+                        while((len = resource.read(buffer)) != -1)
+                            out.write(buffer, 0, len);
+                        userGuide = file;
+                        out.close();
+
+                        Desktop.getDesktop().open(userGuide);
+                        resource.close();
+                    }
+                }
+                catch(IOException ex)
+                {
+                    ex.printStackTrace();
+                    handleException(ex, "User Manual Error", "Could not open user manual", "Something went wrong while trying to open the user manual.\nDo you hav a PDF reader installed?");
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                    handleException(ex);
+                }
+            }
+        }).start();
+    }
+
+
+    /**
      * Method to prompt before exit
      * Exits application with 0 error code if user prompt is confirmed else application continues
      */
@@ -696,21 +746,43 @@ public class Cryptogen implements Initializable
         }
     };
 
+    /**
+     * method to handle exceptions
+     * @param ex Exception thrown to handle
+     */
     protected void handleException(Exception ex)
     {
         handleException(ex, "Error");
     }
 
+    /**
+     * method to handle exceptions with optional window title
+     * @param ex Exception thrown to handle
+     * @param title to be displayed in message box
+     */
     protected void handleException(Exception ex, String title)
     {
         handleException(ex, title, ex.getMessage());
     }
 
+    /**
+     * method to handle exceptions with optional window title and header
+     * @param ex Exception thrown to handle
+     * @param title to be displayed in message box
+     * @param header caption to be displayed in message box
+     */
     protected void handleException(Exception ex, String title, String header)
     {
         handleException(ex, title, header, ex.toString());
     }
 
+    /**
+     * method to handle exceptions with optional window title, header and message text
+     * @param ex Exception thrown to handle
+     * @param title to be displayed in message box
+     * @param header caption to be displayed in message box
+     * @param content message for message box to contain
+     */
     protected void handleException(Exception ex, String title, String header, String content)
     {
         if(ex != null)
