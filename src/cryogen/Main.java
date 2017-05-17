@@ -32,7 +32,6 @@ public class Main extends Application
         cgWindow.setHeight(605);
         cgWindow.setWidth(720);
         cgWindow.setResizable(false);
-
         cgWindow.setScene(createScene(loader.load()));
         Cryptogen cg = loader.getController();
         cg.initialize(cgWindow);

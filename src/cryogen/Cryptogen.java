@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -13,6 +14,7 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -55,6 +57,7 @@ public class Cryptogen implements Initializable
     @FXML private RadioButton radElephant;
     @FXML private TextArea txtMessage;
     @FXML private TextArea txtKey;
+    @FXML private VBox vbox;
     private final ToggleGroup algorithms;
     private Stage currentStage;
 
@@ -719,6 +722,46 @@ public class Cryptogen implements Initializable
                 }
             }
         }).start();
+    }
+
+    /**
+     * Event handler for look and feel changed to Midna Dark
+     * @param event
+     */
+    @FXML
+    protected void mnuLaF_MidnaDark_Clicked(ActionEvent event)
+    {
+        vbox.getStylesheets().remove(getClass().getResource("Midna.css").toExternalForm());
+        vbox.getStylesheets().remove(getClass().getResource("Breathe.css").toExternalForm());
+        vbox.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+    }
+
+    /**
+     * Event handler for look and feel changed to Midna
+     * @param event
+     */
+    @FXML
+    protected void mnuLaF_Midna_Clicked(ActionEvent event)
+    {
+        vbox.getStylesheets().remove(getClass().getResource("@MidnaDark.css").toExternalForm());
+        vbox.getStylesheets().remove(getClass().getResource("@Breathe.css").toExternalForm());
+        vbox.getStylesheets().add(getClass().getResource("@Midna.css").toExternalForm());
+    }
+
+    /**
+     * Event handler for look and feel changed to Midna Dark
+     * @param event
+     */
+    @FXML
+    protected void mnuLaF_Breathe_Clicked(ActionEvent event)
+    {
+        vbox.getStylesheets().remove(getClass().getResource("MidnaDark.css").toExternalForm());
+        vbox.getStylesheets().remove(getClass().getResource("Midna.css").toExternalForm());
+        vbox.getStylesheets().add(getClass().getResource("Breathe.css").toExternalForm());
+
+        vbox.getStylesheets().remove(getClass().getResource("MidnaDark.css").toExternalForm());
+        vbox.getStylesheets().remove(getClass().getResource("Midna.css").toExternalForm());
+        vbox.getStylesheets().add(getClass().getResource("Breathe.css").toExternalForm());
     }
 
 
