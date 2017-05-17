@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox id="vbox" prefHeight="580.0" prefWidth="730.0" styleClass="vbox" stylesheets="@MidnaDark.css" xmlns="http://javafx.com/javafx/8.0.131" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cryogen.Cryptogen">
+<VBox id="vbox" fx:id="vbox" prefHeight="580.0" prefWidth="730.0" styleClass="vbox" stylesheets="@MidnaDark.css" xmlns="http://javafx.com/javafx/8.0.131" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cryogen.Cryptogen">
         <AnchorPane id="anchorPane" prefHeight="281.0" prefWidth="444.0" VBox.vgrow="ALWAYS">
             <MenuBar id="mnu" layoutY="2.0" prefHeight="24.0" prefWidth="730.0">
                 <Menu mnemonicParsing="false" text="File">
@@ -26,6 +26,11 @@
                     <MenuItem mnemonicParsing="false" onAction="#mnuEdit_CutMessage_Clicked" text="Cut Message Text" />
                     <MenuItem mnemonicParsing="false" onAction="#mnuEdit_PasteMessage_Clicked" text="Paste Into Message Text" />
                     <MenuItem mnemonicParsing="false" onAction="#mnuEdit_PasteKey_Clicked" text="Paste Key" />
+                </Menu>
+                <Menu mnemonicParsing="false" text="Look and Feel">
+                    <MenuItem mnemonicParsing="false" onAction="#mnuLaF_MidnaDark_Clicked" text="Midna Dark" />
+                    <MenuItem mnemonicParsing="false" onAction="#mnuLaF_Midna_Clicked" text="Midna" />
+                    <MenuItem mnemonicParsing="false" onAction="#mnuLaF_Breathe_Clicked" text="Breathe" />
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <MenuItem mnemonicParsing="false" text="About" />
