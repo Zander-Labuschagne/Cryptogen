@@ -132,6 +132,42 @@
 	\subsubsection{Technical Features}
 	The main programming langauage used is Java with Oracle Java Development Kit version 1.8. A JavaFX framework is used to display the graphical user interface, it includes .fxml files containing the graphical user interface layout, .css files containing information on how the graphical user interface looks and .java files containing code to execute instructions in order to provide functionality into the application. A feature not seen directly is multithreading, when encrypting or decrypting files, each file is encryptes or decrypted on its own thread meaning multiple files can be encrypted or decrypted simultaneously, one can see a progress bar for each file or thread, Appendix B is an example of multithreading. Some might not call this a feature but open source gives many advantages over closed source, this project is open source and available on GitHub, any feedback, criticism or pull requests are welcome.
 
+	\section{Cryptosystems Overview}
+	This section explains how each cipher is implemented in the application.
+	\subsection{Vigen\`re Cipher}
+	The Vigen\`ere encryption for text and messages works as follows \cite{bruen2011cryptography}:\\
+	First the key is converted to uppercase letters, then the following encryption function is applied to the key and only alphabetical characters in the message.\\
+	$c = E(m, k) = m - 65 + k\ mod\ 26 + 65\ \forall$ upper case letters\\
+	$c = E(m, k) = (m - 97 + k \ mod \ 26 + 32 - 97)\ mod\ 26 + 97\ \forall$ lower case letters\\
+
+	The Vigen\`ere decryption for text and messages works as follows:\\
+	First the key is converted to uppercase letters just as in encryption, then the following decryption function is applied to the key and only alphabetical characters in the message.\\
+	$m = D(c, k) = (c - 65 - k + 65)\ mod\ 26 + 65\ \forall$ upper case letters.\\
+	$m = D(c, k) = (c - 65 - k + 65)\ mod\ 26 + 65 + 26\ \forall$ upper case letters and if a negative value would have been obtained(less than A).\\
+		$m = D(c, k) = (c - 97 - (k + 32 - 97)) \ mod \ 26 + 97)\ \forall$ lower case letters.\\
+	$m = D(c, k) = (c - 97 - (k + 32 - 97)) \ mod \ 26 + 97 + 26)\ \forall$ lower case letters and if a negative value would have been obtained(less than a).\\
+
+	The Vigen\`ere encryption for files works as follows:\\
+	The key is never converted to uppercase letters as in the encryption for text, then the following encryption function is applied to the key and all bytes contained in the set of files.\\
+	$c = E(m, k) = m + k\ \forall$ bytes contained in files.\\
+
+	The Vigen\`ere decryption for files works as follows:\\
+	Just as in the encryption for files the key is never converted to uppercase, then the following decryption function is applied to the key and all bytes contained in the set of files.\\
+	$m = D(c, k) = c - k\ \forall$ bytes contained in files.\\
+
+\subsection{Vernam Cipher}
+Gilbert Vernam invented the onte time pad or Vernam cipher which xor a stream of bits with another to produce an ireversable stream of bits when the key is not known \cite{bellovin2011frank}.
+The Vernam encryption and decryption for files works as follows\cite{vernam1919secret}:\\
+$c = E(m, k) = m \oplus k$\\
+$m = D(c, k) = c \oplus k$\\
+Thus if a file is encrypted twice, the original file will be reproduced. However the Vernam encryption for text works very differently, it is still an xor but modified so that it never enters the non readable character zones.
+
+\subsection{Columnar Transposition Cipher}
+This cipher takes a stream of either characters or bytes of a file, depending what type of data is being encrypted, and put it in a matrix of characters or bytes with a width equal to the length of the key provided. The matrix is then transposed to get the cipher text or files. The decryption of messages and files works in the same fashion\cite{pfleeger2002security}.
+
+\subsection{Elephant Cipher}
+This cipher takes plain text or data and perform an xor operation with the key followed by rotating the result as many times as the length of the key. The rotation operation takes the last character or byte and place it in front. The exact inverse is performed for the decryption part, The cipher text or bytes are rotated in the inverse direction followe by a xor operation.
+
 	\section{Acknowledgements}
 	This project was developed and is being maintained with JetBrains IntelliJ IDEA Ultimate edition with a JetBrains student license. This documentation was compiled with \LaTeX. The icons on the ``Encrypt'' and ``Decrypt'' buttons are made by Maxim Basinski from http://www.flaticon.com at http://www.flaticon.com/authors/maxim-basinski and is licensed by Creative Commons BY 3.0 at http://creativecommons.org/licenses/by/3.0/. All other icons are made by Madebyoliver from http://www.flaticon.com at http://www.flaticon.com/authors/madebyoliver and is licensed by Creative Commons BY 3.0. at http://creativecommons.org/licenses/by/3.0/. The default look and feel of Cryptogen is designed after the MidnaDark look and feel for KDE's Plasma theme which is the dark theme used and designed by KaOS, a very beautiful KDE Linux distribution. E-Mail of author, Anke Boersma: demm@kaosx.us KaOS Website: https://kaosx.us. The Midna look and feel is also designed by KaOS and is the default look and feel for KaOS. The Breath look and feel is also a look and feel for KDE's Plasma theme designed by Manjaro, a Linux distribution based on Arch Linux which is very lightweight and embraces simplicity. GitHub is used to do version control over this project since it is easily integratable with JetBrains IntelliJ.
 
@@ -141,9 +177,18 @@
     \section{Reflection}
 		This section contains personal experiences and views from the developer's point of view while the project commenced.\\
 		\subsection{Developer \#1: Zander Labuschagne}
-		...\\
+		I have found this project somewhat daunting, I though that the file encryption and decryption would be the hardest to implement but in fact it was the messages because you have to place limits on the message in order to stay within readable characters. The Vigen\`ere and Vernam ciphers was extremely easy to implement on files, and yet everyone else struggled with those ciphers, it might be because of my previous experience with cryptography in my second and third year at university of which the others lacked of. This is my third JavaFX application an everytime I use it I make sure I learn something new, during this project I had my second experience with multithreaded development, although it was not planned to be this soon. I have gained more experience with CSS design and especially file handling.\\
+
+		I would like to improve this application by not keeping all files in the RAM so it would be safer and more reliable to encrypt and decrypt multiple large files. I would also like to add an overall progress status indicator which displays the progress of all files and not just the progress of one independantly.
 
 		\subsection{Developer \#2: Elnette M\"oller}
+
+		\newpage
+		\bibliographystyle{plain}
+		\bibliography{ref}
+		\addcontentsline{toc}{section}{{}References}
+		\thispagestyle{plain}
+		\clearpage
 
     \section*{Appendix A: Vigen\`ere Message Decryption Algorithm}
     \addcontentsline{toc}{section}{{}Appendix A: Vigen\`ere Decryption Algorithm}
