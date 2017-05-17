@@ -1,5 +1,3 @@
-%!TeX spellcheck = en-ZA
-
 \documentclass[11pt]{article}
 
 \usepackage[utf8]{inputenc}
@@ -78,14 +76,56 @@
 
 	\subsection{Features Overview}
 	\subsubsection{Cryptosystems}
-	This application currently provides Vigen\`ere, Vernam, columnar transposition ciphers and our own implementation called the Elephant Cipher. Support for more cryptosystems in the future is planned. One can select a cryptosystem to use by choosing one of the options on the top left area, the dot represents the selected cryptosystem.
+	This application currently provides Vigen\`ere, Vernam, columnar transposition ciphers and our own implementation called the Elephant Cipher. Support for more cryptosystems in the future is planned. One can select a cryptosystem to use by choosing one of the options on the top left area, the dot represents the selected cryptosystem.\\
+
+	The Vigen\`ere cipher only encrypts and decrypts english alphabetical characters, and leaves all special characters in their original form since the Vigen\`ere cipher was designed for text or message encryption only. The key used for Vigen\`ere enryption and decryption may only consist of alphabetical characters as seen in \textit{figures \ref{fig:vigenere_message_cipher}} and \textit{\ref{fig:vigenere_message_plain}}, violating this would produce an error.\\
+
+	The Vernam cipher accepts a key containing any characters unlike the Vigen\`ere cipher, this means that the cipher text will also conatin any other characters as well. The Vernam cipher encrypts and decrypts all characters.\\
+
+	The columnar transposition cipher can take a key containg any characters as well and encrypts and decrypts all charcters just like the Vernam cipher does.
+
+	The Elephant cipher is a self implemented cipher designed by the developers of this application, Zander Labuschagne \& Elnette M\"oller. This cipher can not be considered as a sound cryptosystem because it is based on simple cryptosystems of which one is considerd to be unsound in modern days.
 
 	\subsubsection{Message Encryption \& Decryption}
-	Encryption and decryption of messages can be done by using the text area. The user may enter a plain text message into the text area and encrypt it with any of the provided encryption algorithms, this results in an encrypted message provided in the same text area after the ``Encrypt Message'' button has been clicked. The user may also enter an encrypted message in the text area and click on the ``Decrypt Message'' button to decrypt the encrypted message, the result which is the decrypted message will be displayed in the same text area.
+	Encryption and decryption of messages can be done by using the text area. The user may choose a cryptosystem in the box on the top left corner followed by entering a plain text message into the text area and encrypt it with any of the provided encryption algorithms, see \textit{figure  \ref{fig:vigenere_message_cipher}} for an example of encryption of a message by the Vigen\`ere cipher, this results in an encrypted message provided in the same text area after the ``Encrypt Message'' button has been clicked. The user may also enter an encrypted message in the text area and click on the ``Decrypt Message'' button to decrypt the encrypted message, the result which is the decrypted message will be displayed in the same text area. See \textit{figure \ref{fig:vigenere_message_plain}} for an example of message decryption by using the Vigen\`re cipher.\\
 
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.55]{vigenere_message_cipher}
+\caption{Vigen\`ere message encryption} % Figuur Naam
+\label{fig:vigenere_message_cipher} % label om na figuur te verwys
+\end{figure}
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.55]{vigenere_message_plain}
+\caption{Vigen\`ere message decryption} % Figuur Naam
+\label{fig:vigenere_message_plain} % label om na figuur te verwys
+\end{figure}
+
+
+\newpage
 	\subsubsection{File(s) Encryption \& Decryption}
-	Files may also be encrypted and decrypted, there are two ways of doing such, the first is to drag and drop the file(s) into the area on the lower right, once they are dropped they are ready to be encrypted pr decrypted. The other way is to select some files or file in your favorite file explorer, on Windows it's Windows Explorer, macOS it's Finder and Linux with KDE it can be Dolphin, and to right click and click on copy or just CTRL+C followed by clicking the File button on the menu inside Cryptogen and choosing ``Paste Files''. After some files are attached they may be encrypted or decrypted by clicking on the ``Encrypt File(s)'' button or the ``Decrypt File(s)'' button respectively. One can attach one file, multiple files or even multiple folders containing files and more folders, this will encrypt/decrypt all the files inside all the directories, so be careful. When files are encrypted they get the extension ``.cg'' to differentiate them from the normal or decrypted files, the original files are also deleted in the process. When files are decrypted only the encrypted files with the extension ``.cg'' will be selected for decryption, all encrypted files are deleted while the original files are recreated from their encrypted counterparts. Becareful with the total file size, Cryptogen currently puts all files in RAM, so large files may fill up your RAM and may not get encrypted or decrypted, an alternative solution is planned for a future release. To remove attached files one can click on ``File'' followed by clicking on ``Clear Files''.
+	All sorts of video, image, audio and document files may also be encrypted and decrypted(.jpeg, .pdf, .png, .mp4, .flv, .mp4, .docx, .xlsx  etc), there are two ways of doing such, the first is to drag and drop the file(s) into the area on the lower right, as seen in \textit{figure \ref{fig:dragndrop}}, once they are dropped they are ready to be encrypted or decrypted as seen in \textit{figure \ref{fig:files}}. The other way is to select some files or file in your favorite file explorer, on Windows it's Windows Explorer, macOS it's Finder and Linux with KDE it can be Dolphin, and to right click and click on copy or just CTRL+C followed by clicking the File button on the menu inside Cryptogen and choosing ``Paste Files''. After some files are attached, a cryptosystem of choice is chosen and a key is entered in the Key text area on the upper right as in \textit{figure \ref{fig:files}}, they may be encrypted or decrypted by clicking on the ``Encrypt File(s)'' button or the ``Decrypt File(s)'' button respectively. While files are being encrypted or decrypted a progress bar for each file will be displayed, one can move them to different places in the screen to see all progress simulataneously. The size limit of the files depends on the amount of RAM available.\\
 
+	 One can attach one file, multiple files or even multiple folders containing files and more folders, this will encrypt/decrypt all the files inside all the directories, so be careful. When files are encrypted they get the extension ``.cg'' to differentiate them from the normal or decrypted files, the original files are also deleted in the process. When files are decrypted only the encrypted files with the extension ``.cg'' will be selected for decryption, all encrypted files are deleted while the original files are recreated from their encrypted counterparts. Becareful with the total file size, Cryptogen currently puts all files in RAM, so large files may fill up your RAM and may not get encrypted or decrypted, an alternative solution is planned for a future release. To remove attached files one can click on ``File'' followed by clicking on ``Clear Files''.
+
+	 \vspace{4cm}
+	\begin{figure}[!htb]
+	\centering
+	\includegraphics[scale=0.55]{dragndrop.png}
+	\caption{Files being dragged into drop area} % Figuur Naam
+	\label{fig:dragndrop} % label om na figuur te verwys
+	\end{figure}
+
+	\begin{figure}[!htb]
+	\centering
+	\includegraphics[scale=0.55]{files.png}
+	\caption{Files attached for encryption or decryption} % Figuur Naam
+	\label{fig:files} % label om na figuur te verwys
+	\end{figure}
+
+\newpage
 	\subsubsection{Additional Features}
 	The ``Help'' menu provides a button to open this document for help as well as an ``About'' form which displays information about the application as well as the developers. The ``Look and Feel'' menu provides additional look and feels or themes as some might call them, some people have different tastes than others which is why a light look and feel called ``Midna'' is included and two dark look and feels called ``Midna Dark'' and ``Breath''.
 
@@ -99,8 +139,11 @@
 	Copyright \textcopyright \space 2017 Zander Labuschagne, Elnette M\"oller. Cryptogen is free software: it may redistributed it and/or modified under the terms of the GNU General Public License version 3 as published by the Free Software Foundation. The full license can be viewed in the ``LICENSE'' file.
 
     \section{Reflection}
+		This section contains personal experiences and views from the developer's point of view while the project commenced.\\
 		\subsection{Developer \#1: Zander Labuschagne}
-		...
+		...\\
+
+		\subsection{Developer \#2: Elnette M\"oller}
 
     \section*{Appendix A: Vigen\`ere Message Decryption Algorithm}
     \addcontentsline{toc}{section}{{}Appendix A: Vigen\`ere Decryption Algorithm}
