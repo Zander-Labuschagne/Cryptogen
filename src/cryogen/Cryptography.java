@@ -579,7 +579,7 @@ public class Cryptography
          */
         public static char[] encrypt(char[] plainText, char[] key)
         {
-            char[] cipherText = new char[key.length * (plainText.length / key.length + 1)];
+            /*char[] cipherText = new char[key.length * (plainText.length / key.length + 1)];
             char[][] plainTextCol = new char[plainText.length / key.length + 1][key.length];
             int xiv = 0;
             int xii = 0;
@@ -611,6 +611,55 @@ public class Cryptography
                 //Add to cipher text from column of plain text
                 for (int xiii = 0; xiii < plainTextCol.length; xiii++)
                     cipherText[xiv++] = plainTextCol[xiii][min];
+            }*/
+
+            int a = key.length;
+            int b = (int)Math.floor(plainText.length / a);
+            int c = 0;
+            int d = 0;
+            int e = 0;
+            char[] cipherText = new char[plainText.length];
+            char[][] coltrans = new char[a][b];
+            char[][] coltrans2 = new char[b][a];
+
+            while(c < plainText.length)
+            {
+                coltrans[d][e] = plainText[c];
+
+                if(e == b)
+                {
+                    e = 0;
+                    d++;
+                }
+
+                c++;
+                e++;
+            }
+
+            for(int i = 0; i<b; i++)
+            {
+                for(int j = 0; j<a; j++)
+                {
+                    coltrans2[i][j] = coltrans[j][i];
+                }
+            }
+
+            c = 0;
+            e = 0;
+            d = 0;
+
+            while(c < plainText.length)
+            {
+                cipherText[c] = coltrans2[d][e];
+
+                if(e == a)
+                {
+                    e = 0;
+                    d++;
+                }
+
+                c++;
+                e++;
             }
 
             return cipherText;
