@@ -353,16 +353,19 @@ public class Cryptography
             char[] cipher = new char[a];
 
             for(int j=0; j<b; j++)
-                asck[j] = (int)key[j] - 32;
+                asck[j] = (byte)key[j];
 
             for(int i = 0; i<a; i++)
             {
                 if(c==b)
                     c = 0;
 
-                d = (int)plainText[i] - 32;
+                d = ((byte)plainText[i])^asck[c];
 
-                cipher[i] = (char)(((d ^ asck[c])%95) + 32);
+                //if(d>95)
+                  //  d = 95 - (d-95);
+
+                cipher[i] = (char)(d);
                 c++;
             }
 
@@ -385,16 +388,16 @@ public class Cryptography
             char[]  message = new char[a];
 
             for(int j=0; j<b; j++)
-                asck[j] = (int)key[j] - 32;
+                asck[j] = (byte)key[j];
 
             for(int i=0; i<a; i++)
             {
                 if(c == b)
                     c = 0;
 
-                d = ((int)cipherText[i] - 32) ^ asck[c];
+                d = ((byte)cipherText[i]) ^ asck[c];
 
-                message[i] = (char)(d + 32);
+                message[i] = (char)(d);
 
                 c++;
             }
