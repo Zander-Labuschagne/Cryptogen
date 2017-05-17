@@ -614,7 +614,7 @@ public class Cryptography
             }*/
 
             int a = key.length;
-            int b = (int)Math.floor(plainText.length / a);
+            int b = (int)Math.floor(plainText.length / a) + 1;
             int c = 0;
             int d = 0;
             int e = 0;
@@ -624,13 +624,13 @@ public class Cryptography
 
             while(c < plainText.length)
             {
-                coltrans[d][e] = plainText[c];
-
                 if(e == b)
                 {
                     e = 0;
                     d++;
                 }
+
+                coltrans[d][e] = plainText[c];
 
                 c++;
                 e++;
@@ -650,13 +650,13 @@ public class Cryptography
 
             while(c < plainText.length)
             {
-                cipherText[c] = coltrans2[d][e];
-
                 if(e == a)
                 {
                     e = 0;
                     d++;
                 }
+
+                cipherText[c] = coltrans2[d][e];
 
                 c++;
                 e++;
