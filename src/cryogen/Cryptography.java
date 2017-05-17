@@ -26,8 +26,8 @@ import java.util.Arrays;
 public class Cryptography
 {
     /**
-     *
-     * @param ex
+     * method to handle exceptions
+     * @param ex Exception thrown to handle
      */
     public static void handleException(Exception ex)
     {
@@ -35,9 +35,9 @@ public class Cryptography
     }
 
     /**
-     *
-     * @param ex
-     * @param title
+     * method to handle exceptions with optional window title
+     * @param ex Exception thrown to handle
+     * @param title to be displayed in message box
      */
     public static void handleException(Exception ex, String title)
     {
@@ -45,10 +45,10 @@ public class Cryptography
     }
 
     /**
-     *
-     * @param ex
-     * @param title
-     * @param header
+     * method to handle exceptions with optional window title and header
+     * @param ex Exception thrown to handle
+     * @param title to be displayed in message box
+     * @param header caption to be displayed in message box
      */
     public static void handleException(Exception ex, String title, String header)
     {
@@ -56,11 +56,11 @@ public class Cryptography
     }
 
     /**
-     *
-     * @param ex
-     * @param title
-     * @param header
-     * @param content
+     * method to handle exceptions with optional window title, header and message text
+     * @param ex Exception thrown to handle
+     * @param title to be displayed in message box
+     * @param header caption to be displayed in message box
+     * @param content message for message box to contain
      */
     public static void handleException(Exception ex, String title, String header, String content)
     {
@@ -89,10 +89,10 @@ public class Cryptography
         /***********------------Text Cryptography------------***********/
 
         /**
-         *
-         * @param plainText
-         * @param key
-         * @return
+         * Encryption method to encrypt text messages with Vigenère cipher
+         * @param plainText text about to be encrypted
+         * @param key used to encrypt the text
+         * @return the encrypted text
          */
         public static char[] encrypt(char[] plainText, char[] key)
         {
@@ -120,10 +120,10 @@ public class Cryptography
         }
 
         /**
-         *
-         * @param cipherText
-         * @param key
-         * @return
+         * Decryption method to decrypt Vigenère encrypted text.
+         * @param cipherText encrypted text about to be decrypted
+         * @param key used to decrypt the cryptogram
+         * @return the plain text after decryption of encrypted text
          */
         public static char[] decrypt(char[] cipherText, char[] key)
         {
@@ -159,10 +159,10 @@ public class Cryptography
         /***********------------File Cryptography------------***********/
 
         /**
-         *
-         * @param plainData
-         * @param key
-         * @return
+         * Encryption method to encrypt files with Vigenère cipher
+         * @param plainFile to be encrypted
+         * @param key used to encrypt the file
+         * @return the encrypted file
          */
         public static void encrypt(File plainFile, char[] key)
         {
@@ -244,10 +244,10 @@ public class Cryptography
         }
 
         /**
-         *
-         * @param cipherData
-         * @param key
-         * @return
+         * Decryption method to decrypt Vigenère encrypted files
+         * @param cipherFile encrypted file to decrypt
+         * @param key key used to decrypt the file
+         * @return the decrypted original file
          */
         public static void decrypt(File cipherFile, char[] key)
         {
@@ -338,10 +338,10 @@ public class Cryptography
         /***********------------Text Cryptography------------***********/
 
         /**
-         *
-         * @param plainText
-         * @param key
-         * @return
+         * Encryption method used to encrypt text message with Vernam cipher
+         * @param plainText message about to be encrypted
+         * @param key used to encrypt the text
+         * @return the encrypted text message
          */
         public static char[] encrypt(char[] plainText, char[] key)
         {
@@ -370,10 +370,10 @@ public class Cryptography
         }
 
         /**
-         *
-         * @param cipherText
-         * @param key
-         * @return
+         * Decryption method used to decrypt Vernam encrypted text messages
+         * @param cipherText message about to be decrypted
+         * @param key used for decryption
+         * @return the plain message text
          */
         public static char[] decrypt(char[] cipherText, char[] key)
         {
@@ -408,10 +408,10 @@ public class Cryptography
         /***********------------File Cryptography------------***********/
 
         /**
-         *
-         * @param plainData
-         * @param key
-         * @return
+         * Encryption method used to encrypt files with the Vernam cipher
+         * @param plainFile file about to be encrypted
+         * @param key used to encrypt the file
+         * @return the encrypted file
          */
         public static void encrypt(File plainFile, char[] key)
         {
@@ -489,10 +489,10 @@ public class Cryptography
         }
 
         /**
-         *
-         * @param cipherData
-         * @param key
-         * @return
+         * Decryption method used to decrypt files encrypted with Vernam cipher
+         * @param cipherFile about to be decrypted
+         * @param key used for decryption
+         * @return decrypted file
          */
         public static void decrypt(File cipherFile, char[] key)
         {
@@ -579,6 +579,12 @@ public class Cryptography
      */
     public static class ColumnarTranspositionCipher
     {
+      /**
+      * method to check if array contains a specific element
+      * @param arr Array to check
+      * @param xvii element to search for
+      * @return false if not found and true if FileNotFoundException
+      */
         private static boolean contains(int[] arr, int xvii)
         {
             for(int xvi = 0; xvi < arr.length; xvi++)
@@ -590,9 +596,10 @@ public class Cryptography
         /***********------------Text Cryptography------------***********/
 
         /**
-         *
-         * @param plainText
-         * @return
+         * Encryption method used to encrypt message via columnar transposition
+         * @param plainText about to be encrypted
+         * @param key used to encrypt the text
+         * @return the encrypted text
          */
         public static char[] encrypt(char[] plainText, char[] key)
         {
@@ -634,9 +641,9 @@ public class Cryptography
         }
 
         /**
-         *
-         * @param cipherText
-         * @return
+         * Decryption method used to decrypt text via columnar transposition
+         * @param cipherText about to be decrypted
+         * @return plain text after decryption
          */
         public static char[] decrypt(char[] cipherText, char[] key)
         {
@@ -731,20 +738,20 @@ public class Cryptography
         /***********------------File Cryptography------------***********/
 
         /**
-         *
-         * @param plainData
-         * @param key
-         * @return
+         * Encryption method used to encrypt files via columnar transposition
+         * @param plainFile about to be encrypted
+         * @param key used to encrypt the file
+         * @return the encrypted file
          */
         public static void encrypt(File plainFile, char[] key)
         {
         }
 
         /**
-         *
-         * @param cipherData
-         * @param key
-         * @return
+         * Decryption method used to decrypt files via columnar transposition
+         * @param cipherFile about to be decrypted
+         * @param key used to decrypt the file
+         * @return the original file after decryption
          */
         public static void decrypt(File cipherFile, char[] key)
         {
@@ -766,10 +773,10 @@ public class Cryptography
         /***********------------Text Cryptography------------***********/
 
         /**
-         *
-         * @param plainText
-         * @param key
-         * @return
+         * Encryption method to encrypt text with Elephant Cipher
+         * @param plainText text about to be encrypted
+         * @param key used for encryption
+         * @return encrypted text message
          */
         public static char[] encrypt(char[] plainText, char[] key)
         {
@@ -806,10 +813,10 @@ public class Cryptography
         }
 
         /**
-         *
-         * @param cipherText
-         * @param key
-         * @return
+         * Decryption method to decrypt text with Elephant cipher
+         * @param cipherText text about to be decrypted
+         * @param key used for decryption
+         * @return decrypted text
          */
         public static char[] decrypt(char[] cipherText, char[] key)
         {
@@ -851,10 +858,10 @@ public class Cryptography
         /***********------------File Cryptography------------***********/
 
         /**
-         *
-         * @param plainData
-         * @param key
-         * @return
+         * Encryption used to encrypt files with Elephant cipher
+         * @param plainFile to be encrypted
+         * @param key used for encryption
+         * @return encrypted file
          */
         public static void encrypt(File plainFile, char[] key)
         {
@@ -862,10 +869,10 @@ public class Cryptography
         }
 
         /**
-         *
-         * @param cipherData
-         * @param key
-         * @return
+         * Decryption method for files encrypted with Elephant cipher
+         * @param cipherFile to be decrypted
+         * @param key used for decryption
+         * @return decrypted file
          */
         public static void decrypt(File cipherFile, char[] key)
         {
