@@ -76,7 +76,7 @@ public class Cryptography
         error.setTitle(title);
         error.setHeaderText(header);
         DialogPane dialogPane = error.getDialogPane();
-        dialogPane.getStylesheets().add(Cryptography.class.getResource("MidnaDark.css").toExternalForm());
+        dialogPane.getStylesheets().add(Cryptography.class.getResource(Cryptogen.laf).toExternalForm());
         dialogPane.getStyleClass().add("dlgDefault");
         error.showAndWait();
     }

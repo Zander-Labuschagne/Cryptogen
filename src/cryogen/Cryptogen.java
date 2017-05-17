@@ -46,7 +46,7 @@ public class Cryptogen implements Initializable
     private String message;
     private String header;
     private String method;
-    private String laf;
+    public static String laf;
     //GUI Instance Variables
     @FXML private TitledPane pneAlgorithmsPane;
     @FXML private StackPane stackPane;
@@ -78,7 +78,7 @@ public class Cryptogen implements Initializable
         message = "";
         header = "";
         method = "";
-        laf = "MidnaDark";
+        laf = "Midna.css";
     }
 
     /**
@@ -106,6 +106,8 @@ public class Cryptogen implements Initializable
         radColumnarTrans.setToggleGroup(algorithms);
         radElephant.setToggleGroup(algorithms);
         pneAlgorithmsPane.requestFocus();
+        mnuLaF_Midna_Clicked(new ActionEvent());
+
     }
 
     public Stage getCurrentStage()
@@ -311,7 +313,7 @@ public class Cryptogen implements Initializable
             encryptionInformation.initModality(Modality.APPLICATION_MODAL);
             encryptionInformation.initOwner(getCurrentStage());
             DialogPane dialogPane = encryptionInformation.getDialogPane();
-            dialogPane.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+            dialogPane.getStylesheets().add(getClass().getResource(laf).toExternalForm());
             dialogPane.getStyleClass().add("dlgDefault");
             Optional<ButtonType> closeResponse = encryptionInformation.showAndWait();
             if (!ButtonType.OK.equals(closeResponse.get()))
@@ -450,7 +452,7 @@ public class Cryptogen implements Initializable
             decryptionInformation.initModality(Modality.APPLICATION_MODAL);
             decryptionInformation.initOwner(getCurrentStage());
             DialogPane dialogPane = decryptionInformation.getDialogPane();
-            dialogPane.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+            dialogPane.getStylesheets().add(getClass().getResource(laf).toExternalForm());
             dialogPane.getStyleClass().add("dlgDefault");
             Optional<ButtonType> closeResponse = decryptionInformation.showAndWait();
             if (!ButtonType.OK.equals(closeResponse.get()))
@@ -466,8 +468,8 @@ public class Cryptogen implements Initializable
         }
         catch(EmptyKeyException ex)
         {
-            txtKey.getStyleClass().remove("txtDefault");
-            txtKey.getStyleClass().add("txtDefaultError");
+            pneKey.getStyleClass().remove("pneDefault");
+            pneKey.getStyleClass().add("pneDefaultError");
             txtKey.requestFocus();
             handleException(ex, "Error", "Empty Key Value", ex.getMessage());
         }
@@ -621,7 +623,7 @@ public class Cryptogen implements Initializable
         closeConfirmation.initOwner(getCurrentStage());
         exiting = true;
         DialogPane dialogPane = closeConfirmation.getDialogPane();
-        dialogPane.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+        dialogPane.getStylesheets().add(getClass().getResource(laf).toExternalForm());
         dialogPane.getStyleClass().add("dlgDefault");
         Optional<ButtonType> closeResponse = closeConfirmation.showAndWait();
         if (ButtonType.OK.equals(closeResponse.get()))
@@ -704,7 +706,7 @@ public class Cryptogen implements Initializable
             {
                 Alert warning = new Alert(Alert.AlertType.WARNING, "Please copy something to paste.");
                 DialogPane dialogPane = warning.getDialogPane();
-                dialogPane.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+                dialogPane.getStylesheets().add(getClass().getResource(laf).toExternalForm());
                 dialogPane.getStyleClass().add("dlgDefault");
                 warning.initModality(Modality.APPLICATION_MODAL);
                 warning.initOwner(getCurrentStage());
@@ -777,7 +779,7 @@ public class Cryptogen implements Initializable
     @FXML
     protected void mnuLaF_MidnaDark_Clicked(ActionEvent event)
     {
-        laf = "MidnaDark";
+        laf = "MidnaDark.css";
         vbox.getStylesheets().clear();
         vbox.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
         pneKey.getStylesheets().clear();
@@ -817,7 +819,7 @@ public class Cryptogen implements Initializable
     @FXML
     protected void mnuLaF_Midna_Clicked(ActionEvent event)
     {
-        laf = "Midna";
+        laf = "Midna.css";
         vbox.getStylesheets().clear();
         vbox.getStylesheets().add(getClass().getResource("Midna.css").toExternalForm());
         pneKey.getStylesheets().clear();
@@ -857,7 +859,7 @@ public class Cryptogen implements Initializable
     @FXML
     protected void mnuLaF_BreathDark_Clicked(ActionEvent event)
     {
-        laf = "BreathDark";
+        laf = "BreathDark.css";
         vbox.getStylesheets().clear();
         vbox.getStylesheets().add(getClass().getResource("BreathDark.css").toExternalForm());
         pneKey.getStylesheets().clear();
@@ -904,12 +906,7 @@ public class Cryptogen implements Initializable
         closeConfirmation.initOwner(getCurrentStage());
         exiting = true;
         DialogPane dialogPane = closeConfirmation.getDialogPane();
-        if(laf.equals("MidnaDark"))
-            dialogPane.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
-        else if(laf.equals("Midna"))
-            dialogPane.getStylesheets().add(getClass().getResource("Midna.css").toExternalForm());
-        else if(laf.equals("BreathDark"))
-            dialogPane.getStylesheets().add(getClass().getResource("BreathDark.css").toExternalForm());
+        dialogPane.getStylesheets().add(getClass().getResource(laf).toExternalForm());
         dialogPane.getStyleClass().add("dlgDefault");
         Optional<ButtonType> closeResponse = closeConfirmation.showAndWait();
         if (!ButtonType.OK.equals(closeResponse.get()))
@@ -966,12 +963,7 @@ public class Cryptogen implements Initializable
         error.setTitle(title);
         error.setHeaderText(header);
         DialogPane dialogPane = error.getDialogPane();
-        if(laf.equals("MidnaDark"))
-            dialogPane.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
-        else if(laf.equals("Midna"))
-            dialogPane.getStylesheets().add(getClass().getResource("Midna.css").toExternalForm());
-        else if(laf.equals("BreathDark"))
-            dialogPane.getStylesheets().add(getClass().getResource("BreathDark.css").toExternalForm());
+        dialogPane.getStylesheets().add(getClass().getResource(laf).toExternalForm());
         dialogPane.getStyleClass().add("dlgDefault");
         error.showAndWait();
     }

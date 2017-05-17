@@ -23,7 +23,7 @@ public class Main extends Application
     {
         cgWindow.initStyle(StageStyle.DECORATED);
         cgWindow.getIcons().add(new Image(getClass().getResourceAsStream("/icons/cryogen/icon.png")));
-        cgWindow.setTitle("Cryptogen Beta");
+        cgWindow.setTitle("Cryptogen V1.0");
         FXMLLoader loader;
         if(System.getProperty("os.name").startsWith("Windows"))
             loader = new FXMLLoader(getClass().getResource("CryptogenWindows.fxml"));
@@ -33,6 +33,7 @@ public class Main extends Application
         cgWindow.setWidth(720);
         cgWindow.setResizable(false);
         cgWindow.setScene(createScene(loader.load()));
+        cgWindow.getScene().getStylesheets().add("Midna.css");
         Cryptogen cg = loader.getController();
         cg.initialize(cgWindow);
         cgWindow.show();
