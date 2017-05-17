@@ -13,7 +13,7 @@
 
 <VBox id="vbox" fx:id="vbox" prefHeight="580.0" prefWidth="730.0" styleClass="vbox" stylesheets="@MidnaDark.css" xmlns="http://javafx.com/javafx/8.0.131" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cryogen.Cryptogen">
         <AnchorPane id="anchorPane" prefHeight="281.0" prefWidth="444.0" VBox.vgrow="ALWAYS">
-            <MenuBar id="mnu" layoutY="2.0" prefHeight="24.0" prefWidth="730.0">
+            <MenuBar id="mnu" fx:id="mnu" layoutY="2.0" prefHeight="24.0" prefWidth="730.0">
                 <Menu mnemonicParsing="false" text="File">
                     <MenuItem id="mnuFile_ClearFiles" mnemonicParsing="false" onAction="#mnuFile_ClearFiles_Clicked" text="Clear Files" />
                     <MenuItem mnemonicParsing="false" onAction="#mnuFile_PasteFiles_Clicked" text="Paste Files" />
@@ -30,7 +30,7 @@
                 <Menu mnemonicParsing="false" text="Look and Feel">
                     <MenuItem mnemonicParsing="false" onAction="#mnuLaF_MidnaDark_Clicked" text="Midna Dark" />
                     <MenuItem mnemonicParsing="false" onAction="#mnuLaF_Midna_Clicked" text="Midna" />
-                    <MenuItem mnemonicParsing="false" onAction="#mnuLaF_Breathe_Clicked" text="Breathe" />
+                    <MenuItem mnemonicParsing="false" onAction="#mnuLaF_BreathDark_Clicked" text="Breath" />
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <MenuItem mnemonicParsing="false" text="About" />
@@ -46,17 +46,17 @@
                   </AnchorPane>
             </TitledPane>
             <Button id="btnEncryptMessage" fx:id="btnEncryptMessage" layoutX="17.0" layoutY="541.0" mnemonicParsing="false" onAction="#btnEncryptMessage_Clicked" prefHeight="25.0" prefWidth="165.0" styleClass="btnEncryptMessage" stylesheets="@MidnaDark.css" text="Encrypt Message" />
-            <Button id="btnEncryptFiles" layoutX="372.0" layoutY="541.0" mnemonicParsing="false" onAction="#btnEncryptFiles_Clicked" prefHeight="25.0" prefWidth="165.0" styleClass="btnEncryptFiles" stylesheets="@MidnaDark.css" text="Encrypt File(s)" />
-            <Button id="btnDecryptMessage" layoutX="192.0" layoutY="541.0" mnemonicParsing="false" onAction="#btnDecryptMessage_Clicked" prefHeight="25.0" prefWidth="170.0" styleClass="btnDecryptMessage" stylesheets="@MidnaDark.css" text="Decrypt Message" />
-            <Button id="btnDecryptFiles" layoutX="547.0" layoutY="541.0" mnemonicParsing="false" onAction="#btnDecryptFiles_Clicked" prefHeight="25.0" prefWidth="165.0" styleClass="btnDecryptFiles" stylesheets="@MidnaDark.css" text="Decrypt File(s)" />
+            <Button id="btnEncryptFiles" fx:id="btnEncryptFiles" layoutX="372.0" layoutY="541.0" mnemonicParsing="false" onAction="#btnEncryptFiles_Clicked" prefHeight="25.0" prefWidth="165.0" styleClass="btnEncryptFiles" stylesheets="@MidnaDark.css" text="Encrypt File(s)" />
+            <Button id="btnDecryptMessage" fx:id="btnDecryptMessage" layoutX="192.0" layoutY="541.0" mnemonicParsing="false" onAction="#btnDecryptMessage_Clicked" prefHeight="25.0" prefWidth="170.0" styleClass="btnDecryptMessage" stylesheets="@MidnaDark.css" text="Decrypt Message" />
+            <Button id="btnDecryptFiles" fx:id="btnDecryptFiles" layoutX="547.0" layoutY="541.0" mnemonicParsing="false" onAction="#btnDecryptFiles_Clicked" prefHeight="25.0" prefWidth="165.0" styleClass="btnDecryptFiles" stylesheets="@MidnaDark.css" text="Decrypt File(s)" />
             <TitledPane id="pneKeyPane" fx:id="pneKey" collapsible="false" layoutX="419.0" layoutY="41.0" prefHeight="161.0" prefWidth="295.0" styleClass="pneDefault" stylesheets="@MidnaDark.css" text="Encryption/Decryption Key:">
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="149.0" prefWidth="393.0">
                         <TextArea id="txtKey" fx:id="txtKey" onKeyTyped="#txtKey_OnKeyType" prefHeight="138.0" prefWidth="291.0" style="-fx-border-color: #000;" styleClass="txtDefault" stylesheets="@MidnaDark.css" wrapText="true" />
                   </AnchorPane>
             </TitledPane>
-            <TitledPane id="pneMessagePane" collapsible="false" layoutX="14.0" layoutY="216.0" prefHeight="314.0" prefWidth="395.0" styleClass="pneDefault" stylesheets="@MidnaDark.css" text="Message Text:">
+            <TitledPane id="pneMessagePane" fx:id="pneMessagePane" collapsible="false" layoutX="14.0" layoutY="216.0" prefHeight="314.0" prefWidth="395.0" styleClass="pneDefault" stylesheets="@MidnaDark.css" text="Message Text:">
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="149.0" prefWidth="393.0">
-                        <TextArea id="txtMessage" fx:id="txtMessage" prefHeight="290.0" prefWidth="391.0" style="-fx-border-color: #000;" styleClass="txtDefault" stylesheets="@MidnaDark.css" wrapText="true" />
+                        <TextArea id="txtMessage" fx:id="txtMessage" onKeyTyped="#txtMessage_OnKeyType" prefHeight="290.0" prefWidth="391.0" style="-fx-border-color: #000;" styleClass="txtDefault" stylesheets="@MidnaDark.css" wrapText="true" />
                   </AnchorPane>
             </TitledPane>
             <TitledPane id="pneFilePane" fx:id="pneFilePane" collapsible="false" layoutX="419.0" layoutY="216.0" prefHeight="314.0" prefWidth="295.0" styleClass="pneFilePane" stylesheets="@MidnaDark.css" text="Drag &amp; Drop Files:">

@@ -46,6 +46,7 @@ public class Cryptogen implements Initializable
     private String message;
     private String header;
     private String method;
+    private String laf;
     //GUI Instance Variables
     @FXML private TitledPane pneAlgorithmsPane;
     @FXML private StackPane stackPane;
@@ -58,6 +59,11 @@ public class Cryptogen implements Initializable
     @FXML private TextArea txtMessage;
     @FXML private TextArea txtKey;
     @FXML private VBox vbox;
+    @FXML private Button btnEncryptMessage;
+    @FXML private Button btnEncryptFiles;
+    @FXML private Button btnDecryptMessage;
+    @FXML private Button btnDecryptFiles;
+    @FXML private TitledPane pneMessagePane;
     private final ToggleGroup algorithms;
     private Stage currentStage;
 
@@ -72,6 +78,7 @@ public class Cryptogen implements Initializable
         message = "";
         header = "";
         method = "";
+        laf = "MidnaDark";
     }
 
     /**
@@ -123,13 +130,13 @@ public class Cryptogen implements Initializable
             if (new String(newMessage).equals(""))
             {
                 txtMessage.requestFocus();
-                throw new Exception("Please Enter a Password");
+                throw new EmptyMessageException("Please Enter a Message to Encrypt");
             }
             char[] key = txtKey.getText().toCharArray();
             if (new String(key).equals(""))
             {
                 txtKey.requestFocus();
-                throw new Exception("Please Enter a Key");
+                throw new EmptyKeyException("Please Enter a Key");
             }
 
             if (radVigenere.isSelected())
@@ -158,6 +165,20 @@ public class Cryptogen implements Initializable
         {
             ex.printStackTrace();
             handleException(ex, "Key Out of Bounds", "Key contains illegal characters", ex.getMessage());
+        }
+        catch(EmptyKeyException ex)
+        {
+            pneKey.getStyleClass().remove("pneDefault");
+            pneKey.getStyleClass().add("pneDefaultError");
+            txtKey.requestFocus();
+            handleException(ex, "Error", "Empty Key Value", ex.getMessage());
+        }
+        catch (EmptyMessageException ex)
+        {
+            pneMessagePane.getStyleClass().remove("pneDefault");
+            pneMessagePane.getStyleClass().add("pneDefaultError");
+            txtMessage.requestFocus();
+            handleException(ex, "Error", "Empty Message", ex.getMessage());
         }
         catch (Exception ex)
         {
@@ -308,6 +329,7 @@ public class Cryptogen implements Initializable
         {
             pneKey.getStyleClass().remove("pneDefault");
             pneKey.getStyleClass().add("pneDefaultError");
+            txtKey.requestFocus();
             handleException(ex, "Error", "Empty Key Value", ex.getMessage());
         }
         catch(OutOfMemoryError e)
@@ -337,13 +359,13 @@ public class Cryptogen implements Initializable
             if (new String(newMessage).equals(""))
             {
                 txtMessage.requestFocus();
-                throw new Exception("Please Enter a Message to Encrypt or Decrypt");
+                throw new EmptyMessageException("Please Enter a Message to Decrypt");
             }
             char[] key = txtKey.getText().toCharArray();
             if (new String(key).equals(""))
             {
                 txtKey.requestFocus();
-                throw new Exception("Please Enter a Key");
+                throw new EmptyKeyException("Please Enter a Key");
             }
             if (radVigenere.isSelected())
             {
@@ -371,6 +393,20 @@ public class Cryptogen implements Initializable
         {
             ex.printStackTrace();
             handleException(ex, "Key Out of Bounds", "Key contains illegal characters", ex.getMessage());
+        }
+        catch(EmptyKeyException ex)
+        {
+            pneKey.getStyleClass().remove("pneDefault");
+            pneKey.getStyleClass().add("pneDefaultError");
+            txtKey.requestFocus();
+            handleException(ex, "Error", "Empty Key Value", ex.getMessage());
+        }
+        catch (EmptyMessageException ex)
+        {
+            pneMessagePane.getStyleClass().remove("pneDefault");
+            pneMessagePane.getStyleClass().add("pneDefaultError");
+            txtMessage.requestFocus();
+            handleException(ex, "Error", "Empty Message", ex.getMessage());
         }
         catch (Exception ex)
         {
@@ -432,6 +468,7 @@ public class Cryptogen implements Initializable
         {
             txtKey.getStyleClass().remove("txtDefault");
             txtKey.getStyleClass().add("txtDefaultError");
+            txtKey.requestFocus();
             handleException(ex, "Error", "Empty Key Value", ex.getMessage());
         }
         catch(OutOfMemoryError e)
@@ -453,6 +490,15 @@ public class Cryptogen implements Initializable
     {
         pneKey.getStyleClass().remove("pneDefaultError");
         pneKey.getStyleClass().add("pneDefault");
+    }
+    /**
+     * Method handles event where key is typed in Message text area
+     */
+    @FXML
+    protected void txtMessage_OnKeyType()
+    {
+        pneMessagePane.getStyleClass().remove("pneDefaultError");
+        pneMessagePane.getStyleClass().add("pneDefault");
     }
 
     /**
@@ -731,9 +777,37 @@ public class Cryptogen implements Initializable
     @FXML
     protected void mnuLaF_MidnaDark_Clicked(ActionEvent event)
     {
-        vbox.getStylesheets().remove(getClass().getResource("Midna.css").toExternalForm());
-        vbox.getStylesheets().remove(getClass().getResource("Breathe.css").toExternalForm());
+        laf = "MidnaDark";
+        vbox.getStylesheets().clear();
         vbox.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+        pneKey.getStylesheets().clear();
+        pneKey.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+        pneFilePane.getStylesheets().clear();
+        pneFilePane.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+        pneAlgorithmsPane.getStylesheets().clear();
+        pneAlgorithmsPane.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+        pneMessagePane.getStylesheets().clear();
+        pneMessagePane.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+        txtKey.getStylesheets().clear();
+        txtKey.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+        txtMessage.getStylesheets().clear();
+        txtMessage.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+        btnEncryptMessage.getStylesheets().clear();
+        btnEncryptMessage.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+        btnDecryptMessage.getStylesheets().clear();
+        btnDecryptMessage.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+        btnEncryptFiles.getStylesheets().clear();
+        btnEncryptFiles.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+        btnDecryptFiles.getStylesheets().clear();
+        btnDecryptFiles.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+        radElephant.getStylesheets().clear();
+        radElephant.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+        radColumnarTrans.getStylesheets().clear();
+        radColumnarTrans.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+        radVernam.getStylesheets().clear();
+        radVernam.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+        radVigenere.getStylesheets().clear();
+        radVigenere.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
     }
 
     /**
@@ -743,9 +817,37 @@ public class Cryptogen implements Initializable
     @FXML
     protected void mnuLaF_Midna_Clicked(ActionEvent event)
     {
-        vbox.getStylesheets().remove(getClass().getResource("@MidnaDark.css").toExternalForm());
-        vbox.getStylesheets().remove(getClass().getResource("@Breathe.css").toExternalForm());
-        vbox.getStylesheets().add(getClass().getResource("@Midna.css").toExternalForm());
+        laf = "Midna";
+        vbox.getStylesheets().clear();
+        vbox.getStylesheets().add(getClass().getResource("Midna.css").toExternalForm());
+        pneKey.getStylesheets().clear();
+        pneKey.getStylesheets().add(getClass().getResource("Midna.css").toExternalForm());
+        pneFilePane.getStylesheets().clear();
+        pneFilePane.getStylesheets().add(getClass().getResource("Midna.css").toExternalForm());
+        pneAlgorithmsPane.getStylesheets().clear();
+        pneAlgorithmsPane.getStylesheets().add(getClass().getResource("Midna.css").toExternalForm());
+        pneMessagePane.getStylesheets().clear();
+        pneMessagePane.getStylesheets().add(getClass().getResource("Midna.css").toExternalForm());
+        txtKey.getStylesheets().clear();
+        txtKey.getStylesheets().add(getClass().getResource("Midna.css").toExternalForm());
+        txtMessage.getStylesheets().clear();
+        txtMessage.getStylesheets().add(getClass().getResource("Midna.css").toExternalForm());
+        btnEncryptMessage.getStylesheets().clear();
+        btnEncryptMessage.getStylesheets().add(getClass().getResource("Midna.css").toExternalForm());
+        btnDecryptMessage.getStylesheets().clear();
+        btnDecryptMessage.getStylesheets().add(getClass().getResource("Midna.css").toExternalForm());
+        btnEncryptFiles.getStylesheets().clear();
+        btnEncryptFiles.getStylesheets().add(getClass().getResource("Midna.css").toExternalForm());
+        btnDecryptFiles.getStylesheets().clear();
+        btnDecryptFiles.getStylesheets().add(getClass().getResource("Midna.css").toExternalForm());
+        radElephant.getStylesheets().clear();
+        radElephant.getStylesheets().add(getClass().getResource("Midna.css").toExternalForm());
+        radColumnarTrans.getStylesheets().clear();
+        radColumnarTrans.getStylesheets().add(getClass().getResource("Midna.css").toExternalForm());
+        radVernam.getStylesheets().clear();
+        radVernam.getStylesheets().add(getClass().getResource("Midna.css").toExternalForm());
+        radVigenere.getStylesheets().clear();
+        radVigenere.getStylesheets().add(getClass().getResource("Midna.css").toExternalForm());
     }
 
     /**
@@ -753,17 +855,40 @@ public class Cryptogen implements Initializable
      * @param event
      */
     @FXML
-    protected void mnuLaF_Breathe_Clicked(ActionEvent event)
+    protected void mnuLaF_BreathDark_Clicked(ActionEvent event)
     {
-        vbox.getStylesheets().remove(getClass().getResource("MidnaDark.css").toExternalForm());
-        vbox.getStylesheets().remove(getClass().getResource("Midna.css").toExternalForm());
-        vbox.getStylesheets().add(getClass().getResource("Breathe.css").toExternalForm());
-
-        vbox.getStylesheets().remove(getClass().getResource("MidnaDark.css").toExternalForm());
-        vbox.getStylesheets().remove(getClass().getResource("Midna.css").toExternalForm());
-        vbox.getStylesheets().add(getClass().getResource("Breathe.css").toExternalForm());
+        laf = "BreathDark";
+        vbox.getStylesheets().clear();
+        vbox.getStylesheets().add(getClass().getResource("BreathDark.css").toExternalForm());
+        pneKey.getStylesheets().clear();
+        pneKey.getStylesheets().add(getClass().getResource("BreathDark.css").toExternalForm());
+        pneFilePane.getStylesheets().clear();
+        pneFilePane.getStylesheets().add(getClass().getResource("BreathDark.css").toExternalForm());
+        pneAlgorithmsPane.getStylesheets().clear();
+        pneAlgorithmsPane.getStylesheets().add(getClass().getResource("BreathDark.css").toExternalForm());
+        pneMessagePane.getStylesheets().clear();
+        pneMessagePane.getStylesheets().add(getClass().getResource("BreathDark.css").toExternalForm());
+        txtKey.getStylesheets().clear();
+        txtKey.getStylesheets().add(getClass().getResource("BreathDark.css").toExternalForm());
+        txtMessage.getStylesheets().clear();
+        txtMessage.getStylesheets().add(getClass().getResource("BreathDark.css").toExternalForm());
+        btnEncryptMessage.getStylesheets().clear();
+        btnEncryptMessage.getStylesheets().add(getClass().getResource("BreathDark.css").toExternalForm());
+        btnDecryptMessage.getStylesheets().clear();
+        btnDecryptMessage.getStylesheets().add(getClass().getResource("BreathDark.css").toExternalForm());
+        btnEncryptFiles.getStylesheets().clear();
+        btnEncryptFiles.getStylesheets().add(getClass().getResource("BreathDark.css").toExternalForm());
+        btnDecryptFiles.getStylesheets().clear();
+        btnDecryptFiles.getStylesheets().add(getClass().getResource("BreathDark.css").toExternalForm());
+        radElephant.getStylesheets().clear();
+        radElephant.getStylesheets().add(getClass().getResource("BreathDark.css").toExternalForm());
+        radColumnarTrans.getStylesheets().clear();
+        radColumnarTrans.getStylesheets().add(getClass().getResource("BreathDark.css").toExternalForm());
+        radVernam.getStylesheets().clear();
+        radVernam.getStylesheets().add(getClass().getResource("BreathDark.css").toExternalForm());
+        radVigenere.getStylesheets().clear();
+        radVigenere.getStylesheets().add(getClass().getResource("BreathDark.css").toExternalForm());
     }
-
 
     /**
      * Method to prompt before exit
@@ -779,7 +904,12 @@ public class Cryptogen implements Initializable
         closeConfirmation.initOwner(getCurrentStage());
         exiting = true;
         DialogPane dialogPane = closeConfirmation.getDialogPane();
-        dialogPane.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+        if(laf.equals("MidnaDark"))
+            dialogPane.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+        else if(laf.equals("Midna"))
+            dialogPane.getStylesheets().add(getClass().getResource("Midna.css").toExternalForm());
+        else if(laf.equals("BreathDark"))
+            dialogPane.getStylesheets().add(getClass().getResource("BreathDark.css").toExternalForm());
         dialogPane.getStyleClass().add("dlgDefault");
         Optional<ButtonType> closeResponse = closeConfirmation.showAndWait();
         if (!ButtonType.OK.equals(closeResponse.get()))
@@ -836,7 +966,12 @@ public class Cryptogen implements Initializable
         error.setTitle(title);
         error.setHeaderText(header);
         DialogPane dialogPane = error.getDialogPane();
-        dialogPane.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+        if(laf.equals("MidnaDark"))
+            dialogPane.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+        else if(laf.equals("Midna"))
+            dialogPane.getStylesheets().add(getClass().getResource("Midna.css").toExternalForm());
+        else if(laf.equals("BreathDark"))
+            dialogPane.getStylesheets().add(getClass().getResource("BreathDark.css").toExternalForm());
         dialogPane.getStyleClass().add("dlgDefault");
         error.showAndWait();
     }
