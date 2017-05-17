@@ -346,6 +346,10 @@ public class Cryptography
 
                 cipher[i] = (char) (plainText[i] ^ asck[c]);
 
+<<<<<<< Updated upstream
+=======
+                cipher[i] = (char)(((d^asck[c])%95) + 32);
+>>>>>>> Stashed changes
                 c++;
             }
 
@@ -374,7 +378,12 @@ public class Cryptography
                 if(c == b)
                     c = 0;
 
+<<<<<<< Updated upstream
                 message[i] = (char)((int)cipherText[i] ^ asck[c]);
+=======
+                message[i] = (char)((((int)cipherText[i] - 32) ^ asck[c]) + 32);
+
+>>>>>>> Stashed changes
 
                 c++;
             }
