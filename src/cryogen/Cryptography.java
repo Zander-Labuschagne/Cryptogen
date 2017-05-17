@@ -856,19 +856,15 @@ public class Cryptography
          */
         public static void encrypt(File plainFile, char[] key)
         {
-            int b = key.length;
-
             try
             {
                 Path path = Paths.get(plainFile.getAbsolutePath());
                 final byte[] plainData = Files.readAllBytes(path);
-                int a = plainData.length;
-                byte[] cipherData = new byte[a];
-                int[] asck = new int[b];
+                final byte[] cipherData = new byte[plainData.length];
 
+                final byte[] cipher12 = new byte[cipherData.length];
 
-                for(int j=0; j<b; j++)
-                    asck[j] = (int)key[j]-32;
+                final SLL<Byte> cipher = new SLL<Byte>();
 
                 Progress progress = new Progress("Encryption");
                 // In real life this task would do something useful and return
@@ -878,14 +874,31 @@ public class Cryptography
                     @Override
                     public byte[] call() throws InterruptedException
                     {
-                        for (int i = 0; i < a; i++)
+                        for (int vi = 0; vi < plainData.length; vi++)
                         {
-                            updateProgress(i, plainData.length);
-
-                            cipherData[(i+b)%b] = (byte)((((((int)plainData[i] - 32)^asck[i%b]) + b)%95) + 32);
+                            updateProgress(vi, plainData.length * 3 + key.length);
+                            cipherData[vi] = (byte) ((int) plainData[vi] ^ (int) key[vi % key.length]);
                         }
 
-                        return cipherData;
+                        for(int xxxx = 0; xxxx < cipher12.length; xxxx++)
+                        {
+                            updateProgress(xxxx, plainData.length * 2 + key.length);
+                            cipher.addToTail(new Byte(cipherData[xxxx]));
+                        }
+
+                        for(int xxxxi = 0; xxxxi < key.length; xxxxi++)
+                        {
+                            updateProgress(xxxxi, plainData.length + key.length);
+                            cipher.addToTail(cipher.deleteFromHead());
+                        }
+
+                        for(int xxxxii = 0; !cipher.isEmpty(); xxxxii++)
+                        {
+                            updateProgress(xxxxii, plainData.length);
+                            cipher12[xxxxii] = cipher.deleteFromHead();
+                        }
+
+                        return cipher12;
                     }
                 };
                 // binds progress of progress bars to progress of task:
@@ -948,15 +961,12 @@ public class Cryptography
         {
             try
             {
-                int b = key.length;
                 Path path = Paths.get(cipherFile.getAbsolutePath());
-                final byte[] plainData = Files.readAllBytes(path);
-                int a = plainData.length;
-                byte[] cipherData = new byte[a];
-                int[] asck = new int[b];
+                final byte[] cipherData = Files.readAllBytes(path);
+                final byte[] plainData = new byte[cipherData.length];
 
-                for(int j=0; j<b; j++)
-                    asck[j] = (int)key[j]-32;
+                final byte[] cipher1 = new byte[cipherData.length];
+                final SLL<Byte> cipher = new SLL<>();
 
                 Progress progress = new Progress("Decryption");
                 // In real life this task would do something useful and return
@@ -966,12 +976,28 @@ public class Cryptography
                     @Override
                     public byte[] call() throws InterruptedException
                     {
-                        for(int i = 0; i < cipherData.length; i++)
+                        for(int xxxxiv = 0; xxxxiv < cipherData.length; xxxxiv++)
                         {
-                            updateProgress(i, cipherData.length);
+                            updateProgress(xxxxiv, cipherData.length * 3 + key.length);
+                            cipher.addToTail(cipherData[xxxxiv]);
+                        }
 
-                            //cipherData[(i+b)%b] = (byte)((((((int)plainData[i] - 32)^asck[i%b]) + b)%95) + 32);
-                            cipherData[(i+b)%b] = (byte)((((((int)plainData[i] - 32)^asck[i%b]) - b)%95) + 32);
+                        for(int xxxxv = 0; xxxxv < key.length; xxxxv++)
+                        {
+                            updateProgress(xxxxv, cipherData.length * 2 + key.length);
+                            cipher.addToHead(cipher.deleteFromTail());
+                        }
+
+                        for(int xxxxvi = 0; !cipher.isEmpty(); xxxxvi++)
+                        {
+                            updateProgress(xxxxvi, cipherData.length * 2);
+                            cipher1[xxxxvi] = cipher.deleteFromHead();
+                        }
+
+                        for(int xxxxiii = 0; xxxxiii < cipherData.length; xxxxiii++)
+                        {
+                            updateProgress(xxxxiii, cipherData.length);
+                            plainData[xxxxiii] = (byte) ((int) cipher1[xxxxiii] ^ (int) key[xxxxiii % key.length]);
                         }
 
                         return plainData;
