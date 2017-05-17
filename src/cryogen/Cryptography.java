@@ -809,8 +809,8 @@ public class Cryptography
             int b = key.length;
             int c = 0;
             int[] asck = new int[b];
-            int step1;
-            int step2;
+            char[] step1;
+            int step2 = 0;
             int step3 = b + 1;
             char[] cipher = new char[a];
 
@@ -825,9 +825,9 @@ public class Cryptography
                 if(step3==a)
                     step3 = 0;
 
-                step1 = ((int)plainText[i] - 32)^asck[c];
+                step1 = Cryptography.VernamCipher.encrypt(plainText, key);
 
-                step2 = ((step1 + b)%95) + 32;
+                //step2 = ((step1 + b)%95) + 32;
 
                 cipher[step3] = (char)step2;
 
@@ -851,7 +851,7 @@ public class Cryptography
             int[] asck = new int[b];
             int step1 = b + 1;
             int step2;
-            int step3;
+            char[] step3;
             char[] message = new char[a];
 
             for(int j=0; j<b; j++)
@@ -870,9 +870,9 @@ public class Cryptography
                 if(step2<0)
                     step2 = 95 + step2;
 
-                step3 = step2 ^ asck[c];
+                step3 = Cryptography.VernamCipher.decrypt(cipherText, key);
 
-                message[i] = (char)(step3 +32);
+                //message[i] = (char)(step3 +32);
 
                 c++;
                 step1++;
