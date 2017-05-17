@@ -362,7 +362,7 @@ public class Cryptography
 
                 d = (int)plainText[i] - 32;
 
-                cipher[i] = (char)(((d + asck[c])%95) + 32);
+                cipher[i] = (char)(((d ^ asck[c])%95) + 32);
                 c++;
             }
 
@@ -392,12 +392,9 @@ public class Cryptography
                 if(c == b)
                     c = 0;
 
-                d = ((int)cipherText[i] - 32) - asck[c];
+                d = ((int)cipherText[i] - 32) ^ asck[c];
 
-                if(d<0)
-                    message[i] = (char)((95 + d) + 32);
-                else
-                    message[i] = (char)(d + 32);
+                message[i] = (char)(d + 32);
 
                 c++;
             }
