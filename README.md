@@ -7,9 +7,10 @@ This project is part of a university assignment and is still in progress and is 
 Icons on Encrypt and Decrypt buttons  made by Maxim Basinski from http://www.flaticon.com at http://www.flaticon.com/authors/maxim-basinski and is licensed by Creative Commons BY 3.0 at http://creativecommons.org/licenses/by/3.0/
 All other icons are made by Madebyoliver from http://www.flaticon.com at http://www.flaticon.com/authors/madebyoliver and is licensed by Creative Commons BY 3.0. at http://creativecommons.org/licenses/by/3.0/
 
-The look and feel of Cryptogen is designed after the MidnaDark Plasma theme which is the dark theme used and designed by KaOS, a very beautiful KDE Linux distribution.
+Cryptogen has different look and feels(can be set in the menu bar) and is designed after various KDE Plasma themes such as the Midna Dark, Midna and Breathe Dark Plasma themes of which the Midna themes are the themes used and designed by KaOS, a very beautiful KDE Linux distribution. The Breathe Dark theme is designed after the KDE Plasma theme designed and used by Manjaro Linux, an ArchLinux based distribution which provides all the nice things of ArchLinux but with less maintenance efforts, easier to use and more user friendly.
 E-Mail of author, Anke Boersma: demm@kaosx.us
 KaOS Website: https://kaosx.us
+Manjaro Linux Website: https://manjaro.org/
 
 
 E-Mail: ZANDER.LABUSCHAGNE@PROTONMAIL.CH
