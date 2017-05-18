@@ -678,14 +678,14 @@ public class Cryptography
                 for(int j=0; j<a; j++)
                 {
                     if(c >= cipherText.length)
-                        coltrans[j][i] = 0;
+                        coltrans[i][j] = 0;
                     else
-                        coltrans[j][i] = cipherText[c];
+                        coltrans[i][j] = cipherText[c];
 
                     c++;
                 }
 
-            for(int i = 0; i<b; i++)
+            for(int i = 0; i<a; i++)
             {
                 for(int j = 0; j<a; j++)
                 {
@@ -695,8 +695,8 @@ public class Cryptography
 
             c = 0;
 
-            for(int i=0; i<b; i++)
-                for(int j=0; j<a; j++)
+            for(int i=0; i<a; i++)
+                for(int j=0; j<b; j++)
                 {
                     /*if(j==d)
                         if(i == (a-1))
