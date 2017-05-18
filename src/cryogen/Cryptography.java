@@ -671,8 +671,8 @@ public class Cryptography
             int c = 0;
             //int d = (b*a) - cipherText.length;
             char[] plainText = new char[b*a];
-            char[][] coltrans = new char[a][b];
-            char[][] coltrans2 = new char[b][a];
+            char[][] coltrans = new char[b][a];
+            char[][] coltrans2 = new char[a][b];
 
             for(int i=0; i<b; i++)
                 for(int j=0; j<a; j++)
