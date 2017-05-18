@@ -4,7 +4,9 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -13,10 +15,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -24,7 +28,6 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.*;
 import java.util.List;
@@ -723,6 +726,32 @@ public class Cryptogen implements Initializable
         }
         catch(Exception ex)
         {
+            handleException(ex);
+        }
+    }
+
+    /**
+     * Event Handler where Help -> About is clicked
+     * Opens About Window
+     * @param event
+     */
+    @FXML
+    private void mnuHelp_About_Clicked(ActionEvent event)
+    {
+        Parent about;
+        try
+        {
+            Stage aboutWindow = new Stage(StageStyle.UNDECORATED);
+            aboutWindow.initOwner(getCurrentStage());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("About.fxml"));
+            aboutWindow.setResizable(false);
+            aboutWindow.setScene(new Scene((Pane)loader.load()));
+            //About about = loader.<About>getController();
+            aboutWindow.showAndWait();
+        }
+        catch (IOException ex)
+        {
+            ex.printStackTrace();
             handleException(ex);
         }
     }
