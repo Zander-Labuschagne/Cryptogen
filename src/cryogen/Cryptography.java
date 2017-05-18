@@ -603,41 +603,69 @@ public class Cryptography
          */
         public static char[] encrypt(char[] plainText, char[] key)
         {
-            char[] cipherText = new char[key.length * (plainText.length / key.length + 1)];
-            char[][] plainTextCol = new char[plainText.length / key.length + 1][key.length];
-            int xiv = 0;
-            int xii = 0;
+            int a = key.length;
+            int b = (int)Math.floor(plainText.length / a) + 1;
+            int c = 0;
+            int d = 0;
+            int e = 0;
+            char[] cipherText = new char[plainText.length];
+            char[][] coltrans = new char[a][b];
+            char[][] coltrans2 = new char[b][a];
 
-            //Put text in column format
-            int x = 0;
-            for(int ix = 0; ix < key.length * (plainText.length / key.length + 1); ix++)
+            /*while(c < plainText.length)
             {
-                plainTextCol[x][ix % key.length] = ix >= plainText.length ? '|' : plainText[ix];
-                if((ix + 1) % key.length == 0)
-                    x++;
+                if(e == b)
+                {
+                    e = 0;
+                    d++;
+                }
+
+                coltrans[d][e] = plainText[c];
+
+                c++;
+                e++;
+            }*/
+
+            for(int i=0; i<a; i++)
+                for(int j=0; j<b; j++)
+                {
+                    if(c == plainText.length)
+                        coltrans[d][e] = 0;
+                    else
+                    {
+                        coltrans[d][e] = plainText[c];
+                        c++;
+                    }
+                }
+
+            for(int i = 0; i<b; i++)
+            {
+                for(int j = 0; j<a; j++)
+                {
+                    coltrans2[i][j] = coltrans[j][i];
+                }
             }
 
-            int[] blacklist = new int[key.length];
-            for(int xv = 0; xv < key.length; xv++)
+            c = 0;
+            e = 0;
+            d = 0;
+
+            while(c < plainText.length)
             {
-                int min = 0;
-                char cmin = key[0];
+                if(e == a)
+                {
+                    e = 0;
+                    d++;
+                }
 
-                //Finds smallest character in key other than the ones already used
-                for (int xi = 0; xi < key.length; xi++)
-                    if (cmin > key[xi] && !contains(blacklist, xi))
-                    {
-                        min = xi;
-                        cmin = key[xi];
-                    }
-                blacklist[xii++] = min;
+                cipherText[c] = coltrans2[d][e];
 
-                //Add to cipher text from column of plain text
-                for (int xiii = 0; xiii < plainTextCol.length; xiii++)
-                    cipherText[xiv++] = plainTextCol[xiii][min];
+                c++;
+                e++;
             }
 
             return cipherText;
+
         }
 
         /**
@@ -647,92 +675,52 @@ public class Cryptography
          */
         public static char[] decrypt(char[] cipherText, char[] key)
         {
-            char[] plainText = new char[key.length * (cipherText.length / key.length + 2)];
-            char[][] cipherTextCol = new char[key.length + 1][cipherText.length / key.length + 2];
-            int xviii = 0;
-            int xix = 0;
-            char[][] plainTextCol = new char[cipherText.length / key.length + 1][key.length +1];
+            int a = key.length;
+            int b = (int)(Math.ceil(cipherText.length/a));
+            int c = 0;
+            int d = 0;
+            int e = 0;
+            char[] message = new char[cipherText.length];
+            char[][] coltrans = new char[b][a];
+            char[][] coltrans2 = new char[a][b];
 
-            //Put cipher text in column format
-            int xx = 0;
-            int xxvi = 0;
-            int xxvii = 1;
-            int xxviii = 0;
-            int xxix = 0;
-            for(int xxi = 0; xxvi < cipherTextCol.length && xxi < cipherText.length && xxix < cipherText.length; xxi++)
+            while(c<cipherText.length)
             {
-                if(xxi == 0)
+                if(e == b)
                 {
-                    cipherTextCol[xxvi][xx++] = cipherText[xxvi];
-                    xxix++;
+                    e = 0;
+                    d++;
                 }
-                if((xxi + xxvii - xxviii) % key.length == 0)
-                {
-                    if(xxi + xxvii - xxviii != 0)
-                    {
-                        cipherTextCol[xxvi][xx++] = cipherText[xxi];
-                        xxix++;
-                        xxvii++;
-                    }
-                }
-                if(xx == key.length)
-                {
-                    xx = 0;
-                    xxvi++;
-                    xxi = -1;
-                    xxvii = 1;
-                    xxviii++;
-                }
+
+                coltrans[e][d] = cipherText[c];
+
+                e++;
+                c++;
             }
 
+            for(int i=0; i<a; i++)
+                for(int j=0; j<b; j++)
+                    coltrans2[i][j] = coltrans[j][i];
 
-            int[] blacklist = new int[key.length];
+            c = 0;
+            d = 0;
+            e = 0;
 
-            for(int xxii = 0; xxii < key.length; xxii++)
+            while(c<cipherText.length)
             {
-                char cmin = key[0];
-                int min = 0;
-
-                //Finds smallest character in key other than the ones already used
-                for (int xi = 0; xi < key.length; xi++)
-                    if (cmin > key[xi] && !contains(blacklist, xi))
-                    {
-                        min = xi;
-                        cmin = key[xi];
-                    }
-                blacklist[xix++] = min;
-
-
-                for(int xxiv = 0; xxiv < plainTextCol.length; xxiv++)
-                    plainTextCol[xxiv][min] = cipherTextCol[xxiv][xxii];
-
-
-            }
-
-            for (int xiii = 0; xiii < plainTextCol.length; xiii++)
-            {
-                for (int xxx = 0; xxx < plainTextCol[xiii].length; xxx++)
-                    System.out.print(plainTextCol[xiii][xxx] + " ");
-                System.out.print("\n");
-            }
-
-
-            //Add to plain text from column of plain text
-            /*for (int xiii = 0; xiii < plainTextCol.length; xiii++)
-                for(int xxx = 0; xxx < plainTextCol[xiii].length; xxx++)
-                    plainText[xviii++] = plainTextCol[xiii][xxx] == '|' ? ' ' : plainTextCol[xiii][xxx];*/
-
-            int xxx = 0;
-            for(int xiii = 1; xiii <= cipherText.length; xiii++)
-            {
-                plainText[xiii-1] = plainTextCol[xxx][(xiii-1) % key.length] == '|' ? ' ' : plainTextCol[xxx][(xiii-1) % key.length];
-                if(xiii % key.length == 0)
+                if(e == a)
                 {
-                    xxx++;
+                    e = 0;
+                    d++;
                 }
+
+                message[c] = coltrans2[e][d];
+
+                e++;
+                c++;
             }
 
-            return plainText;
+            return message;
         }
 
         /***********------------File Cryptography------------***********/
