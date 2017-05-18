@@ -818,9 +818,9 @@ public class Cryptography
                 int a = key.length;
                 int b = (plainData.length/a)+1;
                // final int c = 0;
-                byte[][] coltrans = new byte[a][b];
-                byte[][] coltrans2 = new byte[b][a];
-                byte[] cipherData = new byte[a*b];
+                final byte[][] coltrans = new byte[a][b];
+                final byte[][] coltrans2 = new byte[b][a];
+                final byte[] cipherData = new byte[a*b];
 
                 Progress progress = new Progress("Encryption");
                 // In real life this task would do something useful and return
@@ -839,6 +839,7 @@ public class Cryptography
                        int c =0;
                        for(int i=0; i<a; i++)
                        {
+                           updateProgress(i, a + 2 * b);
                            for(int j=0; j<b; j++)
                            {
                                if(c<plainData.length)
@@ -852,13 +853,17 @@ public class Cryptography
                        }
 
                        for(int i=0; i<b; i++)
-                           for(int j=0; j<a; j++)
+                       {
+                           updateProgress(i, 2 * b);
+                           for (int j = 0; j < a; j++)
                                coltrans2[i][j] = coltrans[j][i];
+                       }
 
                        c = 0;
 
                        for(int i=0; i<b; i++)
                        {
+                           updateProgress(i, b);
                            for(int j=0; j<a; j++)
                            {
                                cipherData[c] = coltrans2[i][j];
@@ -934,9 +939,9 @@ public class Cryptography
                 int a = key.length;
                 int b = (cipherData.length/a)+1;
                 // final int c = 0;
-                byte[][] coltrans = new byte[a][b];
-                byte[][] coltrans2 = new byte[b][a];
-                byte[] plainData = new byte[a*b];
+                final byte[][] coltrans = new byte[a][b];
+                final byte[][] coltrans2 = new byte[b][a];
+                final byte[] plainData = new byte[a*b];
 
                 Progress progress = new Progress("Encryption");
                 // In real life this task would do something useful and return
@@ -955,6 +960,7 @@ public class Cryptography
                         int c =0;
                         for(int i=0; i<a; i++)
                         {
+                            updateProgress(i, a + 2 * b);
                             for(int j=0; j<b; j++)
                             {
                                 if(c<cipherData.length)
@@ -968,13 +974,17 @@ public class Cryptography
                         }
 
                         for(int i=0; i<b; i++)
-                            for(int j=0; j<a; j++)
+                        {
+                            updateProgress(i, 2 * b);
+                            for (int j = 0; j < a; j++)
                                 coltrans2[i][j] = coltrans[j][i];
+                        }
 
                         c = 0;
 
                         for(int i=0; i<b; i++)
                         {
+                            updateProgress(i, b);
                             for(int j=0; j<a; j++)
                             {
                                 plainData[c] = coltrans2[i][j];

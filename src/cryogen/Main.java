@@ -33,7 +33,7 @@ public class Main extends Application
         cgWindow.setWidth(720);
         cgWindow.setResizable(false);
         cgWindow.setScene(createScene(loader.load()));
-        cgWindow.getScene().getStylesheets().add("Midna.css");
+        cgWindow.getScene().getStylesheets().add("BreathDark.css");
         Cryptogen cg = loader.getController();
         cg.initialize(cgWindow);
         cgWindow.show();

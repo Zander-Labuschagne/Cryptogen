@@ -1,4 +1,4 @@
-PWD /home/zander/Dropbox/Projects/2017/Cryptogen/Cryptogen/documentation
+PWD /home/zander/IdeaProjects/Cryptogen/documentation
 INPUT /usr/share/texmf-dist/web2c/texmf.cnf
 INPUT /var/lib/texmf/web2c/pdftex/pdflatex.fmt
 INPUT Cryptogen Manual.tex

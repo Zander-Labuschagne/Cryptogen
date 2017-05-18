@@ -81,7 +81,7 @@ public class Cryptogen implements Initializable
         message = "";
         header = "";
         method = "";
-        laf = "Midna.css";
+        laf = "BreathDark.css";
     }
 
     /**
@@ -109,7 +109,7 @@ public class Cryptogen implements Initializable
         radColumnarTrans.setToggleGroup(algorithms);
         radElephant.setToggleGroup(algorithms);
         pneAlgorithmsPane.requestFocus();
-        mnuLaF_Midna_Clicked(new ActionEvent());
+        mnuLaF_BreathDark_Clicked(new ActionEvent());
 
     }
 
