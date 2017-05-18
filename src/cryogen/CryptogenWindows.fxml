@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?imaort javafx.scene.control.VBox?>
 
-<VBox id="vbox" prefHeight="580" prefWidth="730" styleClass="vbox" stylesheets="@MidnaDark.css" xmlns="http://javafx.com/javafx/8.0.131" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cryogen.Cryptogen">
+<VBox id="vbox" fx:id="vbox" prefHeight="580" prefWidth="730" styleClass="vbox" stylesheets="@Midna.css" xmlns="http://javafx.com/javafx/8.0.131" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cryogen.Cryptogen">
         <AnchorPane id="anchorPane" maxHeight="Infinity" maxWidth="Infinity" prefHeight="900.0" prefWidth="900.0" VBox.vgrow="ALWAYS">
             <MenuBar id="mnu" fx:id="mnu" layoutY="2.0" maxHeight="900" maxWidth="900" prefHeight="24.0" prefWidth="900.0">
                 <Menu mnemonicParsing="false" text="File">
@@ -55,7 +55,7 @@
                         <TextArea id="txtKey" fx:id="txtKey" onKeyTyped="#txtKey_OnKeyType" prefHeight="135.0" prefWidth="291.0" style="-fx-border-color: #000;" styleClass="txtDefault" stylesheets="@MidnaDark.css" wrapText="true" />
                   </AnchorPane>
             </TitledPane>
-            <TitledPane id="pneMessagePane" collapsible="false" layoutX="6.0" layoutY="218.0" prefHeight="314.0" prefWidth="395.0" styleClass="pneDefault" stylesheets="@MidnaDark.css" text="Message Text:">
+            <TitledPane id="pneMessagePane" fx:id="pneMessagePane" collapsible="false" layoutX="6.0" layoutY="218.0" prefHeight="314.0" prefWidth="395.0" styleClass="pneDefault" stylesheets="@MidnaDark.css" text="Message Text:">
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="149.0" prefWidth="393.0">
                         <TextArea id="txtMessage" fx:id="txtMessage" prefHeight="288.0" prefWidth="391.0" style="-fx-border-color: #000;" styleClass="txtDefault" stylesheets="@MidnaDark.css" wrapText="true" />
                   </AnchorPane>
