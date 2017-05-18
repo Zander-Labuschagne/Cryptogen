@@ -612,27 +612,23 @@ public class Cryptography
             }*/
 
             int a = key.length;
-            int b = (int)Math.floor(plainText.length / a);
+            int b = (plainText.length / a) + 1;
             int c = 0;
-            int d = 0;
-            int e = 0;
-            char[] cipherText = new char[plainText.length];
+            //int d = (b*a) - plainText.length;
+            char[] cipherText = new char[b*a];
             char[][] coltrans = new char[a][b];
             char[][] coltrans2 = new char[b][a];
 
-            while(c < plainText.length)
-            {
-                coltrans[d][e] = plainText[c];
-
-                if(e == b)
+            for(int i=0; i<a; i++)
+                for(int j=0; j<b; j++)
                 {
-                    e = 0;
-                    d++;
-                }
+                    if(c >= plainText.length)
+                        coltrans[i][j] = 0;
+                    else
+                        coltrans[i][j] = plainText[c];
 
-                c++;
-                e++;
-            }
+                    c++;
+                }
 
             for(int i = 0; i<b; i++)
             {
@@ -643,22 +639,22 @@ public class Cryptography
             }
 
             c = 0;
-            e = 0;
-            d = 0;
 
-            while(c < plainText.length)
-            {
-                cipherText[c] = coltrans2[d][e];
-
-                if(e == a)
+            for(int i=0; i<b; i++)
+                for(int j=0; j<a; j++)
                 {
-                    e = 0;
-                    d++;
-                }
+                    /*if(j==d)
+                        if(i == (a-1))
+                            i++;
+                    else
+                        {
+                            cipherText[c] = coltrans2[i][j];
+                            c++;
+                        }*/
 
-                c++;
-                e++;
-            }
+                    cipherText[c] = coltrans2[i][j];
+                    c++;
+                }
 
             return cipherText;
         }
@@ -670,7 +666,52 @@ public class Cryptography
          */
         public static char[] decrypt(char[] cipherText, char[] key)
         {
-            char[] plainText = new char[key.length * (cipherText.length / key.length + 2)];
+            int a = key.length;
+            int b = (cipherText.length / a) + 1;
+            int c = 0;
+            //int d = (b*a) - cipherText.length;
+            char[] plainText = new char[b*a];
+            char[][] coltrans = new char[a][b];
+            char[][] coltrans2 = new char[b][a];
+
+            for(int i=0; i<b; i++)
+                for(int j=0; j<a; j++)
+                {
+                    if(c >= cipherText.length)
+                        coltrans[i][j] = 0;
+                    else
+                        coltrans[i][j] = cipherText[c];
+
+                    c++;
+                }
+
+            for(int i = 0; i<a; i++)
+            {
+                for(int j = 0; j<a; j++)
+                {
+                    coltrans2[i][j] = coltrans[j][i];
+                }
+            }
+
+            c = 0;
+
+            for(int i=0; i<a; i++)
+                for(int j=0; j<b; j++)
+                {
+                    /*if(j==d)
+                        if(i == (a-1))
+                            i++;
+                    else
+                        {
+                            cipherText[c] = coltrans2[i][j];
+                            c++;
+                        }*/
+
+                    plainText[c] = coltrans2[i][j];
+                    c++;
+                }
+
+            /*char[] plainText = new char[key.length * (cipherText.length / key.length + 2)];
             char[][] cipherTextCol = new char[key.length + 1][cipherText.length / key.length + 2];
             int xviii = 0;
             int xix = 0;
@@ -745,7 +786,7 @@ public class Cryptography
                 for(int xxx = 0; xxx < plainTextCol[xiii].length; xxx++)
                     plainText[xviii++] = plainTextCol[xiii][xxx] == '|' ? ' ' : plainTextCol[xiii][xxx];*/
 
-            int xxx = 0;
+           /* int xxx = 0;
             for(int xiii = 1; xiii <= cipherText.length; xiii++)
             {
                 plainText[xiii-1] = plainTextCol[xxx][(xiii-1) % key.length] == '|' ? ' ' : plainTextCol[xxx][(xiii-1) % key.length];
@@ -753,7 +794,7 @@ public class Cryptography
                 {
                     xxx++;
                 }
-            }
+            }*/
 
             return plainText;
         }
