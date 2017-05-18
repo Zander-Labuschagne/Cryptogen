@@ -611,7 +611,7 @@ public class Cryptography
                     cipherText[xiv++] = plainTextCol[xiii][min];
             }*/
 
-            int a = key.length;
+            int a = key.length+1;
             int b = (plainText.length / a) + 1;
             int c = 0;
             //int d = (b*a) - plainText.length;
@@ -622,12 +622,13 @@ public class Cryptography
             for(int i=0; i<a; i++)
                 for(int j=0; j<b; j++)
                 {
-                    if(c >= plainText.length)
-                        coltrans[i][j] = 0;
-                    else
+                    if(c < plainText.length)
+                    {
                         coltrans[i][j] = plainText[c];
-
-                    c++;
+                        c++;
+                    }
+                    else
+                        coltrans[i][j] = 0;
                 }
 
             for(int i = 0; i<b; i++)
@@ -671,23 +672,24 @@ public class Cryptography
             int c = 0;
             //int d = (b*a) - cipherText.length;
             char[] plainText = new char[b*a];
-            char[][] coltrans = new char[a][b];
-            char[][] coltrans2 = new char[b][a];
+            char[][] coltrans = new char[b][a];
+            char[][] coltrans2 = new char[a][b];
 
             for(int i=0; i<b; i++)
                 for(int j=0; j<a; j++)
                 {
-                    if(c >= cipherText.length)
-                        coltrans[i][j] = 0;
-                    else
+                    if(c < cipherText.length)
+                    {
                         coltrans[i][j] = cipherText[c];
-
-                    c++;
+                        c++;
+                    }
+                    else
+                        coltrans[i][j] = 0;
                 }
 
             for(int i = 0; i<a; i++)
             {
-                for(int j = 0; j<a; j++)
+                for(int j = 0; j<b; j++)
                 {
                     coltrans2[i][j] = coltrans[j][i];
                 }
@@ -809,6 +811,77 @@ public class Cryptography
          */
         public static void encrypt(File plainFile, char[] key)
         {
+            try
+            {
+                Path path = Paths.get(plainFile.getAbsolutePath());
+                final byte[] plainData = Files.readAllBytes(path);
+                byte[] cipherData = new byte[plainData.length];
+
+                Progress progress = new Progress("Encryption");
+                // In real life this task would do something useful and return
+                // some meaningful result:
+                Task<byte[]> task = new Task<byte[]>()
+                {
+                    @Override
+                    public byte[] call() throws InterruptedException
+                    {
+                        for (int vi = 0; vi < plainData.length; vi++)
+                        {
+                            updateProgress(vi, plainData.length);
+                            cipherData[vi] = (byte) ((int) plainData[vi] ^ (int) key[vi % key.length]);
+                        }
+
+                        return cipherData;
+                    }
+                };
+                // binds progress of progress bars to progress of task:
+                progress.activateProgressBar(task);
+
+                // in real life this method would get the result of the task
+                // and update the UI based on its value:
+                task.setOnSucceeded(event ->
+                {
+                    try
+                    {
+                        progress.getDialogStage().close();
+                        FileOutputStream fos = new FileOutputStream(plainFile.getAbsoluteFile() + ".cg");
+                        fos.write(task.getValue());
+                        fos.close();
+                        plainFile.delete();
+                    }
+                    catch (FileNotFoundException ex)
+                    {
+                        ex.printStackTrace();
+                        Cryptography.handleException(ex);
+                    }
+                    catch (IOException ex)
+                    {
+                        ex.printStackTrace();
+                        Cryptography.handleException(ex);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.printStackTrace();
+                        Cryptography.handleException(ex);
+                    }
+                });
+
+                progress.getDialogStage().show();
+
+                Thread thread = new Thread(task);
+                thread.setDaemon(true);
+                thread.start();
+            }
+            catch (IOException ex)
+            {
+                ex.printStackTrace();
+                Cryptography.handleException(ex);
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+                Cryptography.handleException(ex);
+            }
         }
 
         /**
