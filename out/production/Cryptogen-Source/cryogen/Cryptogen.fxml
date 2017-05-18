@@ -33,7 +33,6 @@
                     <MenuItem mnemonicParsing="false" onAction="#mnuLaF_BreathDark_Clicked" text="Breath Dark" />
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
-                    <MenuItem mnemonicParsing="false" text="About" />
                     <MenuItem mnemonicParsing="false" onAction="#mnuHelp_UserManual_Clicked" text="User Manual" />
                 </Menu>
             </MenuBar>
