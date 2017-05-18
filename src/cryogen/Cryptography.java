@@ -614,8 +614,7 @@ public class Cryptography
             int a = key.length;
             int b = (plainText.length / a) + 1;
             int c = 0;
-            int d = 0;
-            int e = 0;
+            //int d = (b*a) - plainText.length;
             char[] cipherText = new char[b*a];
             char[][] coltrans = new char[a][b];
             char[][] coltrans2 = new char[b][a];
@@ -640,12 +639,19 @@ public class Cryptography
             }
 
             c = 0;
-            e = 0;
-            d = 0;
 
             for(int i=0; i<b; i++)
                 for(int j=0; j<a; j++)
                 {
+                    /*if(j==d)
+                        if(i == (a-1))
+                            i++;
+                    else
+                        {
+                            cipherText[c] = coltrans2[i][j];
+                            c++;
+                        }*/
+
                     cipherText[c] = coltrans2[i][j];
                     c++;
                 }
@@ -661,56 +667,49 @@ public class Cryptography
         public static char[] decrypt(char[] cipherText, char[] key)
         {
             int a = key.length;
-            int b = (int)Math.floor(cipherText.length / a) + 1;
+            int b = (cipherText.length / a) + 1;
             int c = 0;
-            int d = 0;
-            int e = 0;
-            int f;
-            char[] plainText = new char[cipherText.length];
-            char[][] coltrans = new char[b][a];
-            char[][] coltrans2 = new char[a][b];
+            //int d = (b*a) - cipherText.length;
+            char[] plainText = new char[b*a];
+            char[][] coltrans = new char[a][b];
+            char[][] coltrans2 = new char[b][a];
 
-            for(int i=0; i<a; i++)
-                for(int j=0; j<b; j++)
+            for(int i=0; i<b; i++)
+                for(int j=0; j<a; j++)
                 {
-                    if(c >= plainText.length)
-                        coltrans[i][j] = 0;
+                    if(c >= cipherText.length)
+                        coltrans[j][i] = 0;
                     else
-                        coltrans[i][j] = cipherText[c];
+                        coltrans[j][i] = cipherText[c];
 
                     c++;
                 }
 
-            for(int i = 0; i<a; i++)
+            for(int i = 0; i<b; i++)
             {
-                for(int j = 0; j<b; j++)
+                for(int j = 0; j<a; j++)
                 {
                     coltrans2[i][j] = coltrans[j][i];
                 }
             }
 
             c = 0;
-            e = 0;
-            d = 0;
 
-            if(a>b)
-                f = a;
-            else
-                f=b;
-
-            while(c < f)
-            {
-                if(e == a)
+            for(int i=0; i<b; i++)
+                for(int j=0; j<a; j++)
                 {
-                    e = 0;
-                    d++;
+                    /*if(j==d)
+                        if(i == (a-1))
+                            i++;
+                    else
+                        {
+                            cipherText[c] = coltrans2[i][j];
+                            c++;
+                        }*/
+
+                    plainText[c] = coltrans2[i][j];
+                    c++;
                 }
-
-                cipherText[c] = coltrans2[d][e];
-
-                c++;
-                e++;
-            }
 
             /*char[] plainText = new char[key.length * (cipherText.length / key.length + 2)];
             char[][] cipherTextCol = new char[key.length + 1][cipherText.length / key.length + 2];
