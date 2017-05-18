@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Cryptogen-Source.iml" filepath="$PROJECT_DIR$/Cryptogen-Source.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Cryptogen.iml" filepath="$PROJECT_DIR$/Cryptogen.iml" />
     </modules>
   </component>
 </project>
