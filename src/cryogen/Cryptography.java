@@ -5,17 +5,16 @@ import javafx.scene.control.*;
 import javafx.stage.Modality;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
+import sun.misc.Queue;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-//import java.util.Base64;
+import java.util.List;
 
 /**
  * @author Zander Labuschagne
@@ -76,7 +75,7 @@ public class Cryptography
         error.setTitle(title);
         error.setHeaderText(header);
         DialogPane dialogPane = error.getDialogPane();
-        dialogPane.getStylesheets().add(Cryptography.class.getResource("MidnaDark.css").toExternalForm());
+        dialogPane.getStylesheets().add(Cryptography.class.getResource(Cryptogen.laf).toExternalForm());
         dialogPane.getStyleClass().add("dlgDefault");
         error.showAndWait();
     }
@@ -206,7 +205,6 @@ public class Cryptography
                         progress.getDialogStage().close();
                         FileOutputStream fos = new FileOutputStream(plainFile.getAbsoluteFile() + ".cg");
                         fos.write(task.getValue());
-                        fos.write(cipherData);
 
                         fos.close();
                         plainFile.delete();
@@ -854,36 +852,21 @@ public class Cryptography
          */
         public static char[] encrypt(char[] plainText, char[] key)
         {
-            int a = plainText.length;
-            int b = key.length;
-            int c = 0;
-            int[] asck = new int[b];
-            char[] step1;
-            int step2 = 0;
-            int step3 = b + 1;
-            char[] cipher = new char[a];
+            char[] cipher1 = Cryptography.VernamCipher.encrypt(plainText, key);
+            char[] cipher12 = new char[cipher1.length];
 
-            for(int j=0; j<b; j++)
-                asck[j] = (int)key[j]-32;
+            SLL<Character> cipher = new SLL<Character>();
 
-            for(int i=0; i<a; i++)
-            {
-                if(c == b)
-                    c = 0;
+            for(int xxxiv = 0; xxxiv < cipher1.length; xxxiv++)
+                cipher.addToTail (new Character(cipher1[xxxiv]));
 
-                if(step3==a)
-                    step3 = 0;
+            for(int xxxv = 0; xxxv < key.length; xxxv++)
+                cipher.addToTail(cipher.deleteFromHead());
 
-                step1 = Cryptography.VernamCipher.encrypt(plainText, key);
+            for(int xxxvi = 0; !cipher.isEmpty(); xxxvi++)
+                cipher12[xxxvi] = cipher.deleteFromHead();
 
-                //step2 = ((step1 + b)%95) + 32;
-
-                cipher[step3] = (char)step2;
-
-                c++;
-                step3++;
-            }
-            return cipher;
+            return cipher12;
         }
 
         /**
@@ -894,38 +877,21 @@ public class Cryptography
          */
         public static char[] decrypt(char[] cipherText, char[] key)
         {
-            int a = cipherText.length;
-            int b = key.length;
-            int c = 0;
-            int[] asck = new int[b];
-            int step1 = b + 1;
-            int step2;
-            char[] step3;
-            char[] message = new char[a];
+            char[] message;
+            char[] cipher1 = new char[cipherText.length];
+            SLL<Character> cipher = new SLL<>();
 
-            for(int j=0; j<b; j++)
-                asck[j] = (int)key[j]-32;
+            for(int xxxvii = 0; xxxvii < cipherText.length; xxxvii++)
+                cipher.addToTail(cipherText[xxxvii]);
 
-            for(int i=0; i<a; i++)
-            {
-                if(c == b)
-                    c = 0;
+            for(int xxxviii = 0; xxxviii < key.length; xxxviii++)
+                cipher.addToHead(cipher.deleteFromTail());
 
-                if(step1==a)
-                    step1 = 0;
+            for(int xxxix = 0; !cipher.isEmpty(); xxxix++)
+                cipher1[xxxix] = cipher.deleteFromHead();
 
-                step2 = (int)cipherText[step1] - 32 - b;
+            message = Cryptography.VernamCipher.decrypt(cipher1, key);
 
-                if(step2<0)
-                    step2 = 95 + step2;
-
-                step3 = Cryptography.VernamCipher.decrypt(cipherText, key);
-
-                //message[i] = (char)(step3 +32);
-
-                c++;
-                step1++;
-            }
             return message;
         }
 
@@ -939,19 +905,15 @@ public class Cryptography
          */
         public static void encrypt(File plainFile, char[] key)
         {
-            int b = key.length;
-
             try
             {
                 Path path = Paths.get(plainFile.getAbsolutePath());
                 final byte[] plainData = Files.readAllBytes(path);
-                int a = plainData.length;
-                byte[] cipherData = new byte[a];
-                int[] asck = new int[b];
+                final byte[] cipherData = new byte[plainData.length];
 
+                final byte[] cipher12 = new byte[cipherData.length];
 
-                for(int j=0; j<b; j++)
-                    asck[j] = (int)key[j]-32;
+                final SLL<Byte> cipher = new SLL<Byte>();
 
                 Progress progress = new Progress("Encryption");
                 // In real life this task would do something useful and return
@@ -961,14 +923,31 @@ public class Cryptography
                     @Override
                     public byte[] call() throws InterruptedException
                     {
-                        for (int i = 0; i < a; i++)
+                        for (int vi = 0; vi < plainData.length; vi++)
                         {
-                            updateProgress(i, plainData.length);
-
-                            cipherData[(i+b)%b] = (byte)((((((int)plainData[i] - 32)^asck[i%b]) + b)%95) + 32);
+                            updateProgress(vi, plainData.length * 3 + key.length);
+                            cipherData[vi] = (byte) ((int) plainData[vi] ^ (int) key[vi % key.length]);
                         }
 
-                        return cipherData;
+                        for(int xxxx = 0; xxxx < cipher12.length; xxxx++)
+                        {
+                            updateProgress(xxxx, plainData.length * 2 + key.length);
+                            cipher.addToTail(new Byte(cipherData[xxxx]));
+                        }
+
+                        for(int xxxxi = 0; xxxxi < key.length; xxxxi++)
+                        {
+                            updateProgress(xxxxi, plainData.length + key.length);
+                            cipher.addToTail(cipher.deleteFromHead());
+                        }
+
+                        for(int xxxxii = 0; !cipher.isEmpty(); xxxxii++)
+                        {
+                            updateProgress(xxxxii, plainData.length);
+                            cipher12[xxxxii] = cipher.deleteFromHead();
+                        }
+
+                        return cipher12;
                     }
                 };
                 // binds progress of progress bars to progress of task:
@@ -1031,15 +1010,12 @@ public class Cryptography
         {
             try
             {
-                int b = key.length;
                 Path path = Paths.get(cipherFile.getAbsolutePath());
-                final byte[] plainData = Files.readAllBytes(path);
-                int a = plainData.length;
-                byte[] cipherData = new byte[a];
-                int[] asck = new int[b];
+                final byte[] cipherData = Files.readAllBytes(path);
+                final byte[] plainData = new byte[cipherData.length];
 
-                for(int j=0; j<b; j++)
-                    asck[j] = (int)key[j]-32;
+                final byte[] cipher1 = new byte[cipherData.length];
+                final SLL<Byte> cipher = new SLL<>();
 
                 Progress progress = new Progress("Decryption");
                 // In real life this task would do something useful and return
@@ -1049,12 +1025,28 @@ public class Cryptography
                     @Override
                     public byte[] call() throws InterruptedException
                     {
-                        for(int i = 0; i < cipherData.length; i++)
+                        for(int xxxxiv = 0; xxxxiv < cipherData.length; xxxxiv++)
                         {
-                            updateProgress(i, cipherData.length);
+                            updateProgress(xxxxiv, cipherData.length * 3 + key.length);
+                            cipher.addToTail(cipherData[xxxxiv]);
+                        }
 
-                            //cipherData[(i+b)%b] = (byte)((((((int)plainData[i] - 32)^asck[i%b]) + b)%95) + 32);
-                            cipherData[(i+b)%b] = (byte)((((((int)plainData[i] - 32)^asck[i%b]) - b)%95) + 32);
+                        for(int xxxxv = 0; xxxxv < key.length; xxxxv++)
+                        {
+                            updateProgress(xxxxv, cipherData.length * 2 + key.length);
+                            cipher.addToHead(cipher.deleteFromTail());
+                        }
+
+                        for(int xxxxvi = 0; !cipher.isEmpty(); xxxxvi++)
+                        {
+                            updateProgress(xxxxvi, cipherData.length * 2);
+                            cipher1[xxxxvi] = cipher.deleteFromHead();
+                        }
+
+                        for(int xxxxiii = 0; xxxxiii < cipherData.length; xxxxiii++)
+                        {
+                            updateProgress(xxxxiii, cipherData.length);
+                            plainData[xxxxiii] = (byte) ((int) cipher1[xxxxiii] ^ (int) key[xxxxiii % key.length]);
                         }
 
                         return plainData;
