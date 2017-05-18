@@ -17,7 +17,7 @@ Unzip one of the compressed files, for Linux systems you can run ``sudo sh insta
 
 The columnar transposition encryption/decryption for files still needs fixing. Linux install script included and .jar file as well for other systems. In my experience files larger than 700MB makes the encryption/decryption unreliable.
 
-Zander Labuschagne: ZANDER.LABUSCHAGNE@PROTONMAIL.CH
+Zander Labuschagne: zander.labuschagne@protonmail.ch
 
 Elnette Moller: elnette.moller@gmail.com
 
