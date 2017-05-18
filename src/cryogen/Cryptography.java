@@ -815,7 +815,12 @@ public class Cryptography
             {
                 Path path = Paths.get(plainFile.getAbsolutePath());
                 final byte[] plainData = Files.readAllBytes(path);
-                byte[] cipherData = new byte[plainData.length];
+                int a = key.length;
+                int b = (plainData.length/a)+1;
+               // final int c = 0;
+                byte[][] coltrans = new byte[a][b];
+                byte[][] coltrans2 = new byte[b][a];
+                byte[] cipherData = new byte[a*b];
 
                 Progress progress = new Progress("Encryption");
                 // In real life this task would do something useful and return
@@ -825,11 +830,41 @@ public class Cryptography
                     @Override
                     public byte[] call() throws InterruptedException
                     {
-                        for (int vi = 0; vi < plainData.length; vi++)
+                       /* for (int vi = 0; vi < plainData.length; vi++)
                         {
                             updateProgress(vi, plainData.length);
                             cipherData[vi] = (byte) ((int) plainData[vi] ^ (int) key[vi % key.length]);
-                        }
+                        }*/
+
+                       int c =0;
+                       for(int i=0; i<a; i++)
+                       {
+                           for(int j=0; j<b; j++)
+                           {
+                               if(c<plainData.length)
+                               {
+                                   coltrans[i][j] = plainData[c];
+                                   c++;
+                               }
+                               else
+                                   coltrans[i][j] = 0;
+                           }
+                       }
+
+                       for(int i=0; i<b; i++)
+                           for(int j=0; j<a; j++)
+                               coltrans2[i][j] = coltrans[j][i];
+
+                       c = 0;
+
+                       for(int i=0; i<b; i++)
+                       {
+                           for(int j=0; j<a; j++)
+                           {
+                               cipherData[c] = coltrans2[i][j];
+                               c++;
+                           }
+                       }
 
                         return cipherData;
                     }
@@ -892,7 +927,112 @@ public class Cryptography
          */
         public static void decrypt(File cipherFile, char[] key)
         {
+            try
+            {
+                Path path = Paths.get(cipherFile.getAbsolutePath());
+                final byte[] cipherData = Files.readAllBytes(path);
+                int a = key.length;
+                int b = (cipherData.length/a)+1;
+                // final int c = 0;
+                byte[][] coltrans = new byte[a][b];
+                byte[][] coltrans2 = new byte[b][a];
+                byte[] plainData = new byte[a*b];
 
+                Progress progress = new Progress("Encryption");
+                // In real life this task would do something useful and return
+                // some meaningful result:
+                Task<byte[]> task = new Task<byte[]>()
+                {
+                    @Override
+                    public byte[] call() throws InterruptedException
+                    {
+                       /* for (int vi = 0; vi < plainData.length; vi++)
+                        {
+                            updateProgress(vi, plainData.length);
+                            cipherData[vi] = (byte) ((int) plainData[vi] ^ (int) key[vi % key.length]);
+                        }*/
+
+                        int c =0;
+                        for(int i=0; i<a; i++)
+                        {
+                            for(int j=0; j<b; j++)
+                            {
+                                if(c<cipherData.length)
+                                {
+                                    coltrans[i][j] = cipherData[c];
+                                    c++;
+                                }
+                                else
+                                    coltrans[i][j] = 0;
+                            }
+                        }
+
+                        for(int i=0; i<b; i++)
+                            for(int j=0; j<a; j++)
+                                coltrans2[i][j] = coltrans[j][i];
+
+                        c = 0;
+
+                        for(int i=0; i<b; i++)
+                        {
+                            for(int j=0; j<a; j++)
+                            {
+                                plainData[c] = coltrans2[i][j];
+                                c++;
+                            }
+                        }
+
+                        return plainData;
+                    }
+                };
+                // binds progress of progress bars to progress of task:
+                progress.activateProgressBar(task);
+
+                // in real life this method would get the result of the task
+                // and update the UI based on its value:
+                task.setOnSucceeded(event ->
+                {
+                    try
+                    {
+                        progress.getDialogStage().close();
+                        FileOutputStream fos = new FileOutputStream(cipherFile.getAbsolutePath().substring(0, cipherFile.getAbsolutePath().length() - 3));
+                        fos.write(task.getValue());
+                        fos.close();
+                        cipherFile.delete();
+                    }
+                    catch (FileNotFoundException ex)
+                    {
+                        ex.printStackTrace();
+                        Cryptography.handleException(ex);
+                    }
+                    catch(IOException ex)
+                    {
+                        ex.printStackTrace();
+                        Cryptography.handleException(ex);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.printStackTrace();
+                        Cryptography.handleException(ex);
+                    }
+                });
+
+                progress.getDialogStage().show();
+
+                Thread thread = new Thread(task);
+                thread.setDaemon(true);
+                thread.start();
+            }
+            catch (IOException ex)
+            {
+                ex.printStackTrace();
+                Cryptography.handleException(ex);
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+                Cryptography.handleException(ex);
+            }
         }
     }
 
