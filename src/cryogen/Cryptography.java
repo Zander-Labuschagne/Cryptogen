@@ -611,7 +611,7 @@ public class Cryptography
                     cipherText[xiv++] = plainTextCol[xiii][min];
             }*/
 
-            int a = key.length;
+            int a = key.length+1;
             int b = (plainText.length / a) + 1;
             int c = 0;
             //int d = (b*a) - plainText.length;
