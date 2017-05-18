@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="CryptogenV1.0:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/CryptogenV1_0_jar</output-path>
+    <root id="archive" name="Cryptogen-Source.jar">
+      <element id="module-output" name="Cryptogen" />
+    </root>
+  </artifact>
+</component>
