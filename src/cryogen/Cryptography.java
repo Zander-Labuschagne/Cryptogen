@@ -622,12 +622,13 @@ public class Cryptography
             for(int i=0; i<a; i++)
                 for(int j=0; j<b; j++)
                 {
-                    if(c >= plainText.length)
-                        coltrans[i][j] = 0;
-                    else
+                    if(c < plainText.length)
+                    {
                         coltrans[i][j] = plainText[c];
-
-                    c++;
+                        c++;
+                    }
+                    else
+                        coltrans[i][j] = 0;
                 }
 
             for(int i = 0; i<b; i++)
@@ -677,12 +678,13 @@ public class Cryptography
             for(int i=0; i<b; i++)
                 for(int j=0; j<a; j++)
                 {
-                    if(c >= cipherText.length)
-                        coltrans[i][j] = 0;
-                    else
+                    if(c < cipherText.length)
+                    {
                         coltrans[i][j] = cipherText[c];
-
-                    c++;
+                        c++;
+                    }
+                    else
+                        coltrans[i][j] = 0;
                 }
 
             for(int i = 0; i<a; i++)
