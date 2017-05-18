@@ -15,3 +15,5 @@ KaOS Website: https://kaosx.us
 E-Mail: ZANDER.LABUSCHAGNE@PROTONMAIL.CH
 
 Copyright (C) 2017  Zander Labuschagne, Elnette Moller. This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License version 3 as published by the Free Software Foundation.
+
+The columnar transposition emcryption/decryption for files still needs fixing. Linux install script included and .jar file as well for other systems. In my experince files larger than 700MB makes the encryption/decryption unreliable.
