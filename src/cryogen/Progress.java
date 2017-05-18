@@ -50,8 +50,10 @@ public class Progress
         pb.setPrefSize(260, 20);
         pb.setLayoutX(1);
 
-        hb.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
-        pb.getStylesheets().add(getClass().getResource("MidnaDark.css").toExternalForm());
+
+        hb.getStylesheets().add(getClass().getResource(Cryptogen.laf).toExternalForm());
+        pb.getStylesheets().add(getClass().getResource(Cryptogen.laf).toExternalForm());
+
         hb.getStyleClass().add("anchorPaneDefault");
         pb.getStyleClass().add("progress-barDefault");
 

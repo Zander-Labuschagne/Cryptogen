@@ -1,0 +1,25 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.2in]{geometry}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{tikz}
+
+\begin{document}
+	%Cover Page
+	\pagenumbering{gobble}
+    \begin{center}
+ 		\begin{tikzpicture}
+            \node[anchor=south west,inner sep=0] (image) at (5,20){\includegraphics[width=8cm,height=8cm]{cryogen.png}};
+						\node[anchor=south west,inner sep=0] (image) at (3,17){\includegraphics[width=2cm,height=2cm]{icon.png}};
+			 \node[align=center,black,font={\Huge}] at (10.5,17.5){
+			 	\textbf{Cryptogen User Manual}};
+			 \node[align=center,black,font={\Large}] at (9.5,12){
+				Zander Labuschagne 23585137\\Elnette M\"{o}ller 23570083\\B.Sc.(Hons) Computer Science \& Information Systems 2017};
+			\node[align=left,black,font={\Large}] at (2.58,3){
+				May 2017};
+        \end{tikzpicture}
+       \end{center}
+\end{document}
