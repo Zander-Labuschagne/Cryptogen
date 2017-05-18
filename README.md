@@ -13,9 +13,9 @@ KaOS Website: https://kaosx.us
 Manjaro Linux Website: https://manjaro.org/
 
 How to use:
-Unzip one of the compressed files, for Linux systems you can run ``sudo sh install.sh`` or for other systems just run the .jar file. On Linux systems it is sometimes necessary to execute ``sudo chmod +x install.sh`` beforhand. Java Runtime Environment 8 is required, OpenJDK will not suffice. This application only works well on Linux systems currently. It can be executed on other systems but known issues exists on Windows such as the drag and drop of files, so instead copy some files in Windows Explorer and use File -> Paste Files.
+Unzip one of the compressed files, for Linux systems you can run ``sudo sh install.sh`` or for other systems just run the .jar file. On Linux systems it is sometimes necessary to execute ``sudo chmod +x install.sh`` beforehand. Java Runtime Environment 8 is required, OpenJDK will not suffice. This application only works well on Linux systems currently. It can be executed on other systems but known issues exists on Windows such as the drag and drop of files, so instead copy some files in Windows Explorer and use File -> Paste Files.
 
-The columnar transposition encryption/decryption for files still needs fixing. Linux install script included and .jar file as well for other systems. In my experience files larger than 700MB makes the encryption/decryption unreliable.
+The columnar transposition encryption/decryption still needs fixing. Linux install script included and .jar file as well for other systems. In my experience files larger than 700MB makes the encryption/decryption unreliable.
 
 Zander Labuschagne: zander.labuschagne@protonmail.ch
 
@@ -26,4 +26,4 @@ Copyright (C) 2017  Zander Labuschagne, Elnette Moller. This program is free sof
 How to use:
 Unzip one of the compressed files, for Linux systems you can run ``sudo sh install.sh`` or for other systems just run the .jar file. On Linux systems it is sometimes necessary to execute ``sudo chmod +x install.sh`` beforhand. Java Runtime Environment 8 is required, OpenJDK will not suffice. This application only works well on Linux systems currently. It can be executed on other systems but known issues exists on Windows such as the drag and drop of files, so instead copy some files in Windows Explorer and use File -> Paste Files.
 
-The columnar transposition encryption/decryption for files still needs fixing. Linux install script included and .jar file as well for other systems. In my experience files larger than 700MB makes the encryption/decryption unreliable.
+The columnar transposition encryption/decryption for files still needs fixing. Linux install script included and .jar file as well for other systems. In my experience files larger than 700MB makes the encryption/decryption unreliable because of memory limitations.
