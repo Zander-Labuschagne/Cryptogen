@@ -15,7 +15,6 @@
 # Package Files #
 *.war
 *.ear
-*.zip
 *.tar.gz
 *.rar
 
