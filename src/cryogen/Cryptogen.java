@@ -234,6 +234,10 @@ public class Cryptogen implements Initializable
             ex.printStackTrace();
             handleException(ex);
         }
+        finally
+        {
+            mnuFile_ClearFiles_Clicked(null);
+        }
     }
 
     /**
@@ -279,6 +283,10 @@ public class Cryptogen implements Initializable
             ex.printStackTrace();
             handleException(ex);
         }
+        finally
+        {
+            mnuFile_ClearFiles_Clicked(null);
+        }
     }
 
     /**
@@ -323,6 +331,7 @@ public class Cryptogen implements Initializable
             {
                 event.consume();
             }
+
         }
         catch (NoFilesAttachedException ex)
         {

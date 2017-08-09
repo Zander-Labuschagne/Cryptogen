@@ -23,7 +23,7 @@ public class Main extends Application
     {
         cgWindow.initStyle(StageStyle.DECORATED);
         cgWindow.getIcons().add(new Image(getClass().getResourceAsStream("/icons/cryogen/icon.png")));
-        cgWindow.setTitle("Cryptogen V1.0");
+        cgWindow.setTitle("Cryptogen V1.0.2");
         FXMLLoader loader;
         if(System.getProperty("os.name").startsWith("Windows"))
             loader = new FXMLLoader(getClass().getResource("CryptogenWindows.fxml"));
